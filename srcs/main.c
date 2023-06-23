@@ -2,7 +2,7 @@
 
 void	print_prompt(void)
 {
-	char		cwd[256]; // Array to store the working directory path name
+	char		cwd[BUFF]; // Array to store the working directory path name
 	char		path_delim; // Will be used to get everything past the last occurance of /
 	char		*current_dir; // Used to store and return the directory name
 	char		*username;
@@ -44,13 +44,13 @@ char	*find_command(char *cmd)
 
 char	**get_input(char *input)
 {
-	char	**command;
+	char	**token;
 	char	*delim;
 	char	*parsed;
 	int		index;
 
-	command = malloc(8 * sizeof(char *));
-	if (command == NULL)
+	token = malloc(8 * sizeof(char *));
+	if (token == NULL)
 	{
 		perror("malloc failed");
 		exit(1);
@@ -60,12 +60,12 @@ char	**get_input(char *input)
 	parsed = strtok(input, delim); // Splits the string using the delim and returns an array of strings.
 	while (parsed != NULL)
 	{
-		command[index] = parsed;
+		token[index] = parsed;
 		index++;
 		parsed = strtok(NULL, delim);
 	}
-	command[index] = NULL; // Marks the end of the array
-	return (command); // Returns the command array which contains the tokens extracted from the input string.
+	token[index] = NULL; // Marks the end of the array
+	return (token); // Returns the command array which contains the tokens extracted from the input string.
 }
 
 static void	execute_command(char *command_path, char **command, char *temp)

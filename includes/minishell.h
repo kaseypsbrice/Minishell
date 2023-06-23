@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/06/23 14:46:03 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/06/23 15:28:01 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define CMD_NOT_FOUND 127
 # define CMD_INTERRUPTED 130
 # define FORMAT_ERROR 258
+
+/* Buffer */
+# define BUFF 256
 
 /* Minishell General Purpose Variables */
 typedef struct s_mini
@@ -75,6 +78,6 @@ int		ft_cd(char *path);
 
 /* Remakes */
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strtok(char *str, const char *delim);
+// char	*ft_strtok(char *str, const char *delim);
 
 #endif

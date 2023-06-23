@@ -26,12 +26,14 @@ int	pwd(void)
 	if (!path)
 	{
 		perror(NULL);
-		return (CMD_NOT_FOUND); // command exit status
+		return (CMD_NOT_FOUND);
 	}
 	printf("%s\n", path);
 	free(path);
 	return (EXIT_SUCCESS);
 }
+/* Returns command exit status if the cmd is wrong, otherwise
+it prints the path of the current working directory. */
 
 // void	ft_exit_errcode(void)
 // {
