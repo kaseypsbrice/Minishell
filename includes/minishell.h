@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/06/23 15:28:01 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/06/27 13:03:15 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,28 @@ typedef struct s_env
 // extern int	g_exit_status;
 
 /* Signals */
-void	restore_prompt(int sig);
-void	ctrl_l(int sig);
-void	ctrl_c(int sig);
-void	back_slash(int sig);
-void	run_signals(int sig);
+void		restore_prompt(int sig);
+void		ctrl_l(int sig);
+void		ctrl_c(int sig);
+void		back_slash(int sig);
+void		run_signals(int sig);
 
 /* Main + Utils */
-int	exec_builtins(/*t_cmd *cmd, */char **command);
-void	print_prompt(void);
-char	**get_input(char *input);
-// int		check_builtins(char **command);
-void	free_io(char *input, char **command);
-char	*find_command(char *cmd);
+void		execute_command(char *command_path, char **command, char *temp, int pipe_in, int pipe_out);
+int			exec_builtins(/*t_cmd *cmd, */char **command);
+void		print_prompt(void);
+char		**get_input(char *input);
+void		free_io(char *input, char **command);
+char		*find_command(char *cmd);
 
+/* Pipes */
+void	handle_pipes(t_mini cmdline, char *input);
 
 /* Built-ins */
-int		ft_cd(char *path);
+int			ft_cd(char *path);
 
 /* Remakes */
-int		ft_strcmp(const char *s1, const char *s2);
+int			ft_strcmp(const char *s1, const char *s2);
 // char	*ft_strtok(char *str, const char *delim);
 
 #endif
