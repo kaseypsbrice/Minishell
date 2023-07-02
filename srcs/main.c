@@ -78,7 +78,7 @@ void	execute_command(char *command_path, char **command, char *temp, int pipe_in
 	env[0] = NULL; // Assigns null to the first and only element of the array
 	if (command_path == NULL)
 	{
-		perror("Command path not found");
+		perror("Command path not found"); // ------------ Replace with CMD_NOT_FOUND -----------
 		return ;
 	}
 	child_pid = fork();
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 			printf("\n");
 			continue;
 		}
-		handle_pipes(cmdline, input);
+		// handle_pipes(cmdline, input); ## Removed temporarily ##
 		free_io(input, cmdline.command);
 	}
 	return 0;

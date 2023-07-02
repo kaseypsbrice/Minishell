@@ -17,7 +17,7 @@ int ft_cd(char *path)
 	return (chdir(path));
 }
 
-int	pwd(void)
+int	ft_pwd(void)
 {
 	char	*path;
 
