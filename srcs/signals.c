@@ -2,7 +2,7 @@
 
 void	restore_prompt(int sig)
 {
-	// g_ret_number = 130; // Unused according to compiler?
+	// g_ret_number = 130; // Unused according to compiler
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -13,7 +13,7 @@ void	restore_prompt(int sig)
 
 void	ctrl_c(int sig)
 {
-	// g_ret_number = 130; // Unused according to compiler?
+	// g_ret_number = 130; // Unused according to compiler
 	write(1, "\n", 1);
 	(void)sig;
 }
@@ -27,8 +27,8 @@ void	ctrl_l(int sig)
 	print_prompt();
 	(void)sig;
 }
-Haven't figured out how to use signals properly yet.
-Might have to use sigaction() instead of signal(). */
+Keyboard actions? Key events? Or signals?
+*/
 
 void	back_slash(int sig)
 {

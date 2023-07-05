@@ -78,7 +78,7 @@ void	execute_command(char *command_path, char **command, char *temp, int pipe_in
 	env[0] = NULL; // Assigns null to the first and only element of the array
 	if (command_path == NULL)
 	{
-		perror("Command path not found"); // ------------ Replace with CMD_NOT_FOUND -----------
+		perror("Command path not found"); // ------------ Replace with CMD_NOT_FOUND macro -----------
 		return ;
 	}
 	child_pid = fork();
@@ -92,20 +92,14 @@ void	execute_command(char *command_path, char **command, char *temp, int pipe_in
 	{
 		if (pipe_in != -1)
 		{
-			dup2(pipe_in, STDIN_FILENO); // Set pipe_in as the input for the command
+			dup2(pipe_in, STDIN_FILENO); // Sets pipe_in as the input for the command
 			close(pipe_in);
 		}
-		if (pipe_out != -1)
+		if (pipe_out != -1) // Handling output redirection
 		{
 			dup2(pipe_out, STDOUT_FILENO);
 			close(pipe_out);
 		}
-		/* Handle pipe output redirection if necessary
-		if (_condition for pipe output redirection_)
-		{
-			// Open file for writing and redirect command output to the file
-		}
-		*/
 		execve(command_path, command, env);
 		perror("execve failed");
 		exit(1);
@@ -136,7 +130,7 @@ int main(int argc, char **argv)
 			printf("\n");
 			continue;
 		}
-		// handle_pipes(cmdline, input); ## Removed temporarily ##
+		handle_pipes(cmdline, input);
 		free_io(input, cmdline.command);
 	}
 	return 0;

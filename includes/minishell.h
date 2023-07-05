@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/03 08:13:36 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/05 11:59:03 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void		free_io(char *input, char **command);
 char		*find_command(char *cmd);
 
 /* Pipes */
-// void	handle_pipes(t_mini cmdline, char *input); ## Removed temporarily ##
+void		handle_pipes(t_mini cmdline, char *input);
 
 /* Built-ins */
 int			ft_cd(char *path);
