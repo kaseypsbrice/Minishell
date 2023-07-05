@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/05 11:59:03 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/05 16:45:42 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <readline/readline.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
+# include <curses.h>
+# include <termios.h>
 
 /* Exit Statuses */
 # define ERROR 2

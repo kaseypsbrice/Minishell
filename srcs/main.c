@@ -17,7 +17,7 @@ void	print_prompt(void)
 		current_dir = "~";
 	}
 	current_dir = ft_strjoin(username, current_dir);
-	printf("%s $ ", current_dir); // Displays the current directory path.
+	printf("\033[1;32m%s $ \033[0m", current_dir); // Displays the current directory path.
 }
 
 char	*find_command(char *cmd)
