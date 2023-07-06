@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/05 16:45:42 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/06 11:58:56 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,14 @@ typedef struct s_env
 
 /* Signals */
 void		restore_prompt(int sig);
-void		ctrl_l(int sig);
-void		ctrl_c(int sig);
 void		back_slash(int sig);
 void		run_signals(int sig);
 
+/* Termios Functions */
+void		ft_suppress_output(void);
+
 /* Environment Functions */
-void	ft_envvar();
+//
 
 /* Main + Utils */
 void		execute_command(char *command_path, char **command, char *temp, int pipe_in, int pipe_out);
