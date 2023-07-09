@@ -45,5 +45,4 @@ void handle_pipes(t_mini cmdline, char *input)
         execute_command(cmdline.command_path, cmdline.command, NULL, -1, -1);
     }
 }
-/* Only works with one pipe :') 
- * More of an experiment than anything. */
+/* More of an experiment than anything. */

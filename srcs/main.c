@@ -2,23 +2,32 @@
 
 void	print_prompt(void)
 {
-	char		cwd[BUFF]; // Array to store the working directory path name
-	char		path_delim; // Will be used to get everything past the last occurance of /
-	char		*current_dir; // Used to store and return the directory name
+	char		cwd[BUFF];
+	char		path_delim;
+	char		*current_dir;
 	char		*username;
 
 	username = ft_strjoin(getenv("USER"), " ");
 	path_delim = '/';
 	getcwd(cwd, sizeof(cwd));
-	current_dir = ft_strrchr(cwd, path_delim); // Separates the path from the last occurance of '/' onwards
+	current_dir = ft_strrchr(cwd, path_delim); 
 	current_dir++;
 	if (ft_strcmp(cwd, getenv("HOME")) == 0)
 	{
 		current_dir = "~";
 	}
 	current_dir = ft_strjoin(username, current_dir);
-	printf("\033[1;32m%s $ \033[0m", current_dir); // Displays the current directory path.
+	printf("\033[1;32m%s $ \033[0m", current_dir);
 }
+/* Result example:	kbrice gh_minishell $ 
+ * 					USERNAME DIRECTORY $ 
+ * 
+ * Uses getcwd() to get the current working directory e.g. /Users/kbrice/gh_minishell
+ * Uses strrchr to store the ouput from the last occurance of '/' onwards e.g. /gh_minishell
+ * Increments the string to remove the '/' symbol from the current_dir string.
+ * If the current directory is the same as the HOME env variable, your root directory, then it displays '~'.
+ * Lastly, joins the username and current_dir strings before printing to the ouput using printf.
+ */
 
 char	*find_command(char *cmd)
 {
@@ -41,6 +50,7 @@ char	*find_command(char *cmd)
 	}
 	return (NULL);
 }
+/* */
 
 char	**get_input(char *input)
 {

@@ -16,6 +16,9 @@ int ft_cd(char *path)
 	}
 	return (chdir(path));
 }
+/* If there's no path, then the cd command will return to the home directory. 
+ * Othewise, it'll change the directory to the specified path. 
+ */
 
 int	ft_pwd(void)
 {
@@ -33,4 +36,5 @@ int	ft_pwd(void)
 	return (EXIT_SUCCESS);
 }
 /* Returns command exit status if the cmd is wrong, otherwise
- * it prints the path of the current working directory. */
+ * it prints the path of the current working directory. 
+ */

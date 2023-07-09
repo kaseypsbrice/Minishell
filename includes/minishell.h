@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/06 11:58:56 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/10 08:17:53 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_env
 
 /* Global Variable */
 /* Keeps track of exit statuses and the reason for terminating the program. */
-// extern int	g_exit_status;
+/* extern int	g_exit_status; */
 
 /* Signals */
 void		restore_prompt(int sig);
@@ -77,7 +77,7 @@ void		run_signals(int sig);
 void		ft_suppress_output(void);
 
 /* Environment Functions */
-//
+/* */
 
 /* Main + Utils */
 void		execute_command(char *command_path, char **command, char *temp, int pipe_in, int pipe_out);
@@ -96,6 +96,6 @@ int			ft_pwd(void);
 
 /* Remakes */
 int			ft_strcmp(const char *s1, const char *s2);
-// char	*ft_strtok(char *str, const char *delim);
+/* char	*ft_strtok(char *str, const char *delim); */
 
 #endif
