@@ -3,57 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bburston <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: kbrice <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 15:14:43 by bburston          #+#    #+#             */
-/*   Updated: 2022/02/03 15:20:56 by bburston         ###   ########.fr       */
+/*   Created: 2022/03/11 14:27:09 by kbrice            #+#    #+#             */
+/*   Updated: 2022/03/11 14:51:34 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-static unsigned int	ft_numsize(int n)
-{
-	unsigned int	len;
+static int	ft_abs(int n)
 
-	if (n == 0)
-		return (1);
-	len = 0;
+{
 	if (n < 0)
-		len += 1;
-	while (n != 0)
-	{
-		n /= 10;
+		return (-n);
+	return (n);
+}
+
+static int	ft_int_len(int n)
+
+{
+	int	len;
+
+	len = 0;
+	if (n <= 0)
 		len++;
+	while (n)
+	{
+		len++;
+		n /= 10;
 	}
 	return (len);
 }
 
 char	*ft_itoa(int n)
-{
-	char			*str;
-	unsigned int	num;
-	unsigned int	len;
 
-	len = ft_numsize(n);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
+{
+	int		len;
+	int		i;
+	char	*res;
+
+	len = ft_int_len(n);
+	res = (char *)malloc(sizeof(char) * (len + 1));
+	if (!res)
 		return (NULL);
-	if (n < 0)
+	res[len] = '\0';
+	if (!n)
+		res[0] = '0';
+	else if (n < 0)
+		res[0] = '-';
+	i = len - 1;
+	while (n)
 	{
-		str[0] = '-';
-		num = -n;
+		res[i] = ft_abs(n % 10) + '0';
+		n /= 10;
+		i--;
 	}
-	else
-		num = n;
-	if (num == 0)
-		str[0] = '0';
-	str[len] = '\0';
-	while (num != 0)
-	{
-		str[len - 1] = (num % 10) + '0';
-		num = num / 10;
-		len--;
-	}
-	return (str);
+	return (res);
 }
