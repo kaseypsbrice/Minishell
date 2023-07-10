@@ -59,7 +59,7 @@ char	**get_input(char *input)
 	char	*parsed;
 	int		index;
 
-	token = malloc(8 * sizeof(char *));
+	token = malloc(1024 * sizeof(char *));
 	if (token == NULL)
 	{
 		perror("malloc failed");
@@ -80,6 +80,7 @@ char	**get_input(char *input)
 
 void	execute_command(char *command_path, char **command, char *temp, int pipe_in, int pipe_out)
 {
+	//printf("executing %s\n", command[0]); // debug
 	pid_t	child_pid;
 	int		status;
 	char	*env[1]; // Size of 1
@@ -114,10 +115,8 @@ void	execute_command(char *command_path, char **command, char *temp, int pipe_in
 		perror("execve failed");
 		exit(1);
 	}
-	else
-	{
-		waitpid(child_pid, &status, WUNTRACED);
-	}
+	waitpid(child_pid, &status, WUNTRACED);
+	close(pipe_in); 
 }
 
 int main(int argc, char **argv)
@@ -140,7 +139,7 @@ int main(int argc, char **argv)
 			printf("\n");
 			continue;
 		}
-		handle_pipes(cmdline, input);
+		handle_pipes(&cmdline, input);
 		free_io(input, cmdline.command);
 	}
 	return 0;

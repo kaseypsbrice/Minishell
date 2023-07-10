@@ -18,7 +18,7 @@ HEADER = ./includes/
 
 CC = gcc
 
-FLAGS = -Wextra -Werror -Wall -Iincludes -Iusr/local/opt/readline/include/
+FLAGS = -Iincludes -Iusr/local/opt/readline/include/
 
 LINK_RL = /usr/local/opt/readline/lib
 INCL_RL = /usr/local/opt/readline/include/

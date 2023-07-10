@@ -43,6 +43,7 @@ typedef struct s_mini
 	char	**tokens; // ? 
 	char	**command;
 	char	*command_path;
+	int		**pipes;
 } t_mini;
 
 /* Pipe function variables */
@@ -88,7 +89,7 @@ void		free_io(char *input, char **command);
 char		*find_command(char *cmd);
 
 /* Pipes */
-void		handle_pipes(t_mini cmdline, char *input);
+void		handle_pipes(t_mini *cmdline, char *input);
 
 /* Built-ins */
 int			ft_cd(char *path);
