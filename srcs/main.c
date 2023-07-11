@@ -29,7 +29,7 @@ void	print_prompt(void)
  * Lastly, joins the username and current_dir strings before printing to the ouput using printf.
  */
 
-char	*find_command(char *cmd)
+char	*find_command_path(char *cmd)
 {
 	char	*env_path;
 	char	*path;
@@ -50,7 +50,13 @@ char	*find_command(char *cmd)
 	}
 	return (NULL);
 }
-/* */
+/* The PATH environment variable contains a list of directories that can be searched to find a command.
+ * The function goes through each directoy listed in the PATH variable and appends '/' plus the name of
+ * the command. If the file exists and is accessible using that path, it returns the path. If the file
+ * doesn't exist or is not accessible, it continues moving through the list of directories, testing
+ * each one to check for the command. If the command isn't found in any of the directories then the
+ * function returns NULL.
+ */
 
 char	**get_input(char *input)
 {

@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/10 08:17:53 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:36:06 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int			exec_builtins(/*t_cmd *cmd, */char **command);
 void		print_prompt(void);
 char		**get_input(char *input);
 void		free_io(char *input, char **command);
-char		*find_command(char *cmd);
+char		*find_command_path(char *cmd);
 
 /* Pipes */
 void		handle_pipes(t_mini cmdline, char *input);
