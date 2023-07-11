@@ -32,9 +32,9 @@ void handle_pipes(t_mini cmdline, char *input)
             free_io(input, cmdline.command);
             return;
         }
-        execute_command(sub.cmd1_path, sub.cmd1, NULL, -1, pipefd[1]);
+        execute_command(sub.cmd1_path, sub.cmd1, -1, pipefd[1]);
         close(pipefd[1]);
-        execute_command(sub.cmd2_path, sub.cmd2, NULL, pipefd[0], -1);
+        execute_command(sub.cmd2_path, sub.cmd2, pipefd[0], -1);
         close(pipefd[0]);
     }
     else
@@ -42,7 +42,7 @@ void handle_pipes(t_mini cmdline, char *input)
         cmdline.command_path = find_command_path(cmdline.command[0]);
         if (exec_builtins(cmdline.command))
 			return ;
-        execute_command(cmdline.command_path, cmdline.command, NULL, -1, -1);
+        execute_command(cmdline.command_path, cmdline.command, -1, -1);
     }
 }
 /* More of an experiment than anything. */
