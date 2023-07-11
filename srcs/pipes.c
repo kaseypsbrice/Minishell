@@ -1,7 +1,10 @@
 #include "minishell.h"
+// TODO:
+// separate ; from commands to maintain cmd|op|cmd|op form and reset pipes
+// and do all the other operators :)))
 
 // these functions are such a mess but it returns an array like: command > operator > command > operator > command
-// eg: {("echo", "test"), ("|"), ("cat", "-e")} probably deserves its own struct
+// eg: [("echo", "test"), ("|"), ("cat", "-e")] probably deserves its own struct
 // currently it only checks for pipes as operators
 void cmd_op_tab_iter(char ***tab, char **raw_tab)
 {
@@ -46,71 +49,52 @@ char ***cmd_op_tab(char *input)
 	return (tab);
 }
 
-void create_pipes(t_mini *cmdline, char ***cmd_op) // creates a pipe for each "|"
+//opens a new right pipe
+int update_pipes(t_mini *cmdline, int pipes_passed)
 {
-	int i;
-	int s;
-
-	i = -1;
-	s = 0;
-	while (cmd_op[++i])
+	if (pipe(cmdline->pipes[PIPE_RIGHT]) == -1) //open new pipe
 	{
-		if (ft_strcmp(cmd_op[i][0], "|") == 0)
-			s++;
+		perror("Pipe failed");
+		exit(1);
 	}
-	cmdline->pipes = (int **)malloc(s * sizeof(int *));
-	i = -1;
-	while (++i < s)
-	{
-		cmdline->pipes[i] = (int *)malloc(2 * sizeof(int));
-		if(pipe(cmdline->pipes[i]) == -1)
-		{
-			perror("pipe failed");
-            return;
-		}
-	}
+	//printf("opening: %d\nfd read: %d fd write: %d\n", PIPE_RIGHT, cmdline->pipes[PIPE_RIGHT][PIPE_READ], cmdline->pipes[PIPE_RIGHT][PIPE_WRITE]);
+	return (pipes_passed);
 }
 
 // loops through the mess created in cmd_op_tab to set pipe in and pipe out for execute_command()
-// tested with "ping google.com -c 5 | grep rtt | wc"
+// tested with "ping google.com -c 5 | grep rtt | wc | cat -e"
 void handle_pipes(t_mini *cmdline, char *input)
 {
 	char 	***cmd_op;
 	int		i;
 	int		pipes_passed;
-	int		cmd_pipes[2];
+	int		cmd_io[2];
 
 	i = -1;
-	cmd_pipes[0] = -1; // PIPE_IN macros would be nice
-	cmd_pipes[1] = -1; // PIPE_OUT
-	pipes_passed = 0;
+	pipes_passed = update_pipes(cmdline, 0); //return value is used to save 2 lines
 	cmd_op = cmd_op_tab(input);
-	create_pipes(cmdline, cmd_op);
 	while (cmd_op[++i])
 	{
 		if (ft_strcmp(cmd_op[i][0], "|") == 0)
 		{
-			pipes_passed++;
+			pipes_passed = update_pipes(cmdline, pipes_passed + 1);
 			continue ;
 		}
+		cmd_io[PIPE_READ] = -1;
+		cmd_io[PIPE_WRITE] = -1;
+		//printf("\npipe_right: read %d write %d\n", cmdline->pipes[PIPE_RIGHT][PIPE_READ], cmdline->pipes[PIPE_RIGHT][PIPE_WRITE]);
+		//if (pipes_passed > 0)
+		//	printf("\npipe_left: read %d write %d\n", cmdline->pipes[PIPE_LEFT][PIPE_READ], cmdline->pipes[PIPE_LEFT][PIPE_WRITE]);
 		if (i > 0 && ft_strcmp(cmd_op[i - 1][0], "|") == 0)
-			cmd_pipes[0] = cmdline->pipes[pipes_passed - 1][0];
+			cmd_io[PIPE_READ] = cmdline->pipes[PIPE_LEFT][PIPE_READ];
 		if (cmd_op[i + 1] && ft_strcmp(cmd_op[i + 1][0], "|") == 0)
-			cmd_pipes[1] = cmdline->pipes[pipes_passed][1];
-		execute_command(find_command(cmd_op[i][0]), cmd_op[i], NULL, cmd_pipes[0], cmd_pipes[1]);
-		close(cmd_pipes[0]); // not 100% sure on these closes but it seems to work
-		close(cmd_pipes[1]);
+			cmd_io[PIPE_WRITE] = cmdline->pipes[PIPE_RIGHT][PIPE_WRITE];
+		execute_command(find_command(cmd_op[i][0]), cmd_op[i], NULL, cmd_io[PIPE_READ], cmd_io[PIPE_WRITE]);
 	}
-	// debug: prints the table
-	/*char ***tab = cmd_op_tab(input);
-	int j = -1;
-	while (tab[++j])
-	{
-		int k = -1;
-		while (tab[j][++k])
-			printf("%s ", tab[j][k]);
-		printf("\n");
-	}*/
+	close(cmdline->pipes[PIPE_RIGHT][0]); //this might be the only necessary close here
+	close(cmdline->pipes[PIPE_LEFT][0]);
+	close(cmdline->pipes[PIPE_RIGHT][1]);
+	close(cmdline->pipes[PIPE_LEFT][1]);
 }
 
 /*void handle_pipes(t_mini cmdline, char *input)

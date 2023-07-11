@@ -37,23 +37,20 @@
 /* Buffer */
 # define BUFF 256
 
+/* Pipe Macros for Readability/Norm */
+# define PIPE_RIGHT pipes_passed % 2
+# define PIPE_LEFT (pipes_passed + 1) % 2
+# define PIPE_READ 0
+# define PIPE_WRITE 1
+
 /* Minishell General Purpose Variables */
 typedef struct s_mini
 {
 	char	**tokens; // ? 
 	char	**command;
 	char	*command_path;
-	int		**pipes;
+	int		pipes[2][2];
 } t_mini;
-
-/* Pipe function variables */
-typedef struct s_pipe
-{
-	char **cmd1;
-    char **cmd2;
-    char *cmd1_path;
-    char *cmd2_path;
-} t_pipe;
 
 /* Struct for Environment Variables */
 typedef struct s_env

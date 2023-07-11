@@ -80,7 +80,7 @@ char	**get_input(char *input)
 
 void	execute_command(char *command_path, char **command, char *temp, int pipe_in, int pipe_out)
 {
-	//printf("executing %s\n", command[0]); // debug
+	//printf("executing %s\n", command[0]);
 	pid_t	child_pid;
 	int		status;
 	char	*env[1]; // Size of 1
@@ -103,20 +103,23 @@ void	execute_command(char *command_path, char **command, char *temp, int pipe_in
 	{
 		if (pipe_in != -1)
 		{
+			//printf("piping from %d\n", pipe_in);
 			dup2(pipe_in, STDIN_FILENO); // Sets pipe_in as the input for the command
-			close(pipe_in);
 		}
 		if (pipe_out != -1) // Handling output redirection
 		{
+			//printf("piping into %d\n", pipe_out);
 			dup2(pipe_out, STDOUT_FILENO);
-			close(pipe_out);
 		}
 		execve(command_path, command, env);
+		close(pipe_out);
+		close(pipe_in);
 		perror("execve failed");
 		exit(1);
 	}
-	waitpid(child_pid, &status, WUNTRACED);
-	close(pipe_in); 
+	close(pipe_out);
+	waitpid(child_pid, &status, WUNTRACED); 
+	close(pipe_in);
 }
 
 int main(int argc, char **argv)
