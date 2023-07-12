@@ -50,9 +50,38 @@ char	*find_command(char *cmd)
 	}
 	return (NULL);
 }
-/* */
 
+
+// replaced strtok to handle spaces between quotes
 char	**get_input(char *input)
+{
+	char	**tokens;
+	int		i;
+	char	last_quote;
+
+	rem_unclosed(input);
+	tokens = malloc(1024 * sizeof(char *));
+	if (tokens == NULL)
+	{
+		perror("malloc failed");
+		exit(1);
+	}
+	i = 0;
+	while(*input)
+	{
+		if (*input == ' ')
+		{
+			input++;
+			continue ;
+		}
+		tokens[i] = get_token(input);
+		input += ft_strlen(tokens[i]);
+		i++;
+	}
+	return (tokens);
+}
+
+/*char	**get_input(char *input)
 {
 	char	**token;
 	char	*delim;
@@ -76,7 +105,7 @@ char	**get_input(char *input)
 	}
 	token[index] = NULL; // Marks the end of the array
 	return (token); // Returns the command array which contains the tokens extracted from the input string.
-}
+}*/
 
 void	execute_command(char *command_path, char **command, char *temp, int pipe_in, int pipe_out)
 {
@@ -105,15 +134,15 @@ void	execute_command(char *command_path, char **command, char *temp, int pipe_in
 		{
 			//printf("piping from %d\n", pipe_in);
 			dup2(pipe_in, STDIN_FILENO); // Sets pipe_in as the input for the command
+			close(pipe_in); //can be cut to save lines i think (closed on programme exit)
 		}
 		if (pipe_out != -1) // Handling output redirection
 		{
 			//printf("piping into %d\n", pipe_out);
 			dup2(pipe_out, STDOUT_FILENO);
+			close(pipe_out); //can be cut to save lines i think (closed on programme exit)
 		}
 		execve(command_path, command, env);
-		close(pipe_out);
-		close(pipe_in);
 		perror("execve failed");
 		exit(1);
 	}

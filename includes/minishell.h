@@ -84,9 +84,18 @@ void		print_prompt(void);
 char		**get_input(char *input);
 void		free_io(char *input, char **command);
 char		*find_command(char *cmd);
+void		remove_at(char *str, int *index);
+void		rem_unclosed(char *input);
+char		*get_token(char *input);
 
 /* Pipes */
 void		handle_pipes(t_mini *cmdline, char *input);
+
+/* Operators */
+char		***cmd_op_tab(char *input);
+
+/* Expansions */
+void		do_expansions(char **tokens);
 
 /* Built-ins */
 int			ft_cd(char *path);
@@ -95,5 +104,9 @@ int			ft_pwd(void);
 /* Remakes */
 int			ft_strcmp(const char *s1, const char *s2);
 /* char	*ft_strtok(char *str, const char *delim); */
+
+/* Debug */
+void print_2d(char **arr);
+void print_3d(char ***arr);
 
 #endif
