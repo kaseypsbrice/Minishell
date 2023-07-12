@@ -78,6 +78,7 @@ char	**get_input(char *input)
 		input += ft_strlen(tokens[i]);
 		i++;
 	}
+	tokens[i] = NULL;
 	return (tokens);
 }
 
