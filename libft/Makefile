@@ -3,33 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bburston <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/02/14 14:42:06 by bburston          #+#    #+#              #
-#    Updated: 2022/02/15 16:19:24 by bburston         ###   ########.fr        #
+#    Created: 2022/03/11 13:13:57 by kbrice            #+#    #+#              #
+#    Updated: 2023/07/10 14:03:50 by kbrice           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -c
+RM = rm -f
 
-SRC = *.c
+SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
+	   ft_isdigit.c ft_isprint.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
+	   ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
+	   ft_putstr_fd.c ft_strchr.c ft_strdup.c ft_strjoin.c ft_strlcat.c \
+	   ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
+	   ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_itoa.c \
+	   ft_strmapi.c ft_striteri.c ft_split.c ft_printf.c \
+	   ft_convert_uxxp.c ft_put_utils.c get_next_line.c \
+	   get_next_line_utils.c
+OBJS = $(SRCS:.c=.o)
 
-OBJS = $(SRC:%.c=%.o)
-
-FLAGS = -Wall -Wextra -Werror
+all: $(NAME)
 
 $(NAME):
-	@gcc $(FLAGS) -c $(SRC) -I./
-	@ar rc $(NAME) $(OBJS)
-
-all: @$(NAME)
+	@$(CC) $(CFLAGS) $(SRCS)
+	@ar rcs $(NAME) $(OBJS)
 
 clean:
-	@rm -f $(OBJS)
+	@$(RM) $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+.PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/10 08:17:53 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/11 14:18:33 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void		ft_suppress_output(void);
 /* */
 
 /* Main + Utils */
-void		execute_command(char *command_path, char **command, char *temp, int pipe_in, int pipe_out);
+void		execute_command(char *command_path, char **command, int pipe_in, int pipe_out);
 int			exec_builtins(/*t_cmd *cmd, */char **command);
 void		print_prompt(void);
 char		**get_input(char *input);
 void		free_io(char *input, char **command);
-char		*find_command(char *cmd);
+char		*find_command_path(char *cmd);
 void		remove_at(char *str, int *index);
 void		rem_unclosed(char *input);
 char		*get_token(char *input);

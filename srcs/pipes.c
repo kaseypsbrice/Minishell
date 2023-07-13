@@ -41,7 +41,7 @@ void	handle_pipes(t_mini *cmdline, char *input)
 			cmd_io[PIPE_READ] = cmdline->pipes[PIPE_LEFT][PIPE_READ];
 		if (cmd_op[i + 1] && ft_strcmp(cmd_op[i + 1][0], "|") == 0)
 			cmd_io[PIPE_WRITE] = cmdline->pipes[PIPE_RIGHT][PIPE_WRITE];
-		execute_command(find_command(cmd_op[i][0]), cmd_op[i], NULL, cmd_io[PIPE_READ], cmd_io[PIPE_WRITE]);
+		execute_command(find_command_path(cmd_op[i][0]), cmd_op[i], cmd_io[PIPE_READ], cmd_io[PIPE_WRITE]);
 	}
 	//printf("finished executing commands\n");
 	close(cmdline->pipes[PIPE_RIGHT][PIPE_READ]); 
