@@ -43,6 +43,12 @@
 # define PIPE_READ 0
 # define PIPE_WRITE 1
 
+/* Parse Macros */
+# define P_NORMAL 0
+# define P_OPERATOR 1
+# define P_SPACE 2
+# define P_DELETE 3
+
 /* Minishell General Purpose Variables */
 typedef struct s_mini
 {
@@ -81,21 +87,26 @@ void		ft_suppress_output(void);
 void		execute_command(char *command_path, char **command, int pipe_in, int pipe_out);
 int			exec_builtins(/*t_cmd *cmd, */char **command);
 void		print_prompt(void);
-char		**get_input(char *input);
 void		free_io(char *input, char **command);
 char		*find_command_path(char *cmd);
+void		unexpected_token(char c);
+
+/* Parse Utils */
+int			parse_type(char c);
 void		remove_at(char *str, int *index);
-void		rem_unclosed(char *input);
-char		*get_token(char *input);
+void		rem_unprocessed(char *input);
+
+/* Parse */
+char		***cmd_op_tab(char *input);
 
 /* Pipes */
 void		handle_pipes(t_mini *cmdline, char *input);
 
 /* Operators */
-char		***cmd_op_tab(char *input);
+void		get_redirect(char ***cmd_op, int	index);
 
 /* Expansions */
-void		do_expansions(char **tokens);
+char		*do_expansions(char *str);
 
 /* Built-ins */
 int			ft_cd(char *path);

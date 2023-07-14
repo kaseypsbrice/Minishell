@@ -12,9 +12,10 @@ int	update_pipes(t_mini *cmdline, int pipes_passed)
 	return (pipes_passed);
 }
 
-// its called handle pipes but really its handle pipes, handle quotes, handle expansions and run the command line
-// loops through the mess created in cmd_op_tab to set pipe in and pipe out for execute_command()
-// tested with "ping google.com -c 5 | grep rtt | wc | cat -e"
+/* It's called handle pipes but really its handle pipes, handle quotes, handle expansions and run the command line.
+   Loops through the mess created in cmd_op_tab to set pipe in and pipe out for execute_command().
+   Tested with "ping google.com -c 5 | grep rtt | wc | cat -e".
+*/
 void	handle_pipes(t_mini *cmdline, char *input)
 {
 	char 	***cmd_op;
@@ -41,9 +42,9 @@ void	handle_pipes(t_mini *cmdline, char *input)
 			cmd_io[PIPE_READ] = cmdline->pipes[PIPE_LEFT][PIPE_READ];
 		if (cmd_op[i + 1] && ft_strcmp(cmd_op[i + 1][0], "|") == 0)
 			cmd_io[PIPE_WRITE] = cmdline->pipes[PIPE_RIGHT][PIPE_WRITE];
+		get_redirect(cmd_op, i);
 		execute_command(find_command_path(cmd_op[i][0]), cmd_op[i], cmd_io[PIPE_READ], cmd_io[PIPE_WRITE]);
 	}
-	//printf("finished executing commands\n");
 	close(cmdline->pipes[PIPE_RIGHT][PIPE_READ]); 
 	if (pipes_passed > 0)
 		close(cmdline->pipes[PIPE_LEFT][PIPE_WRITE]);

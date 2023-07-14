@@ -1,44 +1,76 @@
 #include "minishell.h"
-void	cmd_op_tab_iter(char ***tab, char **raw_tab)
-{
-	int	i;
-	int	j;
-	int	k;
 
-	i = 0;
-	j = 0;
-	k = 0;
-	tab[j] = (char **)malloc(1024 * sizeof(char*)); // arbitrary buffer size
-	while (raw_tab[i])
+// NOTE: These functions are all WIP and don't currently function correctly
+
+/* Attaches remaining arguments after redirect 
+   'echo test > file.txt 123' outputs 'test 123' into file.txt
+*/
+char	**attach_args(char **dest, char **src)
+{
+	int		s_len;
+	int		d_len;
+	int		i;
+	char	**temp;
+
+	s_len = -1;
+	d_len = -1;
+	temp = dest;
+	while (src[++s_len]);
+	while (dest[++d_len]);
+	dest = (char **)malloc((s_len + d_len + 1) * sizeof(char *));
+	if (!dest)
 	{
-		if (ft_strcmp(raw_tab[i], "|") == 0)
-		{
-			tab[j][k] = NULL;
-			tab[j + 1] = (char **)malloc(2 * sizeof(char*));
-			tab[j + 1][0] = ft_strdup(raw_tab[i]);
-			tab[j + 1][1] = NULL;
-			j += 2;
-			tab[j] = (char **)malloc(1024 * sizeof(char*)); // arbitrary buffer size
-			k = 0;
-		}
-		else {
-			tab[j][k] = ft_strdup(raw_tab[i]);
-			k++;
-		}
-		i++;
+		perror("malloc failed");
+		exit(1);
 	}
-	tab[j][k] = NULL;
-	tab[j + 1] = NULL;
+	i = -1;
+	while (++i < d_len)
+		dest[i] = temp[i];
+	/*i--;
+	while (++i < d_len + s_len)
+		dest[i] = src[i - d_len];*/
+	dest[i] = NULL;
+	free(temp);
+	return (dest);
 }
 
-char	***cmd_op_tab(char *input)
+void	redirect_out(char ***cmd_op, int *index, int flags)
 {
-	char	***tab;
-	char	**raw_tab;
+	int	fd;
 
-	tab = (char ***)malloc(1024 * sizeof(char**));// arbitrary buffer size
-	raw_tab = get_input(input); //tokenization
-	do_expansions(raw_tab); //quotes and expansions
-	cmd_op_tab_iter(tab, raw_tab);
-	return (tab);
+	printf("redirecting output\n");
+
+	if (!cmd_op[*index + 2])
+	{
+		ft_putstr_fd("Minishell: syntax error near unexpected token 'newline'\n", 1);
+		exit(1);
+	}
+	fd = open(cmd_op[*index + 2][0], flags);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Minishell: could not open file: ", 1);
+		ft_putstr_fd(cmd_op[*index + 2][0], 1);
+		ft_putstr_fd("\n", 1);
+		exit(1);
+	}
+	if (cmd_op[*index + 2][1])
+		cmd_op[*index] = attach_args(cmd_op[*index], &(cmd_op[*index + 2][1]));
+	print_2d(cmd_op[*index]);
+}
+
+void	get_redirect(char ***cmd_op, int	index)
+{
+	if (!cmd_op[index + 1])
+		return ;
+	/*if (ft_strcmp(tokens[index], "<"))
+		return (R_IN);
+	if (ft_strcmp(tokens[index], ">"))
+		return (R_OUT);
+	if (ft_strcmp(tokens[index], ">>"))
+		return (R_OUTA);
+	if (ft_strcmp(tokens[index], "<<"))
+		return (R_DELIM);
+	return (R_NONE);*/
+	if (ft_strcmp(cmd_op[index + 1][0], ">") == 0)
+		redirect_out(cmd_op, &index, O_WRONLY & O_CREAT);
 }

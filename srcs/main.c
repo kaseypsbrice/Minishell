@@ -68,62 +68,55 @@ char	*find_command_path(char *cmd)
  * function returns NULL.
  */
 
-
-// replaced strtok to handle spaces between quotes
-char	**get_input(char *input)
+int	is_c_valid(char c)
 {
-	char	**tokens;
-	int		i;
-	char	last_quote;
-
-	rem_unclosed(input);
-	tokens = malloc(1024 * sizeof(char *));
-	if (tokens == NULL)
-	{
-		perror("malloc failed");
-		exit(1);
-	}
-	i = 0;
-	while(*input)
-	{
-		if (*input == ' ')
-		{
-			input++;
-			continue ;
-		}
-		tokens[i] = get_token(input);
-		input += ft_strlen(tokens[i]);
-		i++;
-	}
-	tokens[i] = NULL;
-	return (tokens);
+	if (ft_isalnum(c) || c == ' ')
+		return (1);
+	return (0);
 }
 
-/*char	**get_input(char *input)
+// Temporary error function. Shouldn't exit programme but should reset prompt.
+void	unexpected_token(char c)
 {
-	char	**token;
-	char	*delim;
-	char	*parsed;
-	int		index;
+	ft_putstr_fd("Minishell: syntax error near unexpected token '", 1);
+	ft_putchar_fd(c, 1);
+	ft_putstr_fd("'\n", 1);
+	exit(1);
+}
 
-	token = malloc(1024 * sizeof(char *));
-	if (token == NULL)
+/* This function isn't used, I'm just leaving it here for now to 
+   remind myself of who I used to be. I am a better person now.
+int	is_operator(char *str, int i)
+{
+	if (str[i] == '>')
 	{
-		perror("malloc failed");
-		exit(1);
+		if (str[i + 1] == '>')
+		{
+			if (str[i + 2] && !is_c_valid(str[i + 2]))
+				unexpected_token(str[i + 2]);
+			return (2);
+		}
+		return (1);
 	}
-	delim = " ";
-	index = 0;
-	parsed = strtok(input, delim);
-	while (parsed != NULL)
+	if (str[i] == '<')
 	{
-		token[index] = parsed;
-		index++;
-		parsed = strtok(NULL, delim);
+		if (str[i + 1] == '<')
+		{
+			if (str[i + 2] && !is_c_valid(str[i + 2]))
+				unexpected_token(str[i + 2]);
+			return (2);
+		}
+		return (1);
 	}
-	token[index] = NULL; // Marks the end of the array
-	return (token); // Returns the command array which contains the tokens extracted from the input string.
-}*/
+	if (str[i] == '|')
+	{
+		if (str[i + 1] && !is_c_valid(str[i + 1]))
+			unexpected_token(str[i + 1]);
+		return (1);
+	}
+	return (0);
+}
+*/
 
 void	execute_command(char *command_path, char **command, int pipe_in, int pipe_out)
 {
