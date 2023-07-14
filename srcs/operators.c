@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-// NOTE: These functions are all WIP and don't currently function correctly
+// NOTE: These functions are all WIP
 
 /* Attaches remaining arguments after redirect 
    'echo test > file.txt 123' outputs 'test 123' into file.txt
@@ -26,51 +26,64 @@ char	**attach_args(char **dest, char **src)
 	i = -1;
 	while (++i < d_len)
 		dest[i] = temp[i];
-	/*i--;
+	i--;
 	while (++i < d_len + s_len)
-		dest[i] = src[i - d_len];*/
+		dest[i] = src[i - d_len];
 	dest[i] = NULL;
 	free(temp);
 	return (dest);
 }
 
-void	redirect_out(char ***cmd_op, int *index, int flags)
+// Redirects output to file ">" or ">>"
+void	redirect_out(t_mini *cmdline, int *index, int flags)
 {
 	int	fd;
 
-	printf("redirecting output\n");
-
-	if (!cmd_op[*index + 2])
+	//printf("redirecting output\n");
+	//print_3d(cmdline->cmd_op);
+	if (!cmdline->cmd_op[*index + 2])
 	{
 		ft_putstr_fd("Minishell: syntax error near unexpected token 'newline'\n", 1);
 		exit(1);
 	}
-	fd = open(cmd_op[*index + 2][0], flags);
+	fd = open(cmdline->cmd_op[*index + 2][0], flags, S_IRWXU);
 	if (fd == -1)
 	{
 		ft_putstr_fd("Minishell: could not open file: ", 1);
-		ft_putstr_fd(cmd_op[*index + 2][0], 1);
+		ft_putstr_fd(cmdline->cmd_op[*index + 2][0], 1);
 		ft_putstr_fd("\n", 1);
 		exit(1);
 	}
-	if (cmd_op[*index + 2][1])
-		cmd_op[*index] = attach_args(cmd_op[*index], &(cmd_op[*index + 2][1]));
-	print_2d(cmd_op[*index]);
+	if (cmdline->cmd_op[*index + 2][1])
+		cmdline->cmd_op[*index] = attach_args(cmdline->cmd_op[*index], &(cmdline->cmd_op[*index + 2][1]));
+	execute_command(find_command_path(cmdline->cmd_op[*index][0]), cmdline->cmd_op[*index], cmdline->cmd_io[PIPE_READ], fd);
+	close(fd);
 }
 
-void	get_redirect(char ***cmd_op, int	index)
+/* Semi-temporary function checks if the next operator is a redirect,
+   performs the redirect and returns 1 if the command line should stop being read
+*/
+int	get_redirect(t_mini *cmdline, int index)
 {
-	if (!cmd_op[index + 1])
-		return ;
+	if (!cmdline->cmd_op[index + 1])
+		return (0);
 	/*if (ft_strcmp(tokens[index], "<"))
 		return (R_IN);
 	if (ft_strcmp(tokens[index], ">"))
 		return (R_OUT);
-	if (ft_strcmp(tokens[index], ">>"))
-		return (R_OUTA);
+
 	if (ft_strcmp(tokens[index], "<<"))
 		return (R_DELIM);
 	return (R_NONE);*/
-	if (ft_strcmp(cmd_op[index + 1][0], ">") == 0)
-		redirect_out(cmd_op, &index, O_WRONLY & O_CREAT);
+	if (ft_strcmp(cmdline->cmd_op[index + 1][0], ">>") == 0)
+	{
+		redirect_out(cmdline, &index, O_WRONLY | O_CREAT | O_APPEND);
+		return (1);
+	}
+	if (ft_strcmp(cmdline->cmd_op[index + 1][0], ">") == 0)
+	{
+		redirect_out(cmdline, &index, O_WRONLY | O_CREAT | O_TRUNC);
+		return (1);
+	}
+	return (0);
 }

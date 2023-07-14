@@ -55,8 +55,14 @@ typedef struct s_mini
 	char	**tokens; // ? 
 	char	**command;
 	char	*command_path;
+	char	***cmd_op;
+	int		cmd_io[2];
 	int		pipes[2][2];
 } t_mini;
+/* cmd_op stores the table of commands and operators
+   cmd_io stores the input/output file descriptors (-1 for stdin/out) of the command being executed
+   pipes stores two pipes which are leapfrogged down the command chain for piping
+*/
 
 /* Struct for Environment Variables */
 typedef struct s_env
@@ -103,7 +109,7 @@ char		***cmd_op_tab(char *input);
 void		handle_pipes(t_mini *cmdline, char *input);
 
 /* Operators */
-void		get_redirect(char ***cmd_op, int	index);
+int			get_redirect(t_mini *cmdline, int index);
 
 /* Expansions */
 char		*do_expansions(char *str);

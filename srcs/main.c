@@ -135,7 +135,7 @@ void	execute_command(char *command_path, char **command, int pipe_in, int pipe_o
 	if (child_pid < 0)
 	{
 		perror("fork failed");
-		free(command);
+		//free(command);
 		exit(1);
 	}
 	if (child_pid == 0)

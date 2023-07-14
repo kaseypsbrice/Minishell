@@ -7,7 +7,6 @@ void print_2d(char **arr)
 	i = -1;
 	while (arr[++i])
 		printf("%s\n", arr[i]);
-	printf("\n");
 }
 
 void print_3d(char ***arr)
@@ -15,6 +14,7 @@ void print_3d(char ***arr)
 	int	i;
 	int	j;
 
+	printf("printing 3d\n");
 	i = -1;
 	while (arr[++i])
 	{
