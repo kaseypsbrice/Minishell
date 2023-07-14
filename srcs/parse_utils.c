@@ -12,7 +12,8 @@ int	parse_type(char c)
 	return (P_NORMAL);
 }
 
-// Removes char at index and decrements index to account for it
+// Removes char at index and decrements index to account for ++i in parent
+// This is dumb in hindsight I can just pass in i-- since it decrements after
 void	remove_at(char *str, int *index)
 {
 	int	len;

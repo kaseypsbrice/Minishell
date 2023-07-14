@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-//opens a new right pipe
+// Opens a new right pipe
 int	update_pipes(t_mini *cmdline, int pipes_passed)
 {
 	if (pipe(cmdline->pipes[PIPE_RIGHT]) == -1) //open new pipe
@@ -49,3 +49,4 @@ void	handle_pipes(t_mini *cmdline, char *input)
 	if (pipes_passed > 0)
 		close(cmdline->pipes[PIPE_LEFT][PIPE_WRITE]);
 }
+// 50% struct pointers by weight

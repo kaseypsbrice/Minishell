@@ -3,7 +3,8 @@
 /* Note that cmd_op_tab, get_token_tab and get_token all march along the same input string.
    This means that they share the same iterator. i in cmd_op_tab = *idx in the others.
    Where you see (*idx)-- is to account for the incrementation in the parent function after returning.
-   It's very messy and confusing but ""required""" to get (close) to norm compliance.
+   I should really be passing in (*idx)-- instead since it would decrement after the function call.
+   ^ I'll do this when I get around to norm'ing everything.
 
    Most buffers are arbitrary because calculating their size would double the functions/complexity.
    Only the strings are dynamically sized to the upper bound (remaining length of input string).

@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+// Debug commands for printing str arrays and str array arrays (cmd_tab)
 void print_2d(char **arr)
 {
 	int i;

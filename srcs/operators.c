@@ -67,14 +67,6 @@ int	get_redirect(t_mini *cmdline, int index)
 {
 	if (!cmdline->cmd_op[index + 1])
 		return (0);
-	/*if (ft_strcmp(tokens[index], "<"))
-		return (R_IN);
-	if (ft_strcmp(tokens[index], ">"))
-		return (R_OUT);
-
-	if (ft_strcmp(tokens[index], "<<"))
-		return (R_DELIM);
-	return (R_NONE);*/
 	if (ft_strcmp(cmdline->cmd_op[index + 1][0], ">>") == 0)
 	{
 		redirect_out(cmdline, &index, O_WRONLY | O_CREAT | O_APPEND);

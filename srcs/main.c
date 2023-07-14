@@ -68,13 +68,6 @@ char	*find_command_path(char *cmd)
  * function returns NULL.
  */
 
-int	is_c_valid(char c)
-{
-	if (ft_isalnum(c) || c == ' ')
-		return (1);
-	return (0);
-}
-
 // Temporary error function. Shouldn't exit programme but should reset prompt.
 void	unexpected_token(char c)
 {
