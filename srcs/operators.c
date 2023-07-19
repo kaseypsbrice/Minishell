@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operators.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/19 08:53:34 by kbrice            #+#    #+#             */
+/*   Updated: 2023/07/19 14:24:38 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // NOTE: These functions are all WIP
@@ -15,8 +27,10 @@ char	**attach_args(char **dest, char **src)
 	s_len = -1;
 	d_len = -1;
 	temp = dest;
-	while (src[++s_len]);
-	while (dest[++d_len]);
+	while (src[++s_len])
+		;
+	while (dest[++d_len])
+		;
 	dest = (char **)malloc((s_len + d_len + 1) * sizeof(char *));
 	if (!dest)
 	{
@@ -43,7 +57,8 @@ void	redirect_out(t_mini *cmdline, int *index, int flags)
 	//print_3d(cmdline->cmd_op);
 	if (!cmdline->cmd_op[*index + 2])
 	{
-		ft_putstr_fd("Minishell: syntax error near unexpected token 'newline'\n", 1);
+		ft_putstr_fd("Minishell: syntax error \
+		near unexpected token 'newline'\n", 1);
 		exit(1);
 	}
 	fd = open(cmdline->cmd_op[*index + 2][0], flags, S_IRWXU);
@@ -55,8 +70,10 @@ void	redirect_out(t_mini *cmdline, int *index, int flags)
 		exit(1);
 	}
 	if (cmdline->cmd_op[*index + 2][1])
-		cmdline->cmd_op[*index] = attach_args(cmdline->cmd_op[*index], &(cmdline->cmd_op[*index + 2][1]));
-	execute_command(find_command_path(cmdline->cmd_op[*index][0]), cmdline->cmd_op[*index], cmdline->cmd_io[PIPE_READ], fd);
+		cmdline->cmd_op[*index] = attach_args(cmdline->cmd_op[*index], \
+		&(cmdline->cmd_op[*index + 2][1]));
+	execute_command(find_command_path(cmdline->cmd_op[*index][0]), \
+	cmdline->cmd_op[*index], cmdline->cmd_io[PIPE_READ], fd);
 	close(fd);
 }
 

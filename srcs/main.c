@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/11 14:20:56 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/19 15:00:03 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ void	print_prompt(void)
 /* Result example:	kbrice gh_minishell $ 
  * 					USERNAME DIRECTORY $ 
  * 
- * Uses getcwd() to get the current working directory e.g. /Users/kbrice/gh_minishell
- * Uses strrchr to store the ouput from the last occurance of '/' onwards e.g. /gh_minishell
+ * Uses getcwd() to get the current working directory 
+ * e.g. /Users/kbrice/gh_minishell
+ * Uses strrchr to store the ouput from the last occurance of '/' onwards 
+ * e.g. /gh_minishell
  * Increments the string to remove the '/' symbol from the current_dir string.
- * If the current directory is the same as the HOME env variable, your root directory, then it displays '~'.
- * Lastly, joins the username and current_dir strings before printing to the ouput using printf.
+ * If the current directory is the same as the HOME env variable, your root
+ * directory, then it displays '~'. Lastly, joins the username and current_dir
+ * strings before printing to the ouput using printf.
  */
 
 char	*find_command_path(char *cmd)
@@ -60,15 +63,18 @@ char	*find_command_path(char *cmd)
 	}
 	return (NULL);
 }
-/* The PATH environment variable contains a list of directories that can be searched to find a command.
- * The function goes through each directoy listed in the PATH variable and appends '/' plus the name of
- * the command. If the file exists and is accessible using that path, it returns the path. If the file
- * doesn't exist or is not accessible, it continues moving through the list of directories, testing
- * each one to check for the command. If the command isn't found in any of the directories then the
- * function returns NULL.
+/* The PATH environment variable contains a list of directories that can be 
+ * searched to find a command. The function goes through each directoy listed
+ * in the PATH variable and appends '/' plus the name of the command. If the
+ * file exists and is accessible using that path, it returns the path. If the
+ * file doesn't exist or is not accessible, it continues moving through the
+ * list of directories, testing each one to check for the command. If the
+ * command isn't found in any of the directories then the function
+ * returns NULL.
  */
 
-// Temporary error function. Shouldn't exit programme but should reset prompt.
+/* Temporary error function. Shouldn't exit programme but should reset prompt.
+ */
 void	unexpected_token(char c)
 {
 	ft_putstr_fd("Minishell: syntax error near unexpected token '", 1);
@@ -137,14 +143,11 @@ void	execute_command(char *command_path, char **command, int pipe_in, int pipe_o
 		{
 			//printf("piping from %d\n", pipe_in);
 			dup2(pipe_in, STDIN_FILENO); // Sets pipe_in as the input for the command
-			close(pipe_in); //can be cut to save lines i think (closed on programme exit)
-
 		}
 		if (pipe_out != -1)
 		{
 			//printf("piping into %d\n", pipe_out);
 			dup2(pipe_out, STDOUT_FILENO);
-			close(pipe_out); //can be cut to save lines i think (closed on programme exit)
 		}
 		execve(command_path, command, env);
 		perror("execve failed");

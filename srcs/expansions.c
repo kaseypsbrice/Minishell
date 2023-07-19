@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/19 09:22:53 by kbrice            #+#    #+#             */
+/*   Updated: 2023/07/19 13:38:00 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Takes a str and index of a '$' eg: {dog$HOME'cat'} and returns {dog/home/alex'cat'}
@@ -9,7 +21,8 @@ char	*expand_env(char *str, int *idx)
 	char	*new;
 
 	len = 0;
-	while (str[*idx + (++len) + 1] && ft_isalnum(str[*idx + len + 1]));
+	while (str[*idx + (++len) + 1] && ft_isalnum(str[*idx + len + 1]))
+		; /* Seriously, why does this fix a norm error? And here I thought I knew the norm */
 	name = (char *)malloc((len + 1) * sizeof(char));
 	if (!name)
 	{

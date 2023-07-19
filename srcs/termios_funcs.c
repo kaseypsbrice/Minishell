@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   termios_funcs.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/19 08:37:31 by kbrice            #+#    #+#             */
+/*   Updated: 2023/07/19 15:00:17 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_suppress_output(void)
 {
-    struct termios    new_settings;
+	struct termios	new_settings;
 
-    if (tcgetattr(0, &new_settings))
-        perror("minishell: tcsetattr");
-    new_settings.c_lflag &= ~ECHOCTL;
-    if (tcsetattr(0, 0, &new_settings))
-        perror("minishell: tcsetattr");
+	if (tcgetattr(0, &new_settings))
+		perror("minishell: tcsetattr");
+	new_settings.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(0, 0, &new_settings))
+		perror("minishell: tcsetattr");
 }
 /* Modifies the terminal settings to clear the ECHOCTL bit flag.
  * It supresses ^C from appearing on the command line when trying to display

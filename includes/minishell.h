@@ -6,12 +6,12 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/11 14:18:33 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/19 14:52:04 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL
-# define MINISHELL
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
 # include <curses.h>
@@ -38,8 +39,8 @@
 # define BUFF 256
 
 /* Pipe Macros for Readability/Norm */
-# define PIPE_RIGHT pipes_passed % 2
-# define PIPE_LEFT (pipes_passed + 1) % 2
+# define PIPE_RIGHT pipes_passed % 2 // Preprocessor statement must only contain constant defines
+# define PIPE_LEFT (pipes_passed + 1) % 2 // Same norm error as above
 # define PIPE_READ 0
 # define PIPE_WRITE 1
 
@@ -48,6 +49,8 @@
 # define P_OPERATOR 1
 # define P_SPACE 2
 # define P_DELETE 3
+
+void	ctrl_l_redisplay(char *input);
 
 /* Minishell General Purpose Variables */
 typedef struct s_mini
@@ -58,7 +61,7 @@ typedef struct s_mini
 	char	***cmd_op;
 	int		cmd_io[2];
 	int		pipes[2][2];
-} t_mini;
+}	t_mini;
 /* cmd_op stores the table of commands and operators
    cmd_io stores the input/output file descriptors (-1 for stdin/out) of the command being executed
    pipes stores two pipes which are leapfrogged down the command chain for piping
@@ -72,7 +75,7 @@ typedef struct s_env
 	char	**key;
 	char	**content;
 	int		index;
-} t_env;
+}	t_env;
 
 /* Global Variable */
 /* Keeps track of exit statuses and the reason for terminating the program. */
@@ -117,13 +120,14 @@ char		*do_expansions(char *str);
 /* Built-ins */
 int			ft_cd(char *path);
 int			ft_pwd(void);
+int			ft_echo();
 
 /* Remakes */
 int			ft_strcmp(const char *s1, const char *s2);
 /* char	*ft_strtok(char *str, const char *delim); */
 
 /* Debug */
-void print_2d(char **arr);
-void print_3d(char ***arr);
+void		print_2d(char **arr);
+void		print_3d(char ***arr);
 
 #endif

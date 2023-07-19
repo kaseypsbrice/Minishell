@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/19 08:41:55 by kbrice            #+#    #+#             */
+/*   Updated: 2023/07/19 14:45:24 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	restore_prompt(int sig)
 {
-	// g_ret_number = 130;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -27,15 +38,6 @@ void	run_signals(int sig)
 		signal(SIGINT, restore_prompt);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	/*
-	if (sig == 2)
-	{
-		//
-	}
-	if (sig == 3)
-	{
-	}
-	*/
 }
 /* Calls ft_suppress_output() to silence ^C or anything else from appearing 
  * on the command line. 

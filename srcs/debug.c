@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/19 08:33:59 by kbrice            #+#    #+#             */
+/*   Updated: 2023/07/19 13:32:46 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Debug commands for printing str arrays and str array arrays (cmd_tab)
-void print_2d(char **arr)
+void	print_2d(char **arr)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (arr[++i])
 		printf("%s\n", arr[i]);
 }
 
-void print_3d(char ***arr)
+void	print_3d(char ***arr)
 {
 	int	i;
 	int	j;

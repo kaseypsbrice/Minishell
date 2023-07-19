@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/19 09:14:38 by kbrice            #+#    #+#             */
+/*   Updated: 2023/07/19 09:15:58 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Returns an int indicating how the character should be parsed
@@ -6,9 +18,9 @@ int	parse_type(char c)
 	if (c == '|' || c == '>' || c == '<')
 		return (P_OPERATOR);
 	if (c == ' ')
-		return(P_SPACE);
+		return (P_SPACE);
 	if (c == ';' || c == '\\')
-		return(P_DELETE);
+		return (P_DELETE);
 	return (P_NORMAL);
 }
 
