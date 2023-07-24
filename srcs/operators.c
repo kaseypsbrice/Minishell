@@ -48,20 +48,21 @@ char	**attach_args(char **dest, char **src)
 	return (dest);
 }
 
-// Redirects output to file ">" or ">>"
-void	redirect_out(t_mini *cmdline, int *index, int flags)
+// Redirects input/output to/from file ">", ">>" or "<"
+void	redirect_in_out(t_mini *cmdline, int *index, int flags)
 {
 	int	fd;
 
-	//printf("redirecting output\n");
-	//print_3d(cmdline->cmd_op);
 	if (!cmdline->cmd_op[*index + 2])
 	{
 		ft_putstr_fd("Minishell: syntax error \
 		near unexpected token 'newline'\n", 1);
 		exit(1);
 	}
-	fd = open(cmdline->cmd_op[*index + 2][0], flags, S_IRWXU);
+	if ((flags & O_WRONLY) != 0)
+		fd = open(cmdline->cmd_op[*index + 2][0], flags, S_IRWXU);
+	else
+		fd = open(cmdline->cmd_op[*index + 2][0], flags);
 	if (fd == -1)
 	{
 		ft_putstr_fd("Minishell: could not open file: ", 1);
@@ -72,8 +73,12 @@ void	redirect_out(t_mini *cmdline, int *index, int flags)
 	if (cmdline->cmd_op[*index + 2][1])
 		cmdline->cmd_op[*index] = attach_args(cmdline->cmd_op[*index], \
 		&(cmdline->cmd_op[*index + 2][1]));
-	execute_command(find_command_path(cmdline->cmd_op[*index][0]), \
+	if ((flags & O_WRONLY) != 0)
+		execute_command(find_command_path(cmdline->cmd_op[*index][0]), \
 	cmdline->cmd_op[*index], cmdline->cmd_io[PIPE_READ], fd);
+	else
+		execute_command(find_command_path(cmdline->cmd_op[*index][0]), \
+	cmdline->cmd_op[*index], fd, cmdline->cmd_io[PIPE_WRITE]);
 	close(fd);
 }
 
@@ -86,12 +91,17 @@ int	get_redirect(t_mini *cmdline, int index)
 		return (0);
 	if (ft_strcmp(cmdline->cmd_op[index + 1][0], ">>") == 0)
 	{
-		redirect_out(cmdline, &index, O_WRONLY | O_CREAT | O_APPEND);
+		redirect_in_out(cmdline, &index, O_WRONLY | O_CREAT | O_APPEND);
 		return (1);
 	}
 	if (ft_strcmp(cmdline->cmd_op[index + 1][0], ">") == 0)
 	{
-		redirect_out(cmdline, &index, O_WRONLY | O_CREAT | O_TRUNC);
+		redirect_in_out(cmdline, &index, O_WRONLY | O_CREAT | O_TRUNC);
+		return (1);
+	}
+	if (ft_strcmp(cmdline->cmd_op[index + 1][0], "<") == 0)
+	{
+		redirect_in_out(cmdline, &index, O_RDONLY);
 		return (1);
 	}
 	return (0);
