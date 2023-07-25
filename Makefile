@@ -6,7 +6,7 @@
 #    By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/19 13:25:35 by bburston          #+#    #+#              #
-#    Updated: 2023/07/25 08:57:33 by kbrice           ###   ########.fr        #
+#    Updated: 2023/07/25 12:22:09 by kbrice           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ HEADER = ./includes/
 
 CC = gcc
 
+#FLAGS = -Wall -Wextra -Werror -Iincludes -Iusr/local/opt/readline/include/
 FLAGS = -Iincludes -Iusr/local/opt/readline/include/
 
 LINK_RL = /usr/local/opt/readline/lib

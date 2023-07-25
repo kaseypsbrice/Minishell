@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/24 15:49:54 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:09:02 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,58 @@ int	ft_pwd(void)
 }
 /* Returns command exit status if the cmd is wrong, otherwise
  * it prints the path of the current working directory. 
- * 
- * Works perfectly fine.
  */
 
 int	ft_echo(char **command)
 {
 	int		i;
-	bool	flag;
+	int		j;
+	bool	n_option;
 
 	i = 1;
-	flag = false;
-	if (command[i] && strcmp(command[i], "-n") == 0)
+	n_option = false;
+	while (command[i] && command[i][0] == '-' && command[i][1] == 'n')
 	{
-		flag = true;
-		i++;
+		j = 1;
+		while (command[i][j] == 'n')
+			j++;
+		if (command[i][j] == '\0')
+		{
+			n_option = true;
+			i++;
+		}
+		else
+			break ;
+	}
+	while (command[i] && (printf("%s", command[i]), \
+	command[i + 1] && printf(" "), i++))
+		;
+	if (!n_option)
+		printf("\n");
+	return (EXIT_SUCCESS);
+}
+
+/*
+int	ft_echo(char **command)
+{
+	int		i;
+	int		j;
+	bool	n_option;
+
+	i = 1;
+	n_option = false;
+	while (command[i] && command[i][0] == '-' && command[i][1] == 'n')
+	{
+		j = 1;
+		while (command[i][j] == 'n')
+			j++;
+		if (command[i][j] == '\0')
+		{
+			n_option = true;
+			i++;
+		}
+		else
+			break ;
 	}
 	while (command[i])
 	{
@@ -72,9 +109,22 @@ int	ft_echo(char **command)
 			printf(" ");
 		i++;
 	}
-	if (!flag)
+	if (!n_option)
 		printf("\n");
 	return (EXIT_SUCCESS);
 }
-/* WIP. Doesn't work.
- */
+*/
+/* More than 25 lines */
+
+// void	ft_env(char **envs)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (envs[i])
+// 	{
+// 		write(STDOUT_FILENO, envs[i], ft_strlen(envs[i]));
+// 		write(STDOUT_FILENO, "\n", 1);
+// 		i++;
+// 	}
+// }

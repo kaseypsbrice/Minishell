@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/25 09:07:09 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/25 12:48:04 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,10 @@ void		run_signals(int sig);
 
 /* Main + Utils */
 void		execute_command(char *command_path, char **command, int pipe_in, int pipe_out);
-int			exec_builtins(/*t_cmd *cmd, */char **command);
+int			is_builtin(char *command);
+int			exec_builtins(char **command);
 void		print_prompt(void);
-void		free_io(char *input, char **command);
+char		*find_abs_path(char *cmd);
 char		*find_command_path(char *cmd);
 void		unexpected_token(char c);
 

@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/25 10:00:23 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:01:17 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	print_prompt(void)
 		current_dir = "~";
 	}
 	current_dir = ft_strjoin(username, current_dir);
-	printf("\001\033[1;32m\002%s $ \001\033[0m\002", current_dir);
+	ft_putstr_fd("\001\033[1;32m\002", STDOUT_FILENO);
+	ft_putstr_fd(current_dir, STDOUT_FILENO);
+	ft_putstr_fd(" $ \001\033[0m\002", STDOUT_FILENO);
+	//printf("\001\033[1;32m\002%s $ \001\033[0m\002", current_dir);
 }
 /* Result example:	kbrice gh_minishell $ 
  * 					USERNAME DIRECTORY $ 
@@ -175,7 +178,6 @@ void	execute_command(char *command_path, char **command, int pipe_in, int pipe_o
 		perror("execve failed");
 		exit(1);
 	}
-	// exec_builtins(command);
 	close(pipe_out);
 	waitpid(child_pid, &status, WUNTRACED); 
 	close(pipe_in);
@@ -201,8 +203,8 @@ int	main(int argc, char **argv)
 	(void)argv;
 	while (1)
 	{
-		run_signals(1);
 		print_prompt();
+		run_signals(1);
 		input = readline(temp);
 		if (!input)
 			break ;
@@ -214,7 +216,7 @@ int	main(int argc, char **argv)
 			continue ;
 		}
 		handle_pipes(&cmdline, input);
-		free_io(input, cmdline.command);
+		free(input);
 	}
 	return (0);
 }

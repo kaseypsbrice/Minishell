@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:37:31 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/19 15:00:17 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/25 14:02:25 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,16 @@ void	restore_term_settings(struct termios *original_attr)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, original_attr);
 }
+
+/*
+void restore_terminal_mode()
+{
+    struct termios term_settings;
+    tcgetattr(STDIN_FILENO, &term_settings);
+    term_settings.c_lflag |= (ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
+}
+*/
 /* Makes sure that when exiting the program the terminal attributes return to their 
  * original settings.
  */
