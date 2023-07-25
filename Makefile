@@ -6,7 +6,7 @@
 #    By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/19 13:25:35 by bburston          #+#    #+#              #
-#    Updated: 2023/07/05 16:01:42 by kbrice           ###   ########.fr        #
+#    Updated: 2023/07/25 08:57:33 by kbrice           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ RESET	=	\e[0m
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(FLAGS) $(SRCS) -lcurses $(LIBFT) -I $(INCL_RL) -I $(HEADER) -o $(NAME) -L $(LINK_RL) -lreadline
+	@$(CC) $(FLAGS) $(SRCS) -lcurses -ltermcap $(LIBFT) -I $(INCL_RL) -I $(HEADER) -o $(NAME) -L $(LINK_RL) -lreadline
 	@printf "$(GREEN)Executable created$(RESET)\n"
 
 all: $(NAME)

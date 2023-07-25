@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/19 13:41:26 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/24 15:49:54 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,5 @@ int	ft_echo(char **command)
 		printf("\n");
 	return (EXIT_SUCCESS);
 }
-/* WIP. Drafted the echo function but don't know whether it actually
- * works, still have to test it.
+/* WIP. Doesn't work.
  */

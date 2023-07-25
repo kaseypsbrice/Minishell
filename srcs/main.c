@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/19 15:00:03 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/25 10:00:23 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_prompt(void)
 		current_dir = "~";
 	}
 	current_dir = ft_strjoin(username, current_dir);
-	printf("\033[1;32m%s $ \033[0m", current_dir);
+	printf("\001\033[1;32m\002%s $ \001\033[0m\002", current_dir);
 }
 /* Result example:	kbrice gh_minishell $ 
  * 					USERNAME DIRECTORY $ 
@@ -44,12 +44,34 @@ void	print_prompt(void)
  * strings before printing to the ouput using printf.
  */
 
+char	*find_abs_path(char *cmd)
+{
+	if (cmd == NULL)
+		return (NULL);
+	if (cmd[0] == '/')
+	{
+		if (access(cmd, F_OK) == 0)
+			return (strdup(cmd));
+		else
+			return (NULL);
+	}
+	return (NULL);
+}
+/* Checks if the command is an absolute path and whether or not it's accessible.
+ * If it is, it returns a copy of the path. Returns NULL if the command doesn't 
+ * exist, if it isn't accessible, or if it's not an absolute path.
+ */
+
 char	*find_command_path(char *cmd)
 {
+	char	*absolute_path;
 	char	*env_path;
 	char	*path;
 	char	*dir;
 
+	absolute_path = find_abs_path(cmd);
+	if (absolute_path != NULL)
+		return (absolute_path);
 	env_path = getenv("PATH");
 	path = strtok(strdup(env_path), ":");
 	while (path)
@@ -153,6 +175,7 @@ void	execute_command(char *command_path, char **command, int pipe_in, int pipe_o
 		perror("execve failed");
 		exit(1);
 	}
+	// exec_builtins(command);
 	close(pipe_out);
 	waitpid(child_pid, &status, WUNTRACED); 
 	close(pipe_in);
@@ -181,6 +204,9 @@ int	main(int argc, char **argv)
 		run_signals(1);
 		print_prompt();
 		input = readline(temp);
+		if (!input)
+			break ;
+		add_history(input);
 		if (ft_strcmp(input, "") == 0)
 		{
 			free(input);

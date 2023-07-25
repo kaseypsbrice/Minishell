@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/19 14:52:04 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/07/25 09:07:09 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "../libft/libft.h"
 # include <curses.h>
 # include <termios.h>
+# include <termcap.h>
 
 /* Exit Statuses */
 # define ERROR 2
@@ -50,7 +51,7 @@
 # define P_SPACE 2
 # define P_DELETE 3
 
-void	ctrl_l_redisplay(char *input);
+// void	ctrl_l_redisplay(char *input);
 
 /* Minishell General Purpose Variables */
 typedef struct s_mini
@@ -77,6 +78,10 @@ typedef struct s_env
 	int		index;
 }	t_env;
 
+/* TERMIOS */
+void	restore_term_settings(struct termios *original_attr);
+void	ft_suppress_output(void);
+
 /* Global Variable */
 /* Keeps track of exit statuses and the reason for terminating the program. */
 /* extern int	g_exit_status; */
@@ -85,9 +90,6 @@ typedef struct s_env
 void		restore_prompt(int sig);
 void		back_slash(int sig);
 void		run_signals(int sig);
-
-/* Termios Functions */
-void		ft_suppress_output(void);
 
 /* Environment Functions */
 /* */
