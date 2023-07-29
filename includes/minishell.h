@@ -51,12 +51,42 @@
 # define P_SPACE 2
 # define P_DELETE 3
 
+# define R_INPUT 0
+# define R_OUTPUT 1
+# define R_OUTPUT_A 2
+# define R_HEREDOC 3
+# define COMMAND 4
+# define ARGUMENT 5
+
 // void	ctrl_l_redisplay(char *input);
+
+/* Holds a redirection for a command excluding pipes */
+typedef struct s_redir
+{
+	int		type;
+	char	*str;
+}	t_redir;
+
+typedef struct s_tok
+{
+	int		type;
+	char	*str;
+}	t_tok;
+
+
+/* Hold a command, separating its arguments from its redirections */
+typedef struct s_cmd
+{
+	char	*name;
+	char	*path;
+	t_list	*args;
+	t_list	*redirs;
+}	t_cmd;
 
 /* Minishell General Purpose Variables */
 typedef struct s_mini
 {
-	char	**tokens; // ? 
+	t_list	**cmds;
 	char	**command;
 	char	*command_path;
 	char	***cmd_op;
@@ -103,9 +133,14 @@ char		*find_abs_path(char *cmd);
 char		*find_command_path(char *cmd);
 void		unexpected_token(char c);
 
+/* Validate + Utils */
+int			validate_input(char *str);
+int			check_quote(char *str, int i, int unclosed, char *last_quote);
+
 /* Parse Utils */
+int 		is_quote(char c);
 int			parse_type(char c);
-void		remove_at(char *str, int *index);
+void		remove_at(char *str, int index);
 void		rem_unprocessed(char *input);
 
 /* Parse */
@@ -132,5 +167,9 @@ int			ft_strcmp(const char *s1, const char *s2);
 /* Debug */
 void		print_2d(char **arr);
 void		print_3d(char ***arr);
+
+/* Error */
+void		perror_exit(const char *msg, int status);
+char		*invalid_syntax(char c);
 
 #endif

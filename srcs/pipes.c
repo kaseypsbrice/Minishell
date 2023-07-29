@@ -24,18 +24,48 @@ int	update_pipes(t_mini *cmdline, int pipes_passed)
 	return (pipes_passed);
 }
 
+int	init_pipes(t_mini *cmdline)
+{
+	if (pipe(cmdline->pipes[0]) == -1 || pipe(cmdline->pipes[1]) == -1)
+	{
+		perror("Pipe failed");
+		exit(1);
+	}
+	return (0);
+}
+
+int	get_output(t_mini *cmdline, int idx, int *pipes_passed)
+{
+
+}
+
+int	get_input(t_mini *cmdline, int idx, int *pipes_passed)
+{
+
+}
+
 /* It's called handle pipes but really its handle pipes, handle quotes, handle expansions and run the command line.
    Loops through the mess created in cmd_op_tab to set pipe in and pipe out for execute_command().
    Tested with "ping google.com -c 5 | grep rtt | wc | cat -e".
 */
 void	handle_pipes(t_mini *cmdline, char *input)
 {
+	if (validate_input(input))
+	{
+		printf("Invalid\n");
+		return ;
+	}
+	printf("Valid\n");
+}
+
+/*void	handle_pipes(t_mini *cmdline, char *input)
+{
 	int		i;
 	int		pipes_passed;
 
 	i = -1;
-	pipes_passed = update_pipes(cmdline, 0); //return value is used to save 2 lines
-	cmdline->cmd_op = cmd_op_tab(input); //input parsing and expansions done here
+	pipes_passed = init_pipes(cmdline);
+	cmdline->cmd_op = cmd_op_tab(input);
 	while (cmdline->cmd_op[++i])
 	{
 		if (ft_strcmp(cmdline->cmd_op[i][0], "|") == 0)
@@ -60,5 +90,5 @@ void	handle_pipes(t_mini *cmdline, char *input)
 	close(cmdline->pipes[PIPE_RIGHT][PIPE_READ]); 
 	if (pipes_passed > 0)
 		close(cmdline->pipes[PIPE_LEFT][PIPE_WRITE]);
-}
+}*/
 // 50% struct pointers by weight
