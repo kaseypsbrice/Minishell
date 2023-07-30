@@ -25,7 +25,6 @@ char	*find_command_path(char *cmd)
 	char	*path;
 	char	*dir;
 
-	printf("find command path: %s\n", cmd);
 	absolute_path = find_abs_path(cmd);
 	if (absolute_path != NULL)
 		return (absolute_path);
@@ -58,16 +57,13 @@ char	*find_command_name(char *cmd)
 	int		len;
 	char	*name;
 
-	printf("find command name: %s\n", cmd);
 	len = ft_strlen(cmd);
-	printf("len %d\n", len);
 	if (len == 0)
 		return (cmd);
 	i = len;
 	while (i >= 0 && cmd[i] != '/')
 		i--;
 	i++;
-	printf("i: %d\n", i);
 	name = ft_substr(cmd, i, len - i);
 	if (!name)
 		perror_exit("cmd name malloc failed", 1);

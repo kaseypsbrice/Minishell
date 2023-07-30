@@ -64,7 +64,7 @@ t_cmd	*get_command(t_list	**toks)
 	cmd->args = get_args((*toks)->next);
 	cmd->redirs = get_redirs((*toks)->next);
 	cmd->name = find_command_name(((t_tok *)(*toks)->data)->str);
-	cmd->path - find_command_path(((t_tok *)(*toks)->data)->str);
+	cmd->path = find_command_path(((t_tok *)(*toks)->data)->str);
 	(*toks) = (*toks)->next;
 	while (*toks && ((t_tok *)(*toks)->data)->type != COMMAND)
 		(*toks) = (*toks)->next;

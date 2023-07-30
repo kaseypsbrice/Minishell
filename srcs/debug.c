@@ -58,17 +58,17 @@ void	print_commands(t_list *cmds)
 	t_cmd	*cmd;
 
 	cur = cmds;
-	printf("\n----Commands----\n");
+	printf("\n----Commands----");
 	while (cur)
 	{
+		printf("\n\n");
 		cmd = (t_cmd *)(cur->data);
 		printf("Command name: %s\n", cmd->name);
 		printf("Command path: %s\n", cmd->path);
-		printf("*Command arguments*\n");
+		printf("-Command arguments-\n");
 		print_tokens(cmd->args);
-		printf("\n*Command redirects*\n");
+		printf("-Command redirects-\n");
 		print_tokens(cmd->redirs);
-		printf("\n\n");
 		cur = cur->next;
 	}
 }
