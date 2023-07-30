@@ -50,12 +50,9 @@ int	get_input(t_mini *cmdline, int idx, int *pipes_passed)
 */
 void	handle_pipes(t_mini *cmdline, char *input)
 {
-	if (validate_input(input))
-	{
-		printf("Invalid\n");
-		return ;
-	}
-	printf("Valid\n");
+	t_list	*toks;
+
+
 }
 
 /*void	handle_pipes(t_mini *cmdline, char *input)

@@ -86,7 +86,8 @@ typedef struct s_cmd
 /* Minishell General Purpose Variables */
 typedef struct s_mini
 {
-	t_list	**cmds;
+	t_list	*toks;
+	t_list	*cmds;
 	char	**command;
 	char	*command_path;
 	char	***cmd_op;
@@ -129,9 +130,15 @@ void		execute_command(char *command_path, char **command, int pipe_in, int pipe_
 int			is_builtin(char *command);
 int			exec_builtins(char **command);
 void		print_prompt(void);
+void		unexpected_token(char c);
+
+/* Path */
 char		*find_abs_path(char *cmd);
 char		*find_command_path(char *cmd);
-void		unexpected_token(char c);
+char		*find_command_name(char *cmd);
+
+/* Command */
+t_mini		*new_cmdline(char *str);
 
 /* Validate + Utils */
 int			validate_input(char *str);
@@ -142,6 +149,9 @@ int 		is_quote(char c);
 int			parse_type(char c);
 void		remove_at(char *str, int index);
 void		rem_unprocessed(char *input);
+
+/* Tokens */
+t_list		*get_tokens(char *str);
 
 /* Parse */
 char		***cmd_op_tab(char *input);
@@ -164,9 +174,14 @@ int			ft_echo();
 int			ft_strcmp(const char *s1, const char *s2);
 /* char	*ft_strtok(char *str, const char *delim); */
 
+/* Clean */
+void		del_tok(void *ptr);
+
 /* Debug */
 void		print_2d(char **arr);
 void		print_3d(char ***arr);
+void		print_tokens(t_list *lst);
+void		print_commands(t_list *cmds);
 
 /* Error */
 void		perror_exit(const char *msg, int status);

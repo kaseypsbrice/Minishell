@@ -37,12 +37,12 @@ int	get_redir_type(char *str, int *i)
 }
 
 /*	Removes outside quotes from token	*/
-void	remove_quotes(char *str, size_t size)
+void	remove_quotes(char *str)
 {
 	int		i;
 	char	last_quote;
 
-	i = -1;
+	i = 0;
 	last_quote = 0;
 	while (str[i])
 	{
@@ -82,15 +82,16 @@ t_tok	*new_tok(char *str, int *i, int type)
 	while (str[(*i) + j])
 	{
 		check_quote(str, (*i) + j, 0, &last_quote);
-		if (!last_quote && parse_type(str[(*i) + j]) == P_SPACE)
+		if (!last_quote && parse_type(str[(*i) + j]) != P_NORMAL)
 			break ;
 		j++;
 	}
-	new->str = ft_substr(str, (*i), j - 1);
+	new->str = ft_substr(str, (*i), j);
 	if (!new)
 		perror_exit("t_tok->str malloc failed", 1);
-	remove_quotes(new->str, j);
-	(*i) += j;
+	new->str = do_expansions(new->str);
+	remove_quotes(new->str);
+	(*i) += j - 1;
 	return (new);
 }
 
@@ -109,26 +110,26 @@ int	tok_type(char *str)
 	return (R_HEREDOC);
 }
 
-int	process_input(t_mini *cmdline, char *str)
+t_list	*get_tokens(char *str)
 {
 	int		i;
 	t_list	*toks;
 	t_list	*cur;
 
-	do_expansions(str);
-	i = -1;
+	i = 0;
 	toks = ft_lstnew(NULL);
 	if (!toks)
 		perror_exit("toks malloc failed", 1);
 	cur = toks;
-	cur->data = new_tok(str, i, COMMAND);
+	cur->data = new_tok(str, &i, COMMAND);
 	while (str[++i])
 	{
+		printf("get tokens: %c\n", str[i]);
 		if (parse_type(str[i]) == P_SPACE)
 			continue ;
-		cur->next = ft_lstnew((void *)new_tok(str, i, \
+		cur->next = ft_lstnew((void *)new_tok(str, &i, \
 		tok_type(&(str[i]))));
 		cur = cur->next;
 	}
-	return (0);
+	return (toks);
 }

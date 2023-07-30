@@ -59,6 +59,8 @@ char	*do_expansions(char *str)
 	int		i;
 
 	res = ft_strdup(str);
+	if (!res)
+		perror_exit("exp res malloc failed", 1);
 	last_quote = 0;
 	i = 0;
 	while (res[i])
@@ -74,6 +76,7 @@ char	*do_expansions(char *str)
 			res = expand_env(res, &i, 0);
 		i++;
 	}
+	free (str);
 	return (res);
 }
 /* Vars inside '' don't expand but vars inside "" do.

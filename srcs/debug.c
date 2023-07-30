@@ -39,3 +39,36 @@ void	print_3d(char ***arr)
 		printf("\n");
 	}
 }
+
+void	print_tokens(t_list *lst)
+{
+	t_list	*cur;
+
+	cur = lst;
+	while (cur)
+	{
+		printf("%d %s\n", ((t_tok *)cur->data)->type, ((t_tok *)cur->data)->str);
+		cur = cur->next;
+	}
+}
+
+void	print_commands(t_list *cmds)
+{
+	t_list	*cur;
+	t_cmd	*cmd;
+
+	cur = cmds;
+	printf("\n----Commands----\n");
+	while (cur)
+	{
+		cmd = (t_cmd *)(cur->data);
+		printf("Command name: %s\n", cmd->name);
+		printf("Command path: %s\n", cmd->path);
+		printf("*Command arguments*\n");
+		print_tokens(cmd->args);
+		printf("\n*Command redirects*\n");
+		print_tokens(cmd->redirs);
+		printf("\n\n");
+		cur = cur->next;
+	}
+}
