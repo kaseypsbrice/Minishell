@@ -52,9 +52,9 @@ void	print_prompt(void)
  */
 void	unexpected_token(char c)
 {
-	ft_putstr_fd("Minishell: syntax error near unexpected token '", 1);
-	ft_putchar_fd(c, 1);
-	ft_putstr_fd("'\n", 1);
+	ft_putstr_fd("Minishell: syntax error near unexpected token '", 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("'\n", 2);
 	exit(1);
 }
 

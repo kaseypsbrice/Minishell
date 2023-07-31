@@ -40,8 +40,6 @@
 # define BUFF 256
 
 /* Pipe Macros for Readability/Norm */
-# define PIPE_RIGHT pipes_passed % 2 // Preprocessor statement must only contain constant defines
-# define PIPE_LEFT (pipes_passed + 1) % 2 // Same norm error as above
 # define PIPE_READ 0
 # define PIPE_WRITE 1
 

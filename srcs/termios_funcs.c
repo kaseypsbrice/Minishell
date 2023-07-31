@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/*	tcsetattr is causing an error and I'm not sure why	*/
 void	ft_suppress_output(void)
 {
 	struct termios	new_settings;

@@ -13,17 +13,19 @@
 #include "minishell.h"
 
 // Opens a new right pipe
-int	update_pipes(t_mini *cmdline, int pipes_passed)
+int	update_pipes(t_mini *cmdline, int i)
 {
-	if (pipe(cmdline->pipes[PIPE_RIGHT]) == -1) //open new pipe
+	if (pipe(cmdline->pipes[i % 1]) == -1) //open new pipe
 	{
 		perror("Pipe failed");
 		exit(1);
 	}
-	//printf("opening: %d\nfd read: %d fd write: %d\n", PIPE_RIGHT, cmdline->pipes[PIPE_RIGHT][PIPE_READ], cmdline->pipes[PIPE_RIGHT][PIPE_WRITE]);
-	return (pipes_passed);
+	return (i);
 }
+/*	printf("opening: %d\nfd read: %d fd write: %d\n", i % 1, \
+->pipes[i % 1][PIPE_READ], cmdline->pipes[i % 1][PIPE_WRITE]);	*/
 
+//	Opens the pipes in cmdline
 int	init_pipes(t_mini *cmdline)
 {
 	if (pipe(cmdline->pipes[0]) == -1 || pipe(cmdline->pipes[1]) == -1)
@@ -34,6 +36,9 @@ int	init_pipes(t_mini *cmdline)
 	return (0);
 }
 
+/*	Attempts to open a file for redirection
+	Returns 0 on success
+	Failure prints error and returns 1	*/
 int try_open(t_cmd *cmd, t_tok *redir)
 {
 	int	fd;
@@ -58,6 +63,9 @@ int try_open(t_cmd *cmd, t_tok *redir)
 	return (0);
 }
 
+/*	Opens a file for each redirection
+	Sets fd_in/out to the last redirection	
+	(Behaves according to bash)	*/
 int	handle_redirects(t_cmd *cmd)
 {
 	t_list	*cur;
@@ -105,38 +113,3 @@ void	handle_pipes(t_mini *cmdline)
 }
 /*	Right Pipe = (i % 2)
 	Left Pipe = (i % 2 + 1)	*/
-
-/*void	handle_pipes(t_mini *cmdline, char *input)
-{
-	int		i;
-	int		pipes_passed;
-
-	i = -1;
-	pipes_passed = init_pipes(cmdline);
-	cmdline->cmd_op = cmd_op_tab(input);
-	while (cmdline->cmd_op[++i])
-	{
-		if (ft_strcmp(cmdline->cmd_op[i][0], "|") == 0)
-		{
-			pipes_passed = update_pipes(cmdline, pipes_passed + 1);
-			continue ;
-		}
-		cmdline->cmd_io[PIPE_READ] = -1;
-		cmdline->cmd_io[PIPE_WRITE] = -1;
-		//printf("\npipe_right: read %d write %d\n", cmdline->pipes[PIPE_RIGHT][PIPE_READ], cmdline->pipes[PIPE_RIGHT][PIPE_WRITE]);
-		//if (pipes_passed > 0)
-		//	printf("\npipe_left: read %d write %d\n", cmdline->pipes[PIPE_LEFT][PIPE_READ], cmdline->pipes[PIPE_LEFT][PIPE_WRITE]);
-		if (i > 0 && pipes_passed > 0 && ft_strcmp(cmdline->cmd_op[i - 1][0], "|") == 0)
-			cmdline->cmd_io[PIPE_READ] = cmdline->pipes[PIPE_LEFT][PIPE_READ];
-		if (cmdline->cmd_op[i + 1] && ft_strcmp(cmdline->cmd_op[i + 1][0], "|") == 0)
-			cmdline->cmd_io[PIPE_WRITE] = cmdline->pipes[PIPE_RIGHT][PIPE_WRITE];
-		if (get_redirect(cmdline, i))
-			break ;
-		execute_command(find_command_path(cmdline->cmd_op[i][0]), cmdline->cmd_op[i], \
-		cmdline->cmd_io[PIPE_READ], cmdline->cmd_io[PIPE_WRITE]);
-	}
-	close(cmdline->pipes[PIPE_RIGHT][PIPE_READ]); 
-	if (pipes_passed > 0)
-		close(cmdline->pipes[PIPE_LEFT][PIPE_WRITE]);
-}*/
-// 50% struct pointers by weight

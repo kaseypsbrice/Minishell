@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+// Unused
 int	has_redir(t_cmd *cmd, int redir)
 {
 	t_list	*cur;
@@ -14,6 +15,7 @@ int	has_redir(t_cmd *cmd, int redir)
 	return (0);
 }
 
+/*	Creates char **argv to be passed into execve	*/
 char	**assemble_command(t_cmd *cmd)
 {
 	int		i;

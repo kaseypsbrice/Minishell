@@ -51,6 +51,7 @@ char	*find_command_path(char *cmd)
  * returns NULL.
  */
 
+/*	Gets the command name for argv[0] in execve	*/
 char	*find_command_name(char *cmd)
 {
 	int		i;
@@ -69,3 +70,5 @@ char	*find_command_name(char *cmd)
 		perror_exit("cmd name malloc failed", 1);
 	return (name);
 }
+/*	Iterates from the back of the string until '/' or start of string
+	is reached and returns everything to the right	*/

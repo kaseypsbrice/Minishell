@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// NOTE: These functions are all WIP
-
 /* Attaches remaining arguments after redirect 
    'echo test > file.txt 123' outputs 'test 123' into file.txt
 */
