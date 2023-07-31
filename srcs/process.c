@@ -12,30 +12,6 @@
 
 #include "minishell.h"
 
-// Opens a new right pipe
-int	update_pipes(t_mini *cmdline, int i)
-{
-	if (pipe(cmdline->pipes[i % 1]) == -1) //open new pipe
-	{
-		perror("Pipe failed");
-		exit(1);
-	}
-	return (i);
-}
-/*	printf("opening: %d\nfd read: %d fd write: %d\n", i % 1, \
-->pipes[i % 1][PIPE_READ], cmdline->pipes[i % 1][PIPE_WRITE]);	*/
-
-//	Opens the pipes in cmdline
-int	init_pipes(t_mini *cmdline)
-{
-	if (pipe(cmdline->pipes[0]) == -1 || pipe(cmdline->pipes[1]) == -1)
-	{
-		perror("Pipe failed");
-		exit(1);
-	}
-	return (0);
-}
-
 /*	Attempts to open a file for redirection
 	Returns 0 on success
 	Failure prints error and returns 1	*/
@@ -80,6 +56,29 @@ int	handle_redirects(t_cmd *cmd)
 	return (0);
 }
 
+/*	Advance the cmds list to the last input redirection.
+	Input redirection overrides piping.	*/
+t_list	*advance_cmds(t_list *cmds)
+{
+	t_list	*res;
+	t_list	*cur_redir;
+
+	res = cmds;
+	while (cmds)
+	{
+		cur_redir = ((t_cmd *)(cmds->data))->redirs;
+		while (cur_redir)
+		{
+			if (((t_tok *)(cur_redir->data))->type == R_INPUT \
+			|| ((t_tok *)(cur_redir->data))->type == R_HEREDOC)
+				res = cmds;
+			cur_redir = cur_redir->next;
+		}
+		cmds = cmds->next;
+	}
+	return (res);
+}
+
 /*	Formally called handle pipes, runs the command line.	*/
 void	process(t_mini *cmdline)
 {
@@ -88,24 +87,24 @@ void	process(t_mini *cmdline)
 	int		i;
 
 	i = init_pipes(cmdline);
-	cur = cmdline->cmds;
+	cur = advance_cmds(cmdline->cmds);
 	while (cur)
 	{
 		cmd = (t_cmd *)cur->data;
-
 		if (handle_redirects(cmd))
 			return ;
 		if (cmd->fd_out == -1 && cur->next)
 			cmd->fd_out = cmdline->pipes[i % 2][PIPE_WRITE];
 		if (cur->next)
-			((t_cmd *)cur->next->data)->fd_in = cmdline->pipes[i % 2][PIPE_READ];
+			((t_cmd *)cur->next->data)->fd_in = \
+			cmdline->pipes[i % 2][PIPE_READ];
 		if (execute_command(cmd))
 			return ;
 		close(cmdline->pipes[i % 2][PIPE_WRITE]);
 		i = update_pipes(cmdline, i + 1);
 		cur = cur->next;
 	}
-	close(cmdline->pipes[i % 2][PIPE_READ]); 
+	close(cmdline->pipes[i % 2][PIPE_READ]);
 	if (i > 0)
 		close(cmdline->pipes[(i + 1) % 2][PIPE_WRITE]);
 }

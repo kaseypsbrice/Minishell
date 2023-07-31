@@ -154,8 +154,10 @@ void		rem_unprocessed(char *input);
 /* Tokens */
 t_list		*get_tokens(char *str);
 
-/* Process */
+/* Process + Utils */
 void		process(t_mini *cmdline);
+int			update_pipes(t_mini *cmdline, int i);
+int			init_pipes(t_mini *cmdline);
 
 /* Expansions */
 char		*do_expansions(char *str);

@@ -1,12 +1,23 @@
 #include "minishell.h"
 
+int	can_exec(char *path)
+{
+	struct stat statbuf;
+
+	if (stat(path, &statbuf) != 0)
+		return (0);
+	if (statbuf.st_mode & S_IXUSR)
+		return (1);
+	return (0);
+}
+
 char	*find_abs_path(char *cmd)
 {
 	if (cmd == NULL)
 		return (NULL);
 	if (cmd[0] == '/')
 	{
-		if (access(cmd, F_OK) == 0)
+		if (access(cmd, F_OK) == 0 && can_exec(cmd))
 			return (strdup(cmd));
 		else
 			return (NULL);
@@ -43,17 +54,6 @@ char	*add_cwd(char *path)
 		path = ft_strjoinf(path, cwd, 0);
 	}
 	return (path);
-}
-
-int	can_exec(char *path)
-{
-	struct stat statbuf;
-
-	if (stat(path, &statbuf) != 0)
-		return (0);
-	if (statbuf.st_mode & S_IXUSR)
-		return (1);
-	return (0);
 }
 
 char	*find_command_path(char *cmd)
