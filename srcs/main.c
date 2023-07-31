@@ -32,6 +32,8 @@ void	print_prompt(void)
 	ft_putstr_fd("\001\033[1;32m\002", STDOUT_FILENO);
 	ft_putstr_fd(current_dir, STDOUT_FILENO);
 	ft_putstr_fd(" $ \001\033[0m\002", STDOUT_FILENO);
+	free(current_dir);
+	free(username);
 	//printf("\001\033[1;32m\002%s $ \001\033[0m\002", current_dir);
 }
 /* Result example:	kbrice gh_minishell $ 
@@ -47,60 +49,34 @@ void	print_prompt(void)
  * strings before printing to the ouput using printf.
  */
 
-
-/* Temporary error function. Shouldn't exit programme but should reset prompt.
- */
-void	unexpected_token(char c)
-{
-	ft_putstr_fd("Minishell: syntax error near unexpected token '", 2);
-	ft_putchar_fd(c, 2);
-	ft_putstr_fd("'\n", 2);
-	exit(1);
-}
-
-int	execute_command(char *command_path, char **command, int pipe_in, int pipe_out)
+int	execute_command(t_cmd *cmd)
 {
 	pid_t	child_pid;
 	int		status;
 	char	*env[1];
 
-	printf("command path %s\n", command_path);
 	env[0] = NULL;
-	if (command_path == NULL)
-	{
-		perror("Command path not found");
-		return (1);
-	}
+	if (cmd->path == NULL)
+		return (command_not_found(cmd->name));
+	if (is_directory(cmd->path))
+		return (command_is_directory(cmd->path));
 	child_pid = fork();
 	if (child_pid < 0)
-	{
-		perror("fork failed");
-		exit(1);
-	}
+		perror_exit("fork failed", 1);
 	if (child_pid == 0)
 	{
-		if (pipe_in != -1)
-			dup2(pipe_in, STDIN_FILENO);
-		if (pipe_out != -1)
-			dup2(pipe_out, STDOUT_FILENO);
-		execve(command_path, command, env);
-		perror("execve failed");
-		exit(1);
+		if (cmd->fd_in != -1)
+			dup2(cmd->fd_in , STDIN_FILENO);
+		if (cmd->fd_out != -1)
+			dup2(cmd->fd_out, STDOUT_FILENO);
+		execve(cmd->path, cmd->argv, env);
+		display_errno(cmd->path);
 	}
-	close(pipe_out);
+	close(cmd->fd_out);
 	waitpid(child_pid, &status, WUNTRACED);
-	close(pipe_in);
+	close(cmd->fd_in);
 	return (status);
 }
-/* Variable Overview:
- * command_path // Full path to the command
- * command // Array of strings representing the command and its arguments
- * pipe_in // File descriptor for input redirection
- * pipe_out // File descriptor for ouput redirection
- * 
- * NOTE: Not norm compliant. Has over 25 lines.
- * TBC...
- */
 
 int	main(int argc, char **argv)
 {
@@ -126,7 +102,7 @@ int	main(int argc, char **argv)
 			continue ;
 		}
 		cmdline = new_cmdline(input);
-		handle_pipes(cmdline);
+		process(cmdline);
 		del_cmdline(cmdline);
 		free(input);
 	}

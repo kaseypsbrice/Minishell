@@ -15,16 +15,11 @@ void	del_cmd(void *ptr)
 	t_list	*cur;
 	t_list	*tmp;
 
-
 	cmd = (t_cmd *)ptr;
-	//printf("free name\n");
 	free(cmd->name);
-	//printf("free path\n");
 	if (cmd->path)
 		free(cmd->path);
-	//printf("free argv\n");
 	free(cmd->argv);
-	//printf("free args\n");
 	cur = cmd->args;
 	while (cur)
 	{
@@ -32,7 +27,6 @@ void	del_cmd(void *ptr)
 		cur = cur->next;
 		free(tmp);
 	}
-	//printf("free redirs\n");
 	cur = cmd->redirs;
 	while (cur)
 	{
@@ -40,16 +34,12 @@ void	del_cmd(void *ptr)
 		cur = cur->next;
 		free(tmp);
 	}
-	//printf("free cmd\n");
 	free(ptr);
 }
 
 void	del_cmdline(t_mini *cmdline)
 {
-	//printf("free cmds\n");
 	ft_lstclear(&(cmdline->cmds), del_cmd);
-	//printf("free tokens\n");
 	ft_lstclear(&(cmdline->toks), del_tok);
-	//printf("free cmdline\n");
 	free(cmdline);
 }

@@ -1,4 +1,20 @@
-# include "minishell.h"
+#include "minishell.h"
+
+int	command_not_found(char *name)
+{
+	ft_putstr_fd("\'", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("\' command not found\n", 1);
+	return (1);
+}
+
+int	command_is_directory(char *name)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd(": Is a directory\n", 1);
+	return (1);
+}
 
 void	perror_exit(const char *msg, int status)
 {
@@ -6,15 +22,23 @@ void	perror_exit(const char *msg, int status)
 	exit(status);
 }
 
-int	display_errno(char *filepath)
+/*	Prints error message. If errno = 'exec format error' then
+	display 'command not found' instead.
+	This is to try mimic bash, it's a little messy	*/
+int	display_errno(char *str)
 {
 	int	errnum;
 
 	errnum = errno;
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putstr_fd(filepath, 2);
+	if (errnum == 8)
+		str = find_command_name(str);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(errnum), 2);
+	if (errnum == 8)
+		ft_putstr_fd("command not found", 2);
+	else
+		ft_putstr_fd(strerror(errnum), 2);
 	ft_putstr_fd("\n", 2);
 	return (1);
 }
@@ -22,10 +46,14 @@ int	display_errno(char *filepath)
 char	*invalid_syntax(char c)
 {
 	if (c == '\n')
-		printf("Minishell: syntax error near \
-unexpected token 'newline'\n");
+		ft_putstr_fd("minishell: syntax error near \
+unexpected token 'newline'\n", 2);
 	else
-		printf("Minishell: syntax error near \
-unexpected token '%c'\n", c);
+	{
+		ft_putstr_fd("minishell: syntax error near \
+unexpected token '", 2);
+		ft_putchar_fd(c, 2);
+		ft_putstr_fd("'\n", 2);
+	}
 	return (NULL);
 }

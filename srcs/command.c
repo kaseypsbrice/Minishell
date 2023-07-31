@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-/*	Iterates through token list and adds each token with type argument to new list	*/
+/*	Iterates through token list and adds each token 
+	with type argument to new list	*/
 t_list	*get_args(t_list *toks)
 {
 	t_list	*args;
@@ -28,7 +29,8 @@ t_list	*get_args(t_list *toks)
 	return (args);
 }
 
-/*	Iterates through token list and adds each token with an operator type to new list	*/
+/*	Iterates through token list and adds each token 
+	with an operator type to new list	*/
 t_list	*get_redirs(t_list *toks)
 {
 	t_list	*redirs;
@@ -62,7 +64,7 @@ t_list	*get_redirs(t_list *toks)
 t_cmd	*get_command(t_list	**toks)
 {
 	t_cmd	*cmd;
-	
+
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		perror_exit("cmd malloc failed", 1);

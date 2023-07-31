@@ -108,8 +108,8 @@ typedef struct s_env
 }	t_env;
 
 /* TERMIOS */
-void	restore_term_settings(struct termios *original_attr);
-void	ft_suppress_output(void);
+void		restore_term_settings(struct termios *original_attr);
+void		ft_suppress_output(void);
 
 /* Global Variable */
 /* Keeps track of exit statuses and the reason for terminating the program. */
@@ -124,11 +124,12 @@ void		run_signals(int sig);
 /* */
 
 /* Main + Utils */
-int			execute_command(char *command_path, char **command, int pipe_in, int pipe_out);
+int			execute_command(t_cmd *cmd);
 int			is_builtin(char *command);
 int			exec_builtins(char **command);
 void		print_prompt(void);
-void		unexpected_token(char c);
+int			is_directory(const char *path);
+char		*ft_strjoinf(char *s1, char *s2, int which);
 
 /* Path */
 char		*find_abs_path(char *cmd);
@@ -153,14 +154,8 @@ void		rem_unprocessed(char *input);
 /* Tokens */
 t_list		*get_tokens(char *str);
 
-/* Parse */
-char		***cmd_op_tab(char *input);
-
-/* Pipes */
-void		handle_pipes(t_mini *cmdline);
-
-/* Operators */
-int			get_redirect(t_mini *cmdline, int index);
+/* Process */
+void		process(t_mini *cmdline);
 
 /* Expansions */
 char		*do_expansions(char *str);
@@ -175,7 +170,6 @@ int			ft_strcmp(const char *s1, const char *s2);
 /* char	*ft_strtok(char *str, const char *delim); */
 
 /* Clean */
-void		del_tok(void *ptr);
 void		del_cmdline(t_mini *cmdline);
 
 /* Debug */
@@ -188,5 +182,7 @@ void		print_commands(t_list *cmds);
 void		perror_exit(const char *msg, int status);
 char		*invalid_syntax(char c);
 int			display_errno(char *filepath);
+int			command_not_found(char *name);
+int			command_is_directory(char *name);
 
 #endif

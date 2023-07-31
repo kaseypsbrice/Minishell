@@ -80,11 +80,8 @@ int	handle_redirects(t_cmd *cmd)
 	return (0);
 }
 
-/* It's called handle pipes but really its handle pipes, handle quotes, handle expansions and run the command line.
-   Loops through the mess created in cmd_op_tab to set pipe in and pipe out for execute_command().
-   Tested with "ping google.com -c 5 | grep rtt | wc | cat -e".
-*/
-void	handle_pipes(t_mini *cmdline)
+/*	Formally called handle pipes, runs the command line.	*/
+void	process(t_mini *cmdline)
 {
 	t_list	*cur;
 	t_cmd	*cmd;
@@ -102,7 +99,7 @@ void	handle_pipes(t_mini *cmdline)
 			cmd->fd_out = cmdline->pipes[i % 2][PIPE_WRITE];
 		if (cur->next)
 			((t_cmd *)cur->next->data)->fd_in = cmdline->pipes[i % 2][PIPE_READ];
-		if (execute_command(cmd->path, cmd->argv, cmd->fd_in, cmd->fd_out))
+		if (execute_command(cmd))
 			return ;
 		close(cmdline->pipes[i % 2][PIPE_WRITE]);
 		i = update_pipes(cmdline, i + 1);
@@ -112,5 +109,11 @@ void	handle_pipes(t_mini *cmdline)
 	if (i > 0)
 		close(cmdline->pipes[(i + 1) % 2][PIPE_WRITE]);
 }
-/*	Right Pipe = (i % 2)
-	Left Pipe = ((i + 1) % 2)	*/
+/*	Right Pipe = (i % 2), Left Pipe = ((i + 1) % 2)	
+	handle_redirects opens the required files for the operators.
+	If fd_out was not set by handle_redirects and there is a next command
+	then we pipe the output to the next command.
+	Regardless of the current command's redirection the next command must have
+	it's input defaulted to the same pipe. This means that it will have no input
+	in a case such as 'echo "test" > f.txt | cat', this mirrors bash.
+	*/

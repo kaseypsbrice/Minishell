@@ -18,27 +18,73 @@ char	*find_abs_path(char *cmd)
  * exist, if it isn't accessible, or if it's not an absolute path.
  */
 
+int	str_isspace(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (parse_type(str[i]) != P_SPACE)
+			return (0);
+	}
+	return (1);
+}
+
+char	*add_cwd(char *path)
+{
+	char	cwd[1000];
+
+	if (!path)
+		return (NULL);
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
+		path = ft_strjoinf(path, ":", 0);
+		path = ft_strjoinf(path, cwd, 0);
+	}
+	return (path);
+}
+
+int	can_exec(char *path)
+{
+	struct stat statbuf;
+
+	if (stat(path, &statbuf) != 0)
+		return (0);
+	if (statbuf.st_mode & S_IXUSR)
+		return (1);
+	return (0);
+}
+
 char	*find_command_path(char *cmd)
 {
 	char	*absolute_path;
 	char	*env_path;
 	char	*path;
 	char	*dir;
+	char	*tmp;
 
+	if (str_isspace(cmd))
+		return (NULL);
 	absolute_path = find_abs_path(cmd);
 	if (absolute_path != NULL)
 		return (absolute_path);
 	env_path = getenv("PATH");
-	path = strtok(strdup(env_path), ":");
+	path = strtok(ft_strdup(env_path), ":");
+	tmp = path;
 	while (path)
 	{
 		dir = ft_strjoin(path, "/");
-		dir = ft_strjoin(dir, cmd);
-		if ((access(dir, X_OK) == 0))
+		dir = ft_strjoinf(dir, cmd, 0);
+		if ((access(dir, F_OK) == 0) && can_exec(dir))
+		{
+			free(tmp);
 			return (dir);
+		}
 		free(dir);
 		path = strtok(NULL, ":");
 	}
+	free(tmp);
 	return (NULL);
 }
 /* The PATH environment variable contains a list of directories that can be 
