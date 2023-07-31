@@ -102,14 +102,15 @@ void	handle_pipes(t_mini *cmdline)
 			cmd->fd_out = cmdline->pipes[i % 2][PIPE_WRITE];
 		if (cur->next)
 			((t_cmd *)cur->next->data)->fd_in = cmdline->pipes[i % 2][PIPE_READ];
-		execute_command(cmd->path, cmd->argv, cmd->fd_in, cmd->fd_out);
+		if (execute_command(cmd->path, cmd->argv, cmd->fd_in, cmd->fd_out))
+			return ;
 		close(cmdline->pipes[i % 2][PIPE_WRITE]);
 		i = update_pipes(cmdline, i + 1);
 		cur = cur->next;
 	}
 	close(cmdline->pipes[i % 2][PIPE_READ]); 
 	if (i > 0)
-		close(cmdline->pipes[i % 2 + 1][PIPE_WRITE]);
+		close(cmdline->pipes[(i + 1) % 2][PIPE_WRITE]);
 }
 /*	Right Pipe = (i % 2)
-	Left Pipe = (i % 2 + 1)	*/
+	Left Pipe = ((i + 1) % 2)	*/

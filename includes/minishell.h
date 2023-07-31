@@ -124,7 +124,7 @@ void		run_signals(int sig);
 /* */
 
 /* Main + Utils */
-void		execute_command(char *command_path, char **command, int pipe_in, int pipe_out);
+int			execute_command(char *command_path, char **command, int pipe_in, int pipe_out);
 int			is_builtin(char *command);
 int			exec_builtins(char **command);
 void		print_prompt(void);

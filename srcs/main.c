@@ -58,17 +58,18 @@ void	unexpected_token(char c)
 	exit(1);
 }
 
-void	execute_command(char *command_path, char **command, int pipe_in, int pipe_out)
+int	execute_command(char *command_path, char **command, int pipe_in, int pipe_out)
 {
 	pid_t	child_pid;
 	int		status;
 	char	*env[1];
 
+	printf("command path %s\n", command_path);
 	env[0] = NULL;
 	if (command_path == NULL)
 	{
 		perror("Command path not found");
-		return ;
+		return (1);
 	}
 	child_pid = fork();
 	if (child_pid < 0)
@@ -89,6 +90,7 @@ void	execute_command(char *command_path, char **command, int pipe_in, int pipe_o
 	close(pipe_out);
 	waitpid(child_pid, &status, WUNTRACED);
 	close(pipe_in);
+	return (status);
 }
 /* Variable Overview:
  * command_path // Full path to the command

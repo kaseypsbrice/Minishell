@@ -34,7 +34,7 @@ char	*find_command_path(char *cmd)
 	{
 		dir = ft_strjoin(path, "/");
 		dir = ft_strjoin(dir, cmd);
-		if ((access(dir, F_OK) == 0) || (access(dir, F_OK) == 0))
+		if ((access(dir, X_OK) == 0))
 			return (dir);
 		free(dir);
 		path = strtok(NULL, ":");
@@ -60,7 +60,7 @@ char	*find_command_name(char *cmd)
 
 	len = ft_strlen(cmd);
 	if (len == 0)
-		return (cmd);
+		return (ft_strdup(""));
 	i = len;
 	while (i >= 0 && cmd[i] != '/')
 		i--;
