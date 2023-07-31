@@ -41,7 +41,7 @@ int	invalid_operator(char *str, int i)
 		invalid_syntax(str[i + 1]);
 		return (1);
 	}
-	if (str[i] == str[i + 1] && (str[i + 2]) && \
+	if (str[i] == str[i + 1] && str[i + 2] && \
 	parse_type(str[i + 2]) == P_OPERATOR)
 	{
 		invalid_syntax(str[i + 2]);

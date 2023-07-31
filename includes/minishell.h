@@ -77,10 +77,13 @@ typedef struct s_tok
 /* Hold a command, separating its arguments from its redirections */
 typedef struct s_cmd
 {
-	char	*name;
-	char	*path;
 	t_list	*args;
 	t_list	*redirs;
+	char	*name;
+	char	*path;
+	char	**argv;
+	int		fd_in;
+	int		fd_out;
 }	t_cmd;
 
 /* Minishell General Purpose Variables */
@@ -88,9 +91,6 @@ typedef struct s_mini
 {
 	t_list	*toks;
 	t_list	*cmds;
-	char	**command;
-	char	*command_path;
-	char	***cmd_op;
 	int		cmd_io[2];
 	int		pipes[2][2];
 }	t_mini;
@@ -137,8 +137,10 @@ char		*find_abs_path(char *cmd);
 char		*find_command_path(char *cmd);
 char		*find_command_name(char *cmd);
 
-/* Command */
+/* Command + Utils */
 t_mini		*new_cmdline(char *str);
+char		**assemble_command(t_cmd *cmd);
+int			has_redir(t_cmd *cmd, int redir);
 
 /* Validate + Utils */
 int			validate_input(char *str);
@@ -157,7 +159,7 @@ t_list		*get_tokens(char *str);
 char		***cmd_op_tab(char *input);
 
 /* Pipes */
-void		handle_pipes(t_mini *cmdline, char *input);
+void		handle_pipes(t_mini *cmdline);
 
 /* Operators */
 int			get_redirect(t_mini *cmdline, int index);
@@ -176,6 +178,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 
 /* Clean */
 void		del_tok(void *ptr);
+void		del_cmdline(t_mini *cmdline);
 
 /* Debug */
 void		print_2d(char **arr);
@@ -186,5 +189,6 @@ void		print_commands(t_list *cmds);
 /* Error */
 void		perror_exit(const char *msg, int status);
 char		*invalid_syntax(char c);
+int			display_errno(char *filepath);
 
 #endif

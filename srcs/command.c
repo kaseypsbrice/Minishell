@@ -65,6 +65,9 @@ t_cmd	*get_command(t_list	**toks)
 	cmd->redirs = get_redirs((*toks)->next);
 	cmd->name = find_command_name(((t_tok *)(*toks)->data)->str);
 	cmd->path = find_command_path(((t_tok *)(*toks)->data)->str);
+	cmd->fd_in = -1;
+	cmd->fd_out = -1;
+	cmd->argv = assemble_command(cmd);
 	(*toks) = (*toks)->next;
 	while (*toks && ((t_tok *)(*toks)->data)->type != COMMAND)
 		(*toks) = (*toks)->next;
@@ -100,6 +103,5 @@ t_mini	*new_cmdline(char *str)
 		perror_exit("cmdline malloc failed", 1);
 	cmdline->toks = get_tokens(str);
 	cmdline->cmds = get_commands(cmdline->toks);
-	print_commands(cmdline->cmds);
 	return (cmdline);
 }

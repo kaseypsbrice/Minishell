@@ -124,7 +124,8 @@ int	main(int argc, char **argv)
 			continue ;
 		}
 		cmdline = new_cmdline(input);
-		//handle_pipes(input);
+		handle_pipes(cmdline);
+		del_cmdline(cmdline);
 		free(input);
 	}
 	return (0);

@@ -34,26 +34,77 @@ int	init_pipes(t_mini *cmdline)
 	return (0);
 }
 
-int	get_output(t_mini *cmdline, int idx, int *pipes_passed)
+int try_open(t_cmd *cmd, t_tok *redir)
 {
+	int	fd;
 
+	if (redir->type == R_OUTPUT)
+		fd = open(redir->str, O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
+	else if (redir->type == R_OUTPUT_A)
+		fd = open(redir->str, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
+	else if (redir->type == R_INPUT)
+		fd = open(redir->str, O_RDONLY);
+	else
+	{
+		//heredoc
+		return (0);
+	}
+	if (fd == -1)
+		return (display_errno(redir->str));
+	if (redir->type == R_INPUT)
+		cmd->fd_in = fd;
+	else
+		cmd->fd_out = fd;
+	return (0);
 }
 
-int	get_input(t_mini *cmdline, int idx, int *pipes_passed)
+int	handle_redirects(t_cmd *cmd)
 {
+	t_list	*cur;
 
+	cur = cmd->redirs;
+	while (cur)
+	{
+		if (try_open(cmd, (t_tok *)cur->data))
+			return (1);
+		cur = cur->next;
+	}
+	return (0);
 }
 
 /* It's called handle pipes but really its handle pipes, handle quotes, handle expansions and run the command line.
    Loops through the mess created in cmd_op_tab to set pipe in and pipe out for execute_command().
    Tested with "ping google.com -c 5 | grep rtt | wc | cat -e".
 */
-void	handle_pipes(t_mini *cmdline, char *input)
+void	handle_pipes(t_mini *cmdline)
 {
-	t_list	*toks;
+	t_list	*cur;
+	t_cmd	*cmd;
+	int		i;
 
+	i = init_pipes(cmdline);
+	cur = cmdline->cmds;
+	while (cur)
+	{
+		cmd = (t_cmd *)cur->data;
 
+		if (handle_redirects(cmd))
+			return ;
+		if (cmd->fd_out == -1 && cur->next)
+			cmd->fd_out = cmdline->pipes[i % 2][PIPE_WRITE];
+		if (cur->next)
+			((t_cmd *)cur->next->data)->fd_in = cmdline->pipes[i % 2][PIPE_READ];
+		execute_command(cmd->path, cmd->argv, cmd->fd_in, cmd->fd_out);
+		close(cmdline->pipes[i % 2][PIPE_WRITE]);
+		i = update_pipes(cmdline, i + 1);
+		cur = cur->next;
+	}
+	close(cmdline->pipes[i % 2][PIPE_READ]); 
+	if (i > 0)
+		close(cmdline->pipes[i % 2 + 1][PIPE_WRITE]);
 }
+/*	Right Pipe = (i % 2)
+	Left Pipe = (i % 2 + 1)	*/
 
 /*void	handle_pipes(t_mini *cmdline, char *input)
 {
