@@ -26,16 +26,19 @@ int try_open(t_cmd *cmd, t_tok *redir)
 	else if (redir->type == R_INPUT)
 		fd = open(redir->str, O_RDONLY);
 	else
-	{
-		//heredoc
-		return (0);
-	}
+		return (heredoc(cmd, redir->str));
 	if (fd == -1)
 		return (display_errno(redir->str));
 	if (redir->type == R_INPUT)
+	{
+		close(cmd->fd_in);
 		cmd->fd_in = fd;
+	}
 	else
+	{
+		close(cmd->fd_out);
 		cmd->fd_out = fd;
+	}
 	return (0);
 }
 
