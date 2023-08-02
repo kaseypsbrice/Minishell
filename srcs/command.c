@@ -70,17 +70,17 @@ t_cmd	*get_command(t_list	**toks)
 		perror_exit("cmd malloc failed", 1);
 	cmd->args = get_args((*toks)->next);
 	cmd->redirs = get_redirs((*toks)->next);
-	cmd->name = find_command_name(((t_tok *)(*toks)->data)->str);
-	cmd->path = find_command_path(((t_tok *)(*toks)->data)->str);
+	cmd->name = ft_strdup(((t_tok *)(*toks)->data)->str);
+	cmd->path = NULL;
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
-	cmd->argv = assemble_command(cmd);
+	cmd->argv = NULL;
 	(*toks) = (*toks)->next;
 	while (*toks && ((t_tok *)(*toks)->data)->type != COMMAND)
 		(*toks) = (*toks)->next;
 	return (cmd);
 }
-/*	Yeah we out here (((t_tok *)(*toks)->data)->str)'ing
+/*	Yeah we out here (((t_tok *)(*toks)->data)->str)'ing.
 	Pointer to the list is passed in to allow it to be advanced
 	with the while loop at the end	
 	Separating args and redirs into different lists really isn't

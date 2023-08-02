@@ -153,11 +153,13 @@ void		rem_unprocessed(char *input);
 
 /* Tokens */
 t_list		*get_tokens(char *str);
+void		remove_quotes(char *str);
 
 /* Process + Utils */
 void		process(t_mini *cmdline);
 int			update_pipes(t_mini *cmdline, int i);
 int			init_pipes(t_mini *cmdline);
+void		expansions_quotes(char **str);
 
 /* Expansions */
 char		*do_expansions(char *str);

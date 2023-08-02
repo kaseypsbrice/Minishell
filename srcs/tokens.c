@@ -96,8 +96,8 @@ t_tok	*new_tok(char *str, int *i, int type)
 	new->str = ft_substr(str, (*i), j);
 	if (!new)
 		perror_exit("t_tok->str malloc failed", 1);
-	new->str = do_expansions(new->str);
-	remove_quotes(new->str);
+	//new->str = do_expansions(new->str);
+	//remove_quotes(new->str);
 	(*i) += j - 1;
 	return (new);
 }
