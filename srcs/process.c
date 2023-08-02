@@ -59,36 +59,6 @@ int	handle_redirects(t_cmd *cmd)
 	return (0);
 }
 
-/*	Expands environment variables, removes quotes
-	and opens files for redirection	*/
-int	finalize_command(t_cmd *cmd)
-{
-	t_list	*cur;
-
-	cur = cmd->args;
-	while (cur)
-	{
-		expansions_quotes(&(((t_tok *)(cur->data))->str));
-		cur = cur->next;
-	}
-	cur = cmd->redirs;
-	while (cur)
-	{
-		expansions_quotes(&(((t_tok *)(cur->data))->str));
-		cur = cur->next;
-	}
-	expansions_quotes(&(cmd->name));
-	cmd->path = find_command_path(cmd->name);
-	cmd->name = find_command_name(cmd->name);
-	cmd->argv = assemble_command(cmd);
-	return (handle_redirects(cmd));
-}
-/*	This is an ugly function because I had to move the
-	environment variable expansion from the token parsing
-	to the cmdline processing to allow the exit status
-	from the previous command to update for '$?'.
-	Before this change it was just 'handle_redirects'	*/
-
 /*	Advance the cmds list to the last input redirection.
 	Input redirection overrides piping.	*/
 t_list	*advance_cmds(t_list *cmds)
@@ -124,7 +94,7 @@ void	process(t_mini *cmdline)
 	while (cur)
 	{
 		cmd = (t_cmd *)cur->data;
-		if (finalize_command(cmd))
+		if (handle_redirects(cmd))
 			return ;
 		if (cmd->fd_out == -1 && cur->next)
 			cmd->fd_out = cmdline->pipes[i % 2][PIPE_WRITE];

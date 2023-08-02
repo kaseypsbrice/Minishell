@@ -159,7 +159,6 @@ void		remove_quotes(char *str);
 void		process(t_mini *cmdline);
 int			update_pipes(t_mini *cmdline, int i);
 int			init_pipes(t_mini *cmdline);
-void		expansions_quotes(char **str);
 
 /* Heredoc */
 int			heredoc(t_cmd *cmd, char *eof);

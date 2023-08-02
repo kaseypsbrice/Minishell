@@ -25,11 +25,3 @@ int	init_pipes(t_mini *cmdline)
 	}
 	return (0);
 }
-
-/*	Shoehorned function to save lines, expands environment
-	variables and then removes quotes	*/
-void	expansions_quotes(char **str)
-{
-	*str = do_expansions(*str);
-	remove_quotes(*str);
-}
