@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/07/25 12:48:04 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/03 15:26:18 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@
 # define COMMAND 4
 # define ARGUMENT 5
 
-// void	ctrl_l_redisplay(char *input);
-
 /* Holds a redirection for a command excluding pipes */
 typedef struct s_redir
 {
@@ -100,11 +98,8 @@ typedef struct s_mini
 /* Struct for Environment Variables */
 typedef struct s_env
 {
-	char	**env;
-	int		len;
-	char	**key;
-	char	**content;
-	int		index;
+	char	*name;
+	char	*value;
 }	t_env;
 
 /* TERMIOS */
@@ -121,12 +116,12 @@ void		back_slash(int sig);
 void		run_signals(int sig);
 
 /* Environment Functions */
-/* */
+t_env	*tokenise_env(char **envp);
 
 /* Main + Utils */
 int			execute_command(t_cmd *cmd);
 int			is_builtin(char *command);
-int			exec_builtins(char **command);
+int	exec_builtins(t_cmd *cmd, char **envp);
 void		print_prompt(void);
 int			is_directory(const char *path);
 char		*ft_strjoinf(char *s1, char *s2, int which);
@@ -170,10 +165,11 @@ char		*do_expansions(char *str);
 int			ft_cd(char *path);
 int			ft_pwd(void);
 int			ft_echo();
+// int 		ft_exit(char **cmd); 
+void ft_env(t_env *env_list);
 
 /* Remakes */
 int			ft_strcmp(const char *s1, const char *s2);
-/* char	*ft_strtok(char *str, const char *delim); */
 
 /* Clean */
 void		del_cmdline(t_mini *cmdline);

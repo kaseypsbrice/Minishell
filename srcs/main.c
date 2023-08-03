@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/25 14:01:17 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/03 15:31:26 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	execute_command(t_cmd *cmd)
 	return (status);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	char	*temp;

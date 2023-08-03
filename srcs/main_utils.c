@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:22:37 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/25 12:48:01 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/03 15:57:03 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,24 @@ int	is_builtin(char *command)
 	return (0);
 }
 
-int	exec_builtins(char **command)
+int	exec_builtins(t_cmd *cmd)
 {
-	if (!ft_strcmp(command[0], "cd"))
-		ft_cd(command[1]);
+	if (!ft_strcmp(cmd->name, "cd"))
+		ft_cd(((t_tok *)(cmd->args->data))->str);
 	/*else if (!ft_strcmp(command[0], "$?"))
 		ft_exit_status();*/
-	else if (!ft_strcmp(command[0], "pwd"))
+	else if (!ft_strcmp(cmd->name, "pwd"))
 		ft_pwd();
-	/*else if (!ft_strcmp(command[0], "exit"))
-		ft_exit(command[1]);*/
-	else if (!ft_strcmp(command[0], "echo"))
-		ft_echo(command[1]);
+	// else if (!ft_strcmp(cmd->name, "exit"))
+	// 	ft_exit();
+	else if (!ft_strcmp(cmd->name, "echo"))
+	 	ft_echo(((t_tok *)(cmd->args->data))->str);
+	// else if (!ft_strcmp(cmd->name, "env"))
+	// 	ft_env(envp);
 	else
 		return (0);
 	return (1);
 }
-/* Where should we run this function though? 
- */
+// No longer passes command[1] to cd.
+// Works the same way as before, still don't know how to prevent
+// double output.

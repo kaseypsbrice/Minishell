@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/25 14:09:02 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/03 15:57:50 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,16 +115,3 @@ int	ft_echo(char **command)
 }
 */
 /* More than 25 lines */
-
-// void	ft_env(char **envs)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (envs[i])
-// 	{
-// 		write(STDOUT_FILENO, envs[i], ft_strlen(envs[i]));
-// 		write(STDOUT_FILENO, "\n", 1);
-// 		i++;
-// 	}
-// }
