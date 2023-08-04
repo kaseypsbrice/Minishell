@@ -98,9 +98,21 @@ typedef struct s_mini
 /* Struct for Environment Variables */
 typedef struct s_env
 {
-	char	*name;
+	// --------------
+	char	*cur_envvar;
+    char	*cur_key;
+    char	*cur_value;
+	// ---------------
+	char	*key;
 	char	*value;
 }	t_env;
+
+/* ---------------- Environment Functions -------------------*/
+t_list		*store_envvars(char **envp);
+void		free_envvars(t_list *envvar_list);
+/* Just surrounding this in code comments since I'm working on it */
+/* And this list is huge :P It gets confusing where everything is */
+/* ----------------------------------------------------------*/
 
 /* TERMIOS */
 void		restore_term_settings(struct termios *original_attr);
@@ -115,13 +127,10 @@ void		restore_prompt(int sig);
 void		back_slash(int sig);
 void		run_signals(int sig);
 
-/* Environment Functions */
-t_env	*tokenise_env(char **envp);
-
 /* Main + Utils */
 int			execute_command(t_cmd *cmd);
 int			is_builtin(char *command);
-int	exec_builtins(t_cmd *cmd, char **envp);
+int			exec_builtins(t_cmd *cmd);
 void		print_prompt(void);
 int			is_directory(const char *path);
 char		*ft_strjoinf(char *s1, char *s2, int which);

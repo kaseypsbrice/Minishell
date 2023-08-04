@@ -80,6 +80,7 @@ int	execute_command(t_cmd *cmd)
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_list	*envvar_list = store_envvars(envp);
 	char	*input;
 	char	*temp;
 	t_mini	*cmdline;
