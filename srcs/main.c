@@ -81,32 +81,31 @@ int	execute_command(t_cmd *cmd)
 int	main(int argc, char **argv, char **envp)
 {
 	t_list	*envvar_list = store_envvars(envp);
-	// char	*input;
-	// char	*temp;
-	// t_mini	*cmdline;
+	char	*input;
+	char	*temp;
+	t_mini	*cmdline;
 
-	// temp = NULL;
-	// (void)argc;
-	// (void)argv;
-	print_envvars(envvar_list);
-	// while (1)
-	// {
-	// 	print_prompt();
-	// 	run_signals(1);
-	// 	input = readline(temp);
-	// 	if (!input)
-	// 		break ;
-	// 	add_history(input);
-	// 	if (ft_strcmp(input, "") == 0)
-	// 	{
-	// 		free(input);
-	// 		printf("\n");
-	// 		continue ;
-	// 	}
-	// 	cmdline = new_cmdline(input);
-	// 	process(cmdline);
-	// 	del_cmdline(cmdline);
-	// 	free(input);
-	// }
+	temp = NULL;
+	(void)argc;
+	(void)argv;
+	while (1)
+	{
+		print_prompt();
+		run_signals(1);
+		input = readline(temp);
+		if (!input)
+			break ;
+		add_history(input);
+		if (ft_strcmp(input, "") == 0)
+		{
+			free(input);
+			printf("\n");
+			continue ;
+		}
+		cmdline = new_cmdline(input);
+		process(cmdline, envvar_list);
+		del_cmdline(cmdline);
+		free(input);
+	}
 	return (0);
 }

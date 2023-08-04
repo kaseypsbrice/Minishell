@@ -27,7 +27,7 @@ void	free_envvar(t_env *envvar)
 	free(envvar);
 }
 
-void	free_envvars(t_list *envvar_list)
+void	free_envvar_list(t_list *envvar_list)
 {
 	t_list *current = envvar_list;
 	while (current)
@@ -40,7 +40,7 @@ void	free_envvars(t_list *envvar_list)
 	}
 }
 
-void	print_envvars(t_list *envvar_list)
+void	ft_env(t_list *envvar_list)
 {
 	t_list	*current = envvar_list;
 	while (current)

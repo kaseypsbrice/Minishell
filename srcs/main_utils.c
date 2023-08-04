@@ -46,7 +46,7 @@ int	is_builtin(char *command)
 	return (0);
 }
 
-int	exec_builtins(t_cmd *cmd)
+int	exec_builtins(t_cmd *cmd, t_list *envp)
 {
 	if (!ft_strcmp(cmd->name, "cd"))
 		ft_cd(((t_tok *)(cmd->args->data))->str);
@@ -58,8 +58,8 @@ int	exec_builtins(t_cmd *cmd)
 	// 	ft_exit();
 	else if (!ft_strcmp(cmd->name, "echo"))
 	 	ft_echo(((t_tok *)(cmd->args->data))->str);
-	// else if (!ft_strcmp(cmd->name, "env"))
-	// 	ft_env(envp);
+	else if (!ft_strcmp(cmd->name, "env"))
+		ft_env(envp);
 	else
 		return (0);
 	return (1);
@@ -67,3 +67,6 @@ int	exec_builtins(t_cmd *cmd)
 // No longer passes command[1] to cd.
 // Works the same way as before, still don't know how to prevent
 // double output.
+// 
+// EDIT: Okkkkkkkk, cd doesn't want to work now but echo still works? -.-
+// For now I'll move onto the other builtins, I'll figure it out once I'm back at 42.

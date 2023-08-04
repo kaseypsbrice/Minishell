@@ -109,8 +109,9 @@ typedef struct s_env
 
 /* ---------------- Environment Functions -------------------*/
 t_list		*store_envvars(char **envp);
-void		free_envvars(t_list *envvar_list);
-void		print_envvars(t_list *envvar_list);
+void		free_envvar(t_env *envvar);
+void		free_envvar_list(t_list *envvar_list);
+void		ft_env(t_list *envvar_list);
 /* Just surrounding this in code comments since I'm working on it */
 /* And this list is huge :P It gets confusing where everything is */
 /* ----------------------------------------------------------*/
@@ -131,7 +132,7 @@ void		run_signals(int sig);
 /* Main + Utils */
 int			execute_command(t_cmd *cmd);
 int			is_builtin(char *command);
-int			exec_builtins(t_cmd *cmd);
+int			exec_builtins(t_cmd *cmd, t_list *envp);
 void		print_prompt(void);
 int			is_directory(const char *path);
 char		*ft_strjoinf(char *s1, char *s2, int which);
@@ -161,7 +162,7 @@ t_list		*get_tokens(char *str);
 void		remove_quotes(char *str);
 
 /* Process + Utils */
-void		process(t_mini *cmdline);
+void		process(t_mini *cmdline, t_list *envp);
 int			update_pipes(t_mini *cmdline, int i);
 int			init_pipes(t_mini *cmdline);
 
@@ -176,7 +177,6 @@ int			ft_cd(char *path);
 int			ft_pwd(void);
 int			ft_echo();
 // int 		ft_exit(char **cmd); 
-void ft_env(t_env *env_list);
 
 /* Remakes */
 int			ft_strcmp(const char *s1, const char *s2);
