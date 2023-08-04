@@ -110,6 +110,7 @@ typedef struct s_env
 /* ---------------- Environment Functions -------------------*/
 t_list		*store_envvars(char **envp);
 void		free_envvars(t_list *envvar_list);
+void		print_envvars(t_list *envvar_list);
 /* Just surrounding this in code comments since I'm working on it */
 /* And this list is huge :P It gets confusing where everything is */
 /* ----------------------------------------------------------*/
