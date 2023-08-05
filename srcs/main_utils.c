@@ -46,7 +46,7 @@ int	is_builtin(char *command)
 	return (0);
 }
 
-int	exec_builtins(t_cmd *cmd, t_list *envp)
+int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 {
 	if (!ft_strcmp(cmd->name, "cd"))
 		ft_cd(((t_tok *)(cmd->args->data))->str);
@@ -59,7 +59,9 @@ int	exec_builtins(t_cmd *cmd, t_list *envp)
 	else if (!ft_strcmp(cmd->name, "echo"))
 	 	ft_echo(((t_tok *)(cmd->args->data))->str);
 	else if (!ft_strcmp(cmd->name, "env"))
-		ft_env(envp);
+		ft_env(envvar_list);
+	else if (!ft_strcmp(cmd->name, "export"))
+		ft_export((((t_tok *)(cmd->args->data))->str), envvar_list);
 	else
 		return (0);
 	return (1);

@@ -79,39 +79,3 @@ int	ft_echo(char **command)
 		printf("\n");
 	return (EXIT_SUCCESS);
 }
-
-/*
-int	ft_echo(char **command)
-{
-	int		i;
-	int		j;
-	bool	n_option;
-
-	i = 1;
-	n_option = false;
-	while (command[i] && command[i][0] == '-' && command[i][1] == 'n')
-	{
-		j = 1;
-		while (command[i][j] == 'n')
-			j++;
-		if (command[i][j] == '\0')
-		{
-			n_option = true;
-			i++;
-		}
-		else
-			break ;
-	}
-	while (command[i])
-	{
-		printf("%s", command[i]);
-		if (command[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (!n_option)
-		printf("\n");
-	return (EXIT_SUCCESS);
-}
-*/
-/* More than 25 lines */

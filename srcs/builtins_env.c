@@ -19,7 +19,7 @@ t_list *store_envvars(char **envp)
 	}
 	return (envvar_list);
 }
-/* What was I even doing before...? */
+// I'm pretty much stealing the envp variables from the int main
 
 void	free_envvar(t_env *envvar)
 {
@@ -50,3 +50,4 @@ void	ft_env(t_list *envvar_list)
 		current = current->next;
 	}
 }
+// Prints the list of environment variables. 

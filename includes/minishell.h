@@ -112,6 +112,9 @@ t_list		*store_envvars(char **envp);
 void		free_envvar(t_env *envvar);
 void		free_envvar_list(t_list *envvar_list);
 void		ft_env(t_list *envvar_list);
+/* ---------------- Export Functions ------------------------*/
+void		ft_export(char **argv, t_list **envvar_list);
+// void		set_env();
 /* Just surrounding this in code comments since I'm working on it */
 /* And this list is huge :P It gets confusing where everything is */
 /* ----------------------------------------------------------*/
