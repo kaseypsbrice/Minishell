@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:22:37 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 11:13:28 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 12:15:48 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 	// else if (!ft_strcmp(cmd->name, "exit"))
 	// 	ft_exit();
 	else if (!ft_strcmp(cmd->name, "echo"))
-		ft_echo(((t_tok *)(cmd->args->data))->str); // ??
+		ft_echo(cmd->argv); // ??
 	else if (!ft_strcmp(cmd->name, "env"))
 		ft_env(envvar_list);
 	else if (!ft_strcmp(cmd->name, "export"))
@@ -68,6 +68,9 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 	}
 	return (1);
 }
+// ft_echo(((t_tok *)(cmd->args->data))->str); // double outputs only newlines, seg faults with no args.
+// ft_echo(cmd->argv); // The issue is mainly double output with this one, no seg faults.
+//
 // No longer passes command[1] to cd.
 // Double ouput is the least of our concerns.
 // 
