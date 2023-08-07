@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_exit_status = 0;
+
 void	print_prompt(void)
 {
 	char		cwd[BUFF];
@@ -52,13 +54,14 @@ void	print_prompt(void)
 int	execute_command(t_cmd *cmd, t_list *envvar_list)
 {
 	pid_t	child_pid;
-	int		status;
 	char	*env[1];
 
 	env[0] = NULL;
-	if (!is_builtin(cmd->name) && cmd->path == NULL)
+	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd"))
+		return (exec_builtins(cmd, envvar_list));
+	if (!cmd->builtin && cmd->path == NULL)
 		return (command_not_found(cmd->name));
-	if (!is_builtin(cmd->name) && is_directory(cmd->path))
+	if (!cmd->builtin && is_directory(cmd->path))
 		return (command_is_directory(cmd->path));
 	child_pid = fork();
 	if (child_pid < 0)
@@ -69,16 +72,17 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 			dup2(cmd->fd_in, STDIN_FILENO);
 		if (cmd->fd_out != -1)
 			dup2(cmd->fd_out, STDOUT_FILENO);
-		if (is_builtin(cmd->name))
-			exit(exec_builtins(cmd, envvar_list));	
+		if (cmd->builtin)
+			exit(exec_builtins(cmd, envvar_list));
 		execve(cmd->path, cmd->argv, env);
 		display_errno(cmd->path);
 		exit (1);
 	}
 	close(cmd->fd_out);
-	waitpid(child_pid, &status, WUNTRACED);
+	waitpid(child_pid, &g_exit_status, WUNTRACED);
+	g_exit_status = WEXITSTATUS(g_exit_status);
 	close(cmd->fd_in);
-	return (status);
+	return (g_exit_status);
 }
 
 int	main(int argc, char **argv, char **envp)

@@ -80,6 +80,7 @@ typedef struct s_cmd
 	char	**argv;
 	int		fd_in;
 	int		fd_out;
+	int		builtin;
 }	t_cmd;
 
 /* Minishell General Purpose Variables */
@@ -126,7 +127,7 @@ void		ft_suppress_output(void);
 
 /* Global Variable */
 /* Keeps track of exit statuses and the reason for terminating the program. */
-/* extern int	g_exit_status; */
+extern int	g_exit_status;
 
 /* Signals */
 void		restore_prompt(int sig);
@@ -177,7 +178,7 @@ int			heredoc(t_cmd *cmd, char *eof);
 char		*do_expansions(char *str);
 
 /* Built-ins */
-int			ft_cd(char *path);
+int			ft_cd(char **argv);
 int			ft_pwd(void);
 int			ft_echo();
 // int 		ft_exit(char **cmd); 

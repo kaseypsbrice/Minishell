@@ -82,6 +82,9 @@ t_cmd	*get_command(t_list	**toks)
 		perror_exit("cmd malloc failed", 1);
 	cmd->args = get_args((*toks)->next);
 	cmd->redirs = get_redirs((*toks)->next);
+	cmd->builtin = 0;
+	if (is_builtin(((t_tok *)(*toks)->data)->str))
+		cmd->builtin = 1;
 	cmd->name = find_command_name(((t_tok *)(*toks)->data)->str);
 	cmd->path = find_command_path(((t_tok *)(*toks)->data)->str);
 	cmd->fd_in = -1;

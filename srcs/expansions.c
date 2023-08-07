@@ -15,7 +15,7 @@
 /*	Takes a str and index of a '$' eg: {dog$HOME'cat'}
 	and returns {dog'/'home'/'alex'cat'} 
 	pass 0 into len for norm	*/
-char	*expand_env(char *str, int *idx, int len)
+char	*_expand_env(char *str, int *idx, int len)
 {
 	char	*name;
 	char	*var;
@@ -50,6 +50,33 @@ char	*expand_env(char *str, int *idx, int len)
 	so the do_expansions loop skips to the end: dog/home/alex(HERE)'cat'.
 */
 
+char	*expand_env(char *str, int *idx, int len)
+{
+	char	*var;
+	char	*new;
+
+	if (!ft_isalnum(str[*idx + 1]) && str[*idx + 1] != '?')
+		return (str);
+	if (str[*idx + 1] == '?')
+	{
+		var = ft_itoa(g_exit_status);
+		if (!var)
+			perror_exit("env var malloc failed", 1);
+		new = malloc((ft_strlen(str) + ft_strlen(var) - len) * sizeof(char));
+		if (!new)
+			perror_exit("env malloc failed", 1);
+		ft_strlcpy(new, str, *idx + 1);
+		ft_strlcat(new, var, ft_strlen(var) + ft_strlen(str));
+		ft_strlcat(new, (str + *idx + 2), ft_strlen(var) \
+		+ ft_strlen(str) + 1);
+		free(str);
+		*idx += ft_strlen(var) - 1;
+		free(var);
+		return (new);
+	}
+	return (_expand_env(str, idx, len));
+}
+
 /* Expands environment variables in the input string.
 */
 char	*do_expansions(char *str)
@@ -72,7 +99,7 @@ char	*do_expansions(char *str)
 			else if (res[i] == last_quote)
 				last_quote = 0;
 		}
-		else if (res[i] == '$' && last_quote != '\'' && ft_isalnum(str[i + 1]))
+		else if (res[i] == '$' && last_quote != '\'')
 			res = expand_env(res, &i, 0);
 		i++;
 	}

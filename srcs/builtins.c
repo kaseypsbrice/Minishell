@@ -12,21 +12,18 @@
 
 #include "minishell.h"
 
-int	ft_cd(char *path)
+int	ft_cd(char **argv)
 {
-	char	*home_dir;
-
-	if (path == NULL || path[0] == '\0' || path[0] == ' ')
+	if (!argv[1] || !argv[1][0] || argv[1][0] == ' ')
 	{
-		home_dir = getenv("HOME");
-		if (home_dir == NULL)
+		argv[1] = getenv("HOME");
+		if (argv[1] == NULL)
 		{
 			perror("Home directory error");
 			return (1);
 		}
-		path = home_dir;
 	}
-	return (chdir(path));
+	return (chdir(argv[1]));
 }
 /* If there's no path, then the cd command will return to the home directory. 
  * Othewise, it'll change the directory to the specified path. 

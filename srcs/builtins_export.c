@@ -47,6 +47,7 @@ void	set_envvar(t_list **envvar_list, char *key, char *value)
 	t_list	*new_node;
 	t_env	*envvar;
 
+	printf("envvar pointer set_envvar %p\n", *envvar_list);
 	current = *envvar_list;
 	while (current) 
 	{
@@ -64,6 +65,7 @@ void	set_envvar(t_list **envvar_list, char *key, char *value)
 	new_envvar->cur_value = ft_strdup(value);
 	new_node = ft_lstnew(new_envvar);
 	ft_lstadd_back(envvar_list, new_node);
+	ft_env(*envvar_list);
 }
 // Iterates through the list to check if the variable exists
 // If the variable exists it updates its value and returns
@@ -75,7 +77,7 @@ int	ft_export(char **args, t_list **envvar_list)
 	char	**temp;
 
 	i = 1;
-	// printf("Export command running...");
+	printf("envvar pointer ft_export%p\n", *envvar_list);
 	if (!args[i])
 	{
 		ft_env(*envvar_list);
@@ -92,6 +94,7 @@ int	ft_export(char **args, t_list **envvar_list)
 		{
 			temp = split_expvar(args[i]);
 			set_envvar(envvar_list, temp[0], temp[1]);
+			ft_env(*envvar_list);
 			free(temp);
 		}
 		i++;
