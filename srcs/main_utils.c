@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:22:37 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/03 15:57:03 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 10:25:17 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,26 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 {
 	if (!ft_strcmp(cmd->name, "cd"))
 		ft_cd(((t_tok *)(cmd->args->data))->str);
-	/*else if (!ft_strcmp(command[0], "$?"))
-		ft_exit_status();*/
 	else if (!ft_strcmp(cmd->name, "pwd"))
 		ft_pwd();
 	// else if (!ft_strcmp(cmd->name, "exit"))
 	// 	ft_exit();
 	else if (!ft_strcmp(cmd->name, "echo"))
-	 	ft_echo(((t_tok *)(cmd->args->data))->str);
+	 	ft_echo(((t_tok *)(cmd->args->data))->str); // ??
 	else if (!ft_strcmp(cmd->name, "env"))
 		ft_env(envvar_list);
 	else if (!ft_strcmp(cmd->name, "export"))
-		ft_export((((t_tok *)(cmd->args->data))->str), envvar_list);
+		ft_export(cmd->argv, &envvar_list); // Tried switching this around multiple times
 	else
+	{
+		free(cmd);
+		free(envvar_list);
 		return (0);
+	}
 	return (1);
 }
 // No longer passes command[1] to cd.
-// Works the same way as before, still don't know how to prevent
-// double output.
+// Double ouput is the least of our concerns.
 // 
 // EDIT: Okkkkkkkk, cd doesn't want to work now but echo still works? -.-
-// For now I'll move onto the other builtins, I'll figure it out once I'm back at 42.
+// EDIT 2.0: So cd just doesn't want to work on my home computer :P

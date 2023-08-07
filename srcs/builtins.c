@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/03 15:57:50 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 10:22:54 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	ft_cd(char *path)
 /* If there's no path, then the cd command will return to the home directory. 
  * Othewise, it'll change the directory to the specified path. 
  */
+// [!] Suddenly Home is not set ??
 
 int	ft_pwd(void)
 {
@@ -59,6 +60,11 @@ int	ft_echo(char **command)
 
 	i = 1;
 	n_option = false;
+	if (command[i] == NULL)
+	{
+		write(1, "\n", 1);
+		return (EXIT_SUCCESS);
+	}
 	while (command[i] && command[i][0] == '-' && command[i][1] == 'n')
 	{
 		j = 1;
@@ -72,10 +78,16 @@ int	ft_echo(char **command)
 		else
 			break ;
 	}
-	while (command[i] && (printf("%s", command[i]), \
-	command[i + 1] && printf(" "), i++))
-		;
+	while (command[i])
+	{
+		printf("%s", command[i]);
+		if (command[i + 1])
+			printf(" ");
+		i++;
+	}
 	if (!n_option)
 		printf("\n");
 	return (EXIT_SUCCESS);
 }
+// [!] Produces seg fault when it's run without any arguments
+// Norm Errors: Function has more than 25 lines.

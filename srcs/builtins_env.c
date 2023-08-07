@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-// Oh, look. I'm back from rage quitting.
 t_list *store_envvars(char **envp)
 {
 	t_list	*envvar_list = NULL;
@@ -51,3 +50,4 @@ void	ft_env(t_list *envvar_list)
 	}
 }
 // Prints the list of environment variables. 
+// This is one of the only builtins that works perfectly right now T_T
