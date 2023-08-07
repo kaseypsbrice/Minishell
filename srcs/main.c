@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/03 15:31:26 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 11:15:26 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	execute_command(t_cmd *cmd)
 	if (child_pid == 0)
 	{
 		if (cmd->fd_in != -1)
-			dup2(cmd->fd_in , STDIN_FILENO);
+			dup2(cmd->fd_in, STDIN_FILENO);
 		if (cmd->fd_out != -1)
 			dup2(cmd->fd_out, STDOUT_FILENO);
 		execve(cmd->path, cmd->argv, env);
@@ -80,11 +80,12 @@ int	execute_command(t_cmd *cmd)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_list	*envvar_list = store_envvars(envp);
+	t_list	*envvar_list;
 	char	*input;
 	char	*temp;
 	t_mini	*cmdline;
 
+	envvar_list = store_envvars(envp);
 	temp = NULL;
 	(void)argc;
 	(void)argv;
@@ -109,3 +110,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+// Over 25 lines

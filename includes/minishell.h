@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/08/07 09:19:09 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 10:33:45 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ void		free_envvar(t_env *envvar);
 void		free_envvar_list(t_list *envvar_list);
 void		ft_env(t_list *envvar_list);
 /* ---------------- Export Functions ------------------------*/
-int		ft_export(char **args, t_list **envvar_list);
-void    set_envvar(t_list **envvar_list, char *key, char *value);
+int			ft_export(char **args, t_list **envvar_list);
+void		set_envvar(t_list **envvar_list, char *key, char *value);
 // void		set_env();
 /* Just surrounding this in code comments since I'm working on it */
 /* And this list is huge :P It gets confusing where everything is */

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 10:55:28 by kbrice            #+#    #+#             */
+/*   Updated: 2023/08/07 11:16:33 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	can_exec(char *path)
 {
-	struct stat statbuf;
+	struct stat	statbuf;
 
 	if (stat(path, &statbuf) != 0)
 		return (0);
@@ -31,7 +43,7 @@ char	*find_abs_path(char *cmd)
 
 int	str_isspace(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (str[++i])

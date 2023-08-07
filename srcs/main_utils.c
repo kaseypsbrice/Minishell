@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:22:37 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 10:25:17 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 11:13:28 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	is_directory(const char *path)
 
 int	is_builtin(char *command)
 {
-	if (!ft_strcmp(command, "cd") ||
-		!ft_strcmp(command, "pwd") ||
+	if (!ft_strcmp(command, "cd") || \
+		!ft_strcmp(command, "pwd") || \
 		!ft_strcmp(command, "echo"))
-			return (1);
+		return (1);
 	return (0);
 }
 
@@ -55,7 +55,7 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 	// else if (!ft_strcmp(cmd->name, "exit"))
 	// 	ft_exit();
 	else if (!ft_strcmp(cmd->name, "echo"))
-	 	ft_echo(((t_tok *)(cmd->args->data))->str); // ??
+		ft_echo(((t_tok *)(cmd->args->data))->str); // ??
 	else if (!ft_strcmp(cmd->name, "env"))
 		ft_env(envvar_list);
 	else if (!ft_strcmp(cmd->name, "export"))

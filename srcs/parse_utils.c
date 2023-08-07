@@ -6,13 +6,13 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:14:38 by kbrice            #+#    #+#             */
-/*   Updated: 2023/07/19 09:15:58 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 11:15:53 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_quote(char c)
+int	is_quote(char c)
 {
 	if (c == '\'' || c == '\"' || c == '`')
 		return (1);
@@ -43,5 +43,3 @@ void	remove_at(char *str, int index)
 	while (++i < len)
 		str[i] = str[i + 1];
 }
-
-

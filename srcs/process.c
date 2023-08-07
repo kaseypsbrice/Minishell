@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:22:09 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/03 15:26:20 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 11:17:23 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*	Attempts to open a file for redirection
 	Returns 0 on success
 	Failure prints error and returns 1	*/
-int try_open(t_cmd *cmd, t_tok *redir)
+int	try_open(t_cmd *cmd, t_tok *redir)
 {
 	int	fd;
 
