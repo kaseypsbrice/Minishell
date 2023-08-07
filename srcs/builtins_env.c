@@ -58,7 +58,7 @@ void	free_envvar_list(t_list *envvar_list)
 	}
 }
 
-void	ft_env(t_list *envvar_list)
+int	ft_env(t_list *envvar_list)
 {
 	t_list	*current;
 	t_env	*envvar;
@@ -70,6 +70,7 @@ void	ft_env(t_list *envvar_list)
 		printf("%s=%s\n", envvar->cur_key, envvar->cur_value);
 		current = current->next;
 	}
+	return (0);
 }
 // Prints the list of environment variables. 
 // This is one of the only builtins that works perfectly right now T_T

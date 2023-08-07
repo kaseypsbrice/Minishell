@@ -101,7 +101,7 @@ void	process(t_mini *cmdline, t_list *envvar_list) // Also added envp here, chan
 		if (cur->next)
 			((t_cmd *)cur->next->data)->fd_in = \
 			cmdline->pipes[i % 2][PIPE_READ];
-		if (execute_command(cmd))
+		if (execute_command(cmd, envvar_list))
 			return ;
 		close(cmdline->pipes[i % 2][PIPE_WRITE]);
 		i = update_pipes(cmdline, i + 1);
@@ -110,7 +110,6 @@ void	process(t_mini *cmdline, t_list *envvar_list) // Also added envp here, chan
 	close(cmdline->pipes[i % 2][PIPE_READ]);
 	if (i > 0)
 		close(cmdline->pipes[(i + 1) % 2][PIPE_WRITE]);
-	exec_builtins(cmd, envvar_list); // Feel free to move this somewhere else, just needed it for testing. Still provides double ouput for pwd & echo.
 }
 /*	Right Pipe = (i % 2), Left Pipe = ((i + 1) % 2)	
 	handle_redirects opens the required files for the operators.

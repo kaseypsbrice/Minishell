@@ -111,7 +111,7 @@ typedef struct s_env
 t_list		*store_envvars(char **envp);
 void		free_envvar(t_env *envvar);
 void		free_envvar_list(t_list *envvar_list);
-void		ft_env(t_list *envvar_list);
+int			ft_env(t_list *envvar_list);
 /* ---------------- Export Functions ------------------------*/
 int			ft_export(char **args, t_list **envvar_list);
 void		set_envvar(t_list **envvar_list, char *key, char *value);
@@ -134,7 +134,7 @@ void		back_slash(int sig);
 void		run_signals(int sig);
 
 /* Main + Utils */
-int			execute_command(t_cmd *cmd);
+int			execute_command(t_cmd *cmd, t_list *envvar_list);
 int			is_builtin(char *command);
 int			exec_builtins(t_cmd *cmd, t_list *envp);
 void		print_prompt(void);

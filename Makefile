@@ -19,7 +19,7 @@ HEADER = ./includes/
 CC = gcc
 
 #FLAGS = -Wall -Wextra -Werror -Iincludes -Iusr/local/opt/readline/include/
-FLAGS = -Iincludes -Iusr/local/opt/readline/include/ -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -Iincludes -Iusr/local/opt/readline/include/ -Wall -Werror -Wextra
 ## Added address sanitiser to the above
 
 LINK_RL = /usr/local/opt/readline/lib

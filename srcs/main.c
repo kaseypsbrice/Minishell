@@ -49,16 +49,16 @@ void	print_prompt(void)
  * strings before printing to the ouput using printf.
  */
 
-int	execute_command(t_cmd *cmd)
+int	execute_command(t_cmd *cmd, t_list *envvar_list)
 {
 	pid_t	child_pid;
 	int		status;
 	char	*env[1];
 
 	env[0] = NULL;
-	if (cmd->path == NULL)
+	if (!is_builtin(cmd->name) && cmd->path == NULL)
 		return (command_not_found(cmd->name));
-	if (is_directory(cmd->path))
+	if (!is_builtin(cmd->name) && is_directory(cmd->path))
 		return (command_is_directory(cmd->path));
 	child_pid = fork();
 	if (child_pid < 0)
@@ -69,8 +69,11 @@ int	execute_command(t_cmd *cmd)
 			dup2(cmd->fd_in, STDIN_FILENO);
 		if (cmd->fd_out != -1)
 			dup2(cmd->fd_out, STDOUT_FILENO);
+		if (is_builtin(cmd->name))
+			exit(exec_builtins(cmd, envvar_list));	
 		execve(cmd->path, cmd->argv, env);
 		display_errno(cmd->path);
+		exit (1);
 	}
 	close(cmd->fd_out);
 	waitpid(child_pid, &status, WUNTRACED);

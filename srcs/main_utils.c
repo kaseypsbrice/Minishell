@@ -41,7 +41,9 @@ int	is_builtin(char *command)
 {
 	if (!ft_strcmp(command, "cd") || \
 		!ft_strcmp(command, "pwd") || \
-		!ft_strcmp(command, "echo"))
+		!ft_strcmp(command, "echo") || \
+		!ft_strcmp(command, "env") || \
+		!ft_strcmp(command, "export"))
 		return (1);
 	return (0);
 }
@@ -49,23 +51,19 @@ int	is_builtin(char *command)
 int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 {
 	if (!ft_strcmp(cmd->name, "cd"))
-		ft_cd(((t_tok *)(cmd->args->data))->str);
+		return (ft_cd(((t_tok *)(cmd->args->data))->str));
 	else if (!ft_strcmp(cmd->name, "pwd"))
-		ft_pwd();
+		return (ft_pwd());
 	// else if (!ft_strcmp(cmd->name, "exit"))
 	// 	ft_exit();
 	else if (!ft_strcmp(cmd->name, "echo"))
-		ft_echo(cmd->argv); // ??
+		return (ft_echo(cmd->argv)); // ??
 	else if (!ft_strcmp(cmd->name, "env"))
-		ft_env(envvar_list);
+		return (ft_env(envvar_list));
 	else if (!ft_strcmp(cmd->name, "export"))
-		ft_export(cmd->argv, &envvar_list); // Tried switching this around multiple times
+		return (ft_export(cmd->argv, &envvar_list)); // Tried switching this around multiple times
 	else
-	{
-		free(cmd);
-		free(envvar_list);
-		return (0);
-	}
+	free(envvar_list);
 	return (1);
 }
 // ft_echo(((t_tok *)(cmd->args->data))->str); // double outputs only newlines, seg faults with no args.
