@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:53:49 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 11:10:36 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 15:19:41 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,3 +104,31 @@ int	ft_export(char **args, t_list **envvar_list)
 // WIP
 // [!] export command not found
 // Norm Error: Over 25 lines
+
+// void    ft_unset(char **var_name, t_list **envvar_list)
+// {
+//     t_list  *current;
+//     t_list  *prev;
+//     t_env   *envvar;
+
+//     current = *envvar_list;
+//     prev = NULL;
+//     while (current != NULL)
+//     {
+//         envvar = (t_env *)current->data;
+//         if (strcmp(envvar->cur_key, *var_name) == 0)
+//         {
+//             if (prev == NULL)
+//                 *envvar_list = current->next;
+//             else
+//                 prev->next = current->next;
+//             free_envvar(envvar);
+//             free(current);
+//             return ;
+//         }
+//         prev = current;
+//         current = current->next;
+//     }
+// }
+// Loops through the list of environment variables 
+// to find the variable to be removed.

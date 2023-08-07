@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/08/07 12:15:12 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/07 14:15:05 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,6 @@ int			ft_env(t_list *envvar_list);
 /* ---------------- Export Functions ------------------------*/
 int			ft_export(char **args, t_list **envvar_list);
 void		set_envvar(t_list **envvar_list, char *key, char *value);
-// void		set_env();
-/* Just surrounding this in code comments since I'm working on it */
-/* And this list is huge :P It gets confusing where everything is */
-/* ----------------------------------------------------------*/
 
 /* TERMIOS */
 void		restore_term_settings(struct termios *original_attr);
@@ -137,7 +133,7 @@ void		run_signals(int sig);
 /* Main + Utils */
 int			execute_command(t_cmd *cmd, t_list *envvar_list);
 int			is_builtin(char *command);
-int			exec_builtins(t_cmd *cmd, t_list *envp);
+int			exec_builtins(t_cmd *cmd, t_list *envvar_list);
 void		print_prompt(void);
 int			is_directory(const char *path);
 char		*ft_strjoinf(char *s1, char *s2, int which);
@@ -167,7 +163,7 @@ t_list		*get_tokens(char *str);
 void		remove_quotes(char *str);
 
 /* Process + Utils */
-void		process(t_mini *cmdline, t_list *envp);
+void		process(t_mini *cmdline, t_list *envvar_list);
 int			update_pipes(t_mini *cmdline, int i);
 int			init_pipes(t_mini *cmdline);
 
