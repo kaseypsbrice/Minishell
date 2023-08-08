@@ -42,6 +42,7 @@ t_list	*store_envvars(char **envp)
 	int		i;
 	t_env	*envvars;
 	t_list	*new_node;
+	char	**split;
 
 	envvar_list = NULL;
 	i = 0;
@@ -49,8 +50,10 @@ t_list	*store_envvars(char **envp)
 	{
 		envvars = (t_env *)malloc(sizeof(t_env));
 		envvars->cur_envvar = ft_strdup(envp[i]);
-		envvars->cur_key = strtok(envvars->cur_envvar, "=");
-		envvars->cur_value = strtok(NULL, "=");
+		split = ft_split(envvars->cur_envvar, '=');
+		envvars->cur_key = split[0];
+		envvars->cur_value = split[1];
+		free(split);
 		new_node = ft_lstnew(envvars);
 		ft_lstadd_front(&envvar_list, new_node);
 		i++;
@@ -58,6 +61,10 @@ t_list	*store_envvars(char **envp)
 	return (envvar_list);
 }
 // I'm pretty much stealing the envp variables from the int main
+// Replaced strtok with ft_split because strtok does't malloc
+// it just returns a pointer to a different character of the string
+// This causes crashes when trying to export vars stolen from main
+// because you're trying to free a pointer that wasn't malloc'd
 
 void	free_envvar(t_env *envvar)
 {

@@ -32,7 +32,7 @@ static bool	valid_envvar(char *var)
 		return (false);
 	while (var[i] && var[i] != '=')
 	{
-		if (ft_isalnum(var[i] != '='))
+		if (ft_isalnum(var[i] != '=')) // <- what is going on here
 			return (false);
 		i++;
 	}

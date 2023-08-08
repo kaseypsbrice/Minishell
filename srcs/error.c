@@ -53,6 +53,8 @@ int	display_errno(char *str)
 		ft_putstr_fd(strerror(errnum), 2);
 	ft_putstr_fd("\n", 2);
 	g_exit_status = errnum;
+	if (errnum == 2)
+		g_exit_status = 1;
 	return (1);
 }
 

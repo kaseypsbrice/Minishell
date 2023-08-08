@@ -73,7 +73,7 @@ t_list	*get_redirs(t_list *toks)
 	I could easily make them one function but this is more readable	*/
 
 /*	Creates a cmd from the tokens list and advances it to the next command	*/
-t_cmd	*get_command(t_list	**toks)
+t_cmd	*get_command(t_list	**toks, t_list *envvar_list)
 {
 	t_cmd	*cmd;
 
@@ -86,7 +86,7 @@ t_cmd	*get_command(t_list	**toks)
 	if (is_builtin(((t_tok *)(*toks)->data)->str))
 		cmd->builtin = 1;
 	cmd->name = find_command_name(((t_tok *)(*toks)->data)->str);
-	cmd->path = find_command_path(((t_tok *)(*toks)->data)->str);
+	cmd->path = find_command_path(((t_tok *)(*toks)->data)->str, envvar_list);
 	cmd->fd_in = -1;
 	cmd->fd_out = -1;
 	cmd->argv = assemble_command(cmd);
@@ -102,18 +102,18 @@ t_cmd	*get_command(t_list	**toks)
 	necessary but it makes future fuctions a tad less complex	*/
 
 /*	Scans through tokens to generate a list of t_cmd*s */
-t_list	*get_commands(t_list *toks)
+t_list	*get_commands(t_list *toks, t_list * envvar_list)
 {
 	t_list	*cur_tok;
 	t_list	*cmds;
 	t_list	*cur_cmd;
 
 	cur_tok = toks;
-	cmds = ft_lstnew(get_command(&cur_tok));
+	cmds = ft_lstnew(get_command(&cur_tok, envvar_list));
 	cur_cmd = cmds;
 	while (cur_tok)
 	{
-		cur_cmd->next = ft_lstnew(get_command(&cur_tok));
+		cur_cmd->next = ft_lstnew(get_command(&cur_tok, envvar_list));
 		cur_cmd = cur_cmd->next;
 	}
 	return (cmds);
@@ -131,7 +131,7 @@ t_mini	*new_cmdline(char *str, t_list *envvar_list)
 	if (!cmdline)
 		perror_exit("cmdline malloc failed", 1);
 	cmdline->toks = get_tokens(str, envvar_list);
-	cmdline->cmds = get_commands(cmdline->toks);
+	cmdline->cmds = get_commands(cmdline->toks, envvar_list);
 	return (cmdline);
 }
 /*	Could have put this on the stack but all my homies hate the stack	*/

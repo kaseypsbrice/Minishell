@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+int	is_empty(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (parse_type(str[i]) != P_SPACE)
+			return (0);
+	}
+	return (1);
+}
+
 /*	ft_strjoin but you can choose which string to free	
 	0 = first, 1 = second, >1 = both	*/
 char	*ft_strjoinf(char *s1, char *s2, int which)

@@ -109,10 +109,11 @@ void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input, char *temp)
 		if (!input)
 			break ;
 		add_history(input);
-		if (ft_strcmp(input, "") == 0)
+		if (is_empty(input))
 		{
+			if (!input[0])
+				printf("\n");
 			free(input);
-			printf("\n");
 			continue ;
 		}
 		cmdline = new_cmdline(input, envvar_list);

@@ -68,7 +68,7 @@ char	*add_cwd(char *path)
 	return (path);
 }
 
-char	*find_command_path(char *cmd)
+char	*find_command_path(char *cmd, t_list *envvar_list)
 {
 	char	*absolute_path;
 	char	*env_path;
@@ -81,7 +81,7 @@ char	*find_command_path(char *cmd)
 	absolute_path = find_abs_path(cmd);
 	if (absolute_path != NULL)
 		return (absolute_path);
-	env_path = getenv("PATH");
+	env_path = ft_getenv("PATH", envvar_list);
 	path = strtok(ft_strdup(env_path), ":");
 	tmp = path;
 	while (path)

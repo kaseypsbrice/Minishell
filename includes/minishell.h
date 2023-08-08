@@ -139,10 +139,11 @@ int			exec_builtins(t_cmd *cmd, t_list *envvar_list);
 void		print_prompt(void);
 int			is_directory(const char *path);
 char		*ft_strjoinf(char *s1, char *s2, int which);
+int			is_empty(char *str);
 
 /* Path */
 char		*find_abs_path(char *cmd);
-char		*find_command_path(char *cmd);
+char		*find_command_path(char *cmd, t_list *envvar_list);
 char		*find_command_name(char *cmd);
 
 /* Command + Utils */
@@ -174,6 +175,7 @@ int			heredoc(t_cmd *cmd, char *eof);
 
 /* Expansions */
 char		*do_expansions(char *str, t_list *envvar_list);
+char		*ft_getenv(char *name, t_list *envvar_list);
 
 /* Built-ins */
 int			ft_cd(char **argv);
