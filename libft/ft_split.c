@@ -51,6 +51,7 @@ static void	make_words(char **words, char const *s, char c, size_t n_words)
 		}
 		else
 			*words = ft_substr(s, 0, ft_strlen(s) + 1);
+		printf("new word %s\n", *words);
 		words++;
 	}
 	*words = NULL;

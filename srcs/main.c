@@ -80,17 +80,16 @@ int	_execute_command(t_cmd *cmd, t_list *envvar_list, char **envvar_arr)
 int	execute_command(t_cmd *cmd, t_list *envvar_list)
 {
 	char	**envvar_arr;
-	int		new_status;
 
-	new_status = 0;
 	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd") || \
 	!ft_strcmp(cmd->name, "unset") || !ft_strcmp(cmd->name, "exit"))
-		new_status = exec_builtins(cmd, envvar_list);
-	if (!cmd->builtin && (cmd->path == NULL || is_directory(cmd->path)))
-		new_status = command_not_found(cmd->name);
-	if (new_status != 0)
 	{
-		g_exit_status = new_status;
+		g_exit_status = exec_builtins(cmd, envvar_list);
+		return (g_exit_status);
+	}
+	if (!cmd->builtin && (cmd->path == NULL || is_directory(cmd->path)))
+	{
+		g_exit_status = command_not_found(cmd->name);
 		return (g_exit_status);
 	}
 	envvar_arr = get_env_arr(envvar_list);
@@ -140,5 +139,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	main_loop(envvar_list, cmdline, input, temp);
+	free_envvar_list(envvar_list);
 	return (0);
 }

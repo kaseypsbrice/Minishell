@@ -21,3 +21,22 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
+
+char	**ft_splitone(char const *s, char c)
+{
+	char	**res;
+	int		c_ind;
+
+	res = (char **)malloc(2 * sizeof(char *));
+	if (!res)
+		return (NULL);
+	c_ind = 0;
+	while (s[c_ind] && s[c_ind] != c)
+		c_ind++;
+	res[0] = ft_substr(s, 0, c_ind);
+	//if (s[c_ind + 1])
+	res[1] = ft_substr(s, c_ind + 1, ft_strlen(s) - c_ind - 1);
+	//else
+	//	res[1] = ft_strdup("");
+	return (res);
+}

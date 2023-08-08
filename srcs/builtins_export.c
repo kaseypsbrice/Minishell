@@ -16,7 +16,7 @@ static char	**split_expvar(char *arg)
 {
 	char	**temp;
 
-	temp = ft_split(arg, '=');
+	temp = ft_splitone(arg, '=');
 	return (temp);
 }
 /* Separates the key and the value of the given
@@ -55,14 +55,16 @@ void	set_envvar(t_list **envvar_list, char *key, char *value)
 		if (strcmp(envvar->cur_key, key) == 0) 
 		{
 			free(envvar->cur_value);
-			envvar->cur_value = ft_strdup(value);
+			envvar->cur_value = value;
+			free(key);
 			return ;
 		}
 		current = current->next;
 	}
 	new_envvar = (t_env *)malloc(sizeof(t_env));
-	new_envvar->cur_key = ft_strdup(key);
-	new_envvar->cur_value = ft_strdup(value);
+	new_envvar->cur_key = key;
+	new_envvar->cur_value = value;
+	new_envvar->cur_envvar = ft_strdup("");
 	new_node = ft_lstnew(new_envvar);
 	ft_lstadd_back(envvar_list, new_node);
 }
@@ -81,13 +83,10 @@ int	ft_export(char **args, t_list **envvar_list)
 		ft_env(*envvar_list);
 		return (EXIT_SUCCESS);
 	}
-	printf("Export issue debugging | before args[i] loop\n");
 	while (args[i])
 	{
-		printf("Export issue debugging | In while loop\n");
 		if (valid_envvar(args[i]) == 1)
 		{
-			printf("Export issue debugging | After validity check\n");
 			ft_putstr_fd("export : not a valid env variable\n", STDERR_FILENO);
 			return (EXIT_FAILURE);
 		}

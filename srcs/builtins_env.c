@@ -50,7 +50,7 @@ t_list	*store_envvars(char **envp)
 	{
 		envvars = (t_env *)malloc(sizeof(t_env));
 		envvars->cur_envvar = ft_strdup(envp[i]);
-		split = ft_split(envvars->cur_envvar, '=');
+		split = ft_splitone(envvars->cur_envvar, '=');
 		envvars->cur_key = split[0];
 		envvars->cur_value = split[1];
 		free(split);
@@ -69,6 +69,8 @@ t_list	*store_envvars(char **envp)
 void	free_envvar(t_env *envvar)
 {
 	free(envvar->cur_envvar);
+	free(envvar->cur_key);
+	free(envvar->cur_value);
 	free(envvar);
 }
 
