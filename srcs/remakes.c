@@ -34,9 +34,6 @@ char	**ft_splitone(char const *s, char c)
 	while (s[c_ind] && s[c_ind] != c)
 		c_ind++;
 	res[0] = ft_substr(s, 0, c_ind);
-	//if (s[c_ind + 1])
 	res[1] = ft_substr(s, c_ind + 1, ft_strlen(s) - c_ind - 1);
-	//else
-	//	res[1] = ft_strdup("");
 	return (res);
 }
