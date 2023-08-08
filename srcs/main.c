@@ -57,7 +57,7 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 	char	*env[1];
 
 	env[0] = NULL;
-	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd"))
+	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd") || !ft_strcmp(cmd->name, "unset"))
 		return (exec_builtins(cmd, envvar_list));
 	if (!cmd->builtin && cmd->path == NULL)
 		return (command_not_found(cmd->name));

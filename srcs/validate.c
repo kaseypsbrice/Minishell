@@ -134,6 +134,7 @@ int	validate_input(char *str)
 		invalid_syntax('\n');
 		return (1);
 	}
+	(void)last; // Compiler at home doesn't like that it isn't used.
 	if (!cmd_order(str))
 		return (1);
 	return (0);

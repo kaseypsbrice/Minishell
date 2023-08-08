@@ -116,6 +116,7 @@ int			ft_env(t_list *envvar_list);
 /* ---------------- Export Functions ------------------------*/
 int			ft_export(char **args, t_list **envvar_list);
 void		set_envvar(t_list **envvar_list, char *key, char *value);
+int			ft_unset(char **var_name, t_list **envvar_list);
 
 /* TERMIOS */
 void		restore_term_settings(struct termios *original_attr);

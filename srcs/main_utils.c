@@ -61,7 +61,9 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 	else if (!ft_strcmp(cmd->name, "env"))
 		return (ft_env(envvar_list));
 	else if (!ft_strcmp(cmd->name, "export"))
-		return (ft_export(cmd->argv, &envvar_list)); // Tried switching this around multiple times
+		return (ft_export(cmd->argv, &envvar_list));
+	else if (!ft_strcmp(cmd->name, "unset"))
+		return (ft_unset(cmd->argv, &envvar_list));
 	free(envvar_list);
 	return (1);
 }

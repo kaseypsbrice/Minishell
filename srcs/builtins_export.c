@@ -47,7 +47,6 @@ void	set_envvar(t_list **envvar_list, char *key, char *value)
 	t_list	*new_node;
 	t_env	*envvar;
 
-	printf("envvar pointer set_envvar %p\n", *envvar_list);
 	current = *envvar_list;
 	while (current) 
 	{
@@ -65,7 +64,6 @@ void	set_envvar(t_list **envvar_list, char *key, char *value)
 	new_envvar->cur_value = ft_strdup(value);
 	new_node = ft_lstnew(new_envvar);
 	ft_lstadd_back(envvar_list, new_node);
-	ft_env(*envvar_list);
 }
 // Iterates through the list to check if the variable exists
 // If the variable exists it updates its value and returns
@@ -77,7 +75,6 @@ int	ft_export(char **args, t_list **envvar_list)
 	char	**temp;
 
 	i = 1;
-	printf("envvar pointer ft_export%p\n", *envvar_list);
 	if (!args[i])
 	{
 		ft_env(*envvar_list);
@@ -94,41 +91,37 @@ int	ft_export(char **args, t_list **envvar_list)
 		{
 			temp = split_expvar(args[i]);
 			set_envvar(envvar_list, temp[0], temp[1]);
-			ft_env(*envvar_list);
 			free(temp);
 		}
 		i++;
 	}
 	return (EXIT_SUCCESS);
 }
-// WIP
-// [!] export command not found
-// Norm Error: Over 25 lines
 
-// void    ft_unset(char **var_name, t_list **envvar_list)
-// {
-//     t_list  *current;
-//     t_list  *prev;
-//     t_env   *envvar;
+int	ft_unset(char **var_name, t_list **envvar_list)
+{
+    t_list *current;
+    t_list *prev;
+	t_env *envvar;
 
-//     current = *envvar_list;
-//     prev = NULL;
-//     while (current != NULL)
-//     {
-//         envvar = (t_env *)current->data;
-//         if (strcmp(envvar->cur_key, *var_name) == 0)
-//         {
-//             if (prev == NULL)
-//                 *envvar_list = current->next;
-//             else
-//                 prev->next = current->next;
-//             free_envvar(envvar);
-//             free(current);
-//             return ;
-//         }
-//         prev = current;
-//         current = current->next;
-//     }
-// }
-// Loops through the list of environment variables 
-// to find the variable to be removed.
+	current = *envvar_list;
+	prev = NULL;
+    while (current)
+	{
+        envvar = (t_env *)current->data;
+        if (strcmp(envvar->cur_key, var_name[1]) == 0)
+		{
+            if (prev)
+                prev->next = current->next;
+			else
+                *envvar_list = current->next;
+            ft_lstdelone(current, free);
+            return (EXIT_SUCCESS);
+        }
+        prev = current;
+        current = current->next;
+    }
+	return (EXIT_FAILURE);
+}
+// Loops through the list created by store_envvars
+// to find the environment variable to remove.

@@ -63,7 +63,6 @@ int	ft_env(t_list *envvar_list)
 	t_list	*current;
 	t_env	*envvar;
 
-	printf("envvar pointer ft_env%p\n", envvar_list);
 	current = envvar_list;
 	while (current)
 	{
