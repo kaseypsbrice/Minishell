@@ -97,4 +97,3 @@ int	ft_env(t_list *envvar_list)
 	return (0);
 }
 // Prints the list of environment variables. 
-// This is one of the only builtins that works perfectly right now T_T

@@ -108,16 +108,21 @@ typedef struct s_env
 	char	*value;
 }	t_env;
 
-/* ---------------- Environment Functions -------------------*/
+/* Built-ins */
+int			ft_cd(char **argv);
+int			ft_pwd(void);
+int			ft_echo(char **command);
+int			ft_env(t_list *envvar_list);
+int			ft_export(char **args, t_list **envvar_list);
+int			ft_unset(char **var_name, t_list **envvar_list);
+int			ft_exit(char **argv);
+
+/* Built-in Helper Functions */
 char		**get_env_arr(t_list *envvar_list);
 t_list		*store_envvars(char **envp);
 void		free_envvar(t_env *envvar);
 void		free_envvar_list(t_list *envvar_list);
-int			ft_env(t_list *envvar_list);
-/* ---------------- Export Functions ------------------------*/
-int			ft_export(char **args, t_list **envvar_list);
 void		set_envvar(t_list **envvar_list, char *key, char *value);
-int			ft_unset(char **var_name, t_list **envvar_list);
 
 /* TERMIOS */
 void		restore_term_settings(struct termios *original_attr);
@@ -174,12 +179,6 @@ int			heredoc(t_cmd *cmd, char *eof);
 
 /* Expansions */
 char		*do_expansions(char *str, t_list *envvar_list);
-
-/* Built-ins */
-int			ft_cd(char **argv);
-int			ft_pwd(void);
-int			ft_echo();
-// int 		ft_exit(char **cmd); 
 
 /* Remakes */
 int			ft_strcmp(const char *s1, const char *s2);
