@@ -67,8 +67,8 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 		return (ft_cd(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "pwd"))
 		return (ft_pwd());
-	// else if (!ft_strcmp(cmd->name, "exit"))
-	// 	ft_exit();
+	else if (!ft_strcmp(cmd->name, "exit"))
+		return (ft_exit(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "echo"))
 		return (ft_echo(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "env"))
@@ -80,9 +80,3 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 	free(envvar_list);
 	return (1);
 }
-//
-// No longer passes command[1] to cd.
-// Double ouput is the least of our concerns.
-// 
-// EDIT: Okkkkkkkk, cd doesn't want to work now but echo still works? -.-
-// EDIT 2.0: So cd just doesn't want to work on my home computer :P

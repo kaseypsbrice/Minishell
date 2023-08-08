@@ -84,7 +84,7 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 
 	new_status = 0;
 	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd") || \
-	!ft_strcmp(cmd->name, "unset"))
+	!ft_strcmp(cmd->name, "unset") || !ft_strcmp(cmd->name, "exit"))
 		new_status = exec_builtins(cmd, envvar_list);
 	if (!cmd->builtin && (cmd->path == NULL || is_directory(cmd->path)))
 		new_status = command_not_found(cmd->name);
@@ -142,4 +142,3 @@ int	main(int argc, char **argv, char **envp)
 	main_loop(envvar_list, cmdline, input, temp);
 	return (0);
 }
-// Over 25 lines
