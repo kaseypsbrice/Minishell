@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:53:49 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 15:19:41 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 08:03:50 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static int	valid_envvar(char *var)
 			return (1);
 		i++;
 	}
+	if (var[i] == '=' && var[i + 1] == '\0')
+		return (1);
 	return (0);
 }
 // Checks the validity of the given export variable
