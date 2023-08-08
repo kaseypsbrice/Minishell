@@ -121,7 +121,7 @@ t_list	*get_commands(t_list *toks)
 /*	cur_tok is advanced in get_command*/
 
 /*	Validates the input string and returns a new command line	*/
-t_mini	*new_cmdline(char *str)
+t_mini	*new_cmdline(char *str, t_list *envvar_list)
 {
 	t_mini	*cmdline;
 
@@ -130,7 +130,7 @@ t_mini	*new_cmdline(char *str)
 	cmdline = (t_mini *)malloc(sizeof(t_mini));
 	if (!cmdline)
 		perror_exit("cmdline malloc failed", 1);
-	cmdline->toks = get_tokens(str);
+	cmdline->toks = get_tokens(str, envvar_list);
 	cmdline->cmds = get_commands(cmdline->toks);
 	return (cmdline);
 }

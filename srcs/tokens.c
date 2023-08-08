@@ -74,7 +74,7 @@ void	remove_quotes(char *str)
 }
 
 /*	Creates a new token of type at str[i]	*/
-t_tok	*new_tok(char *str, int *i, int type)
+t_tok	*new_tok(char *str, int *i, int type, t_list *envvar_list)
 {
 	t_tok	*new;
 	int		j;
@@ -97,7 +97,7 @@ t_tok	*new_tok(char *str, int *i, int type)
 	new->str = ft_substr(str, (*i), j);
 	if (!new)
 		perror_exit("t_tok->str malloc failed", 1);
-	new->str = do_expansions(new->str);
+	new->str = do_expansions(new->str, envvar_list);
 	remove_quotes(new->str);
 	(*i) += j - 1;
 	return (new);
@@ -129,7 +129,7 @@ int	tok_type(char *str)
 /*	This is the one I'm using	*/
 
 /*	Creates a list of tokens with a type and str from the input str	*/
-t_list	*get_tokens(char *str)
+t_list	*get_tokens(char *str, t_list *envvar_list)
 {
 	int		i;
 	t_list	*toks;
@@ -140,13 +140,13 @@ t_list	*get_tokens(char *str)
 	if (!toks)
 		perror_exit("toks malloc failed", 1);
 	cur = toks;
-	cur->data = new_tok(str, &i, COMMAND);
+	cur->data = new_tok(str, &i, COMMAND, envvar_list);
 	while (str[++i])
 	{
 		if (parse_type(str[i]) == P_SPACE)
 			continue ;
 		cur->next = ft_lstnew((void *)new_tok(str, &i, \
-		tok_type(&(str[i]))));
+		tok_type(&(str[i])), envvar_list));
 		cur = cur->next;
 	}
 	return (toks);

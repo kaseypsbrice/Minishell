@@ -115,7 +115,7 @@ void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input, char *temp)
 			printf("\n");
 			continue ;
 		}
-		cmdline = new_cmdline(input);
+		cmdline = new_cmdline(input, envvar_list);
 		if (cmdline)
 		{
 			process(cmdline, envvar_list);

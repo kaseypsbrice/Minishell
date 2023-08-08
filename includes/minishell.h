@@ -146,7 +146,7 @@ char		*find_command_path(char *cmd);
 char		*find_command_name(char *cmd);
 
 /* Command + Utils */
-t_mini		*new_cmdline(char *str);
+t_mini		*new_cmdline(char *str, t_list *envvar_list);
 char		**assemble_command(t_cmd *cmd);
 int			has_redir(t_cmd *cmd, int redir);
 
@@ -161,7 +161,7 @@ void		remove_at(char *str, int index);
 void		rem_unprocessed(char *input);
 
 /* Tokens */
-t_list		*get_tokens(char *str);
+t_list		*get_tokens(char *str, t_list *envvar_list);
 void		remove_quotes(char *str);
 
 /* Process + Utils */
@@ -173,7 +173,7 @@ int			init_pipes(t_mini *cmdline);
 int			heredoc(t_cmd *cmd, char *eof);
 
 /* Expansions */
-char		*do_expansions(char *str);
+char		*do_expansions(char *str, t_list *envvar_list);
 
 /* Built-ins */
 int			ft_cd(char **argv);

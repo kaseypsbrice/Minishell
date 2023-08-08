@@ -12,10 +12,26 @@
 
 #include "minishell.h"
 
+char	*ft_getenv(char *name, t_list *envvar_list)
+{
+	t_list	*cur;
+	t_env	*cur_env;
+
+	cur = envvar_list;
+	while (cur)
+	{
+		cur_env = (t_env *)cur->data;
+		if (!ft_strcmp(name, cur_env->cur_key))
+			return (cur_env->cur_value);
+		cur = cur->next;
+	}
+	return (NULL);
+}
+
 /*	Takes a str and index of a '$' eg: {dog$HOME'cat'}
 	and returns {dog'/'home'/'alex'cat'} 
 	pass 0 into len for norm	*/
-char	*_expand_env(char *str, int *idx, int len)
+char	*_expand_env(char *str, int *idx, int len, t_list *envvar_list)
 {
 	char	*name;
 	char	*var;
@@ -27,7 +43,7 @@ char	*_expand_env(char *str, int *idx, int len)
 	if (!name)
 		perror_exit("env malloc failed", 1);
 	ft_strlcpy(name, (str + *idx + 1), len + 1);
-	var = getenv(name);
+	var = ft_getenv(name, envvar_list);
 	if (!var)
 		var = "";
 	new = malloc((ft_strlen(str) + ft_strlen(var) - len) * sizeof(char));
@@ -50,7 +66,7 @@ char	*_expand_env(char *str, int *idx, int len)
 	so the do_expansions loop skips to the end: dog/home/alex(HERE)'cat'.
 */
 
-char	*expand_env(char *str, int *idx, int len)
+char	*expand_env(char *str, int *idx, int len, t_list *envvar_list)
 {
 	char	*var;
 	char	*new;
@@ -74,12 +90,12 @@ char	*expand_env(char *str, int *idx, int len)
 		free(var);
 		return (new);
 	}
-	return (_expand_env(str, idx, len));
+	return (_expand_env(str, idx, len, envvar_list));
 }
 
 /* Expands environment variables in the input string.
 */
-char	*do_expansions(char *str)
+char	*do_expansions(char *str, t_list *envvar_list)
 {
 	char	*res;
 	char	last_quote;
@@ -100,7 +116,7 @@ char	*do_expansions(char *str)
 				last_quote = 0;
 		}
 		else if (res[i] == '$' && last_quote != '\'')
-			res = expand_env(res, &i, 0);
+			res = expand_env(res, &i, 0, envvar_list);
 		i++;
 	}
 	free (str);
