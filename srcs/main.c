@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 11:15:26 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 09:02:49 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	print_prompt(void)
 	ft_putstr_fd(" $ \001\033[0m\002", STDOUT_FILENO);
 	free(current_dir);
 	free(username);
-	//printf("\001\033[1;32m\002%s $ \001\033[0m\002", current_dir);
 }
 /* Result example:	kbrice gh_minishell $ 
  * 					USERNAME DIRECTORY $ 

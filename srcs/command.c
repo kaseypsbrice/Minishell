@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kbrice <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:54:12 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 10:54:16 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 09:01:45 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_cmd	*get_command(t_list	**toks, t_list *envvar_list)
 	necessary but it makes future fuctions a tad less complex	*/
 
 /*	Scans through tokens to generate a list of t_cmd*s */
-t_list	*get_commands(t_list *toks, t_list * envvar_list)
+t_list	*get_commands(t_list *toks, t_list *envvar_list)
 {
 	t_list	*cur_tok;
 	t_list	*cmds;
