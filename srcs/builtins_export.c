@@ -23,20 +23,21 @@ static char	**split_expvar(char *arg)
  * export variable.
  */
 
-static bool	valid_envvar(char *var)
+static int	valid_envvar(char *var)
 {
 	int	i;
 
 	i = 0;
-	if (!*var || !var || (!ft_isalpha(*var) && *var != '_'))
-		return (false);
+	if (!(ft_isalpha(var[i]) || var[i] == '_'))
+		return (1);
+	i++;
 	while (var[i] && var[i] != '=')
 	{
-		if (ft_isalnum(var[i] != '=')) // <- what is going on here
-			return (false);
+		if (!(ft_isalnum(var[i]) || var[i] == '_'))
+			return (1);
 		i++;
 	}
-	return (true);
+	return (0);
 }
 // Checks the validity of the given export variable
 
@@ -80,11 +81,14 @@ int	ft_export(char **args, t_list **envvar_list)
 		ft_env(*envvar_list);
 		return (EXIT_SUCCESS);
 	}
+	printf("Export issue debugging | before args[i] loop\n");
 	while (args[i])
 	{
-		if (!valid_envvar(args[i]))
+		printf("Export issue debugging | In while loop\n");
+		if (valid_envvar(args[i]) == 1)
 		{
-			ft_putstr_fd("export : not a valid env variable", STDERR_FILENO);
+			printf("Export issue debugging | After validity check\n");
+			ft_putstr_fd("export : not a valid env variable\n", STDERR_FILENO);
 			return (EXIT_FAILURE);
 		}
 		else if (ft_strchr(args[i], '=') != NULL)

@@ -44,4 +44,6 @@ int	ft_exit(char **argv)
 	}
 	return (EXIT_FAILURE);
 }
-// printf("Exiting with status: %d\n", status); // Debugging line
+// printf("Exiting with status: %d\n", status);
+// Put on line after status = g_exit_status
+// to test that the exit status is returned properly.
