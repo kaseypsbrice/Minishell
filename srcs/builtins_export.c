@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:53:49 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 08:31:23 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 08:51:20 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,27 +105,27 @@ int	ft_export(char **args, t_list **envvar_list)
 
 int	ft_unset(char **var_name, t_list **envvar_list)
 {
-    t_list *current;
-    t_list *prev;
-	t_env *envvar;
+	t_list	*current;
+	t_list	*prev;
+	t_env	*envvar;
 
 	current = *envvar_list;
 	prev = NULL;
-    while (current)
+	while (current)
 	{
-        envvar = (t_env *)current->data;
-        if (strcmp(envvar->cur_key, var_name[1]) == 0)
+		envvar = (t_env *)current->data;
+		if (strcmp(envvar->cur_key, var_name[1]) == 0)
 		{
-            if (prev)
-                prev->next = current->next;
+			if (prev)
+				prev->next = current->next;
 			else
-                *envvar_list = current->next;
-            ft_lstdelone(current, free);
-            return (EXIT_SUCCESS);
-        }
-        prev = current;
-        current = current->next;
-    }
+				*envvar_list = current->next;
+			ft_lstdelone(current, free);
+			return (EXIT_SUCCESS);
+		}
+		prev = current;
+		current = current->next;
+	}
 	ft_putstr_fd("unset : variable not found\n", STDERR_FILENO);
 	return (EXIT_FAILURE);
 }

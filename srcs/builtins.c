@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 08:40:01 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 09:00:14 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,35 @@ int	ft_pwd(char **argv)
  * it prints the path of the current working directory. 
  */
 
+static bool	echo_n_option(char *str)
+{
+	int	j;
+
+	j = 1;
+	while (str[j] == 'n')
+		j++;
+	return (str[j] == '\0');
+}
+
+static void	print_echo_args(char **args, bool n_option)
+{
+	int	i;
+
+	i = 1;
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (!n_option)
+		printf("\n");
+}
+
 int	ft_echo(char **command)
 {
 	int		i;
-	int		j;
 	bool	n_option;
 
 	i = 1;
@@ -70,10 +95,7 @@ int	ft_echo(char **command)
 	}
 	while (command[i] && command[i][0] == '-' && command[i][1] == 'n')
 	{
-		j = 1;
-		while (command[i][j] == 'n')
-			j++;
-		if (command[i][j] == '\0')
+		if (echo_n_option(command[i]))
 		{
 			n_option = true;
 			i++;
@@ -81,14 +103,6 @@ int	ft_echo(char **command)
 		else
 			break ;
 	}
-	while (command[i])
-	{
-		printf("%s", command[i]);
-		if (command[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (!n_option)
-		printf("\n");
+	print_echo_args(command, n_option);
 	return (EXIT_SUCCESS);
 }
