@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:55:04 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 11:20:20 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 09:14:11 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	invalid_operator(char *str, int i)
 	return (0);
 }
 
-/*	Checks if an operator is followed by a non-operator (command)	*/
+/* Checks if an operator is followed by a non-operator (command) */
 int	invalid_order(char *str, int i, int op_last)
 {
 	if (op_last || parse_type(str[i]) != P_OPERATOR)
@@ -85,7 +85,8 @@ int	invalid_order(char *str, int i, int op_last)
 	return (0);
 }
 
-/*	Returns str if operators are valid and seperated by non-operators else NULL	*/
+/* Returns str if operators are valid and seperated by 
+ * non-operators else NULL */
 char	*cmd_order(char *str)
 {
 	int		i;
