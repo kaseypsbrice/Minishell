@@ -83,7 +83,8 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 	int		new_status;
 
 	new_status = 0;
-	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd"))
+	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd") || \
+	!ft_strcmp(cmd->name, "unset"))
 		new_status = exec_builtins(cmd, envvar_list);
 	if (!cmd->builtin && (cmd->path == NULL || is_directory(cmd->path)))
 		new_status = command_not_found(cmd->name);
