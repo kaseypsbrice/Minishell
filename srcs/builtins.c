@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 12:15:09 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 08:40:01 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,26 @@ int	ft_cd(char **argv)
 			return (1);
 		}
 	}
+	else if (chdir(argv[1]) == -1)
+	{
+		ft_putstr_fd("cd : invalid path\n", STDERR_FILENO);
+		return (1);
+	}
 	return (chdir(argv[1]));
 }
 /* If there's no path, then the cd command will return to the home directory. 
  * Othewise, it'll change the directory to the specified path. 
+ * If it fails to change directories, it'll produce an error message.
  */
 // [!] Suddenly Home is not set ??
 
-int	ft_pwd(void)
+int	ft_pwd(char **argv)
 {
 	char	*path;
 
 	path = NULL;
 	path = getcwd(path, 0);
-	if (!path)
+	if (!path || count_args(argv) > 1)
 	{
 		perror(NULL);
 		return (CMD_NOT_FOUND);
@@ -86,5 +92,3 @@ int	ft_echo(char **command)
 		printf("\n");
 	return (EXIT_SUCCESS);
 }
-// [!] Produces seg fault when it's run without any arguments
-// Norm Errors: Function has more than 25 lines.

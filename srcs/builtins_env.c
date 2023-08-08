@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:53:37 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 10:58:55 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 08:31:40 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,18 @@ void	free_envvar_list(t_list *envvar_list)
 	}
 }
 
-int	ft_env(t_list *envvar_list)
+int	ft_env(char **argv, t_list *envvar_list)
 {
 	t_list	*current;
 	t_env	*envvar;
 
 	current = envvar_list;
-	while (current)
+	if (count_args(argv) > 1)
+	{
+		ft_putstr_fd("env : invalid use\n", STDERR_FILENO);
+		return (1);
+	}
+	while (current && argv[0])
 	{
 		envvar = (t_env *)current->data;
 		printf("%s=%s\n", envvar->cur_key, envvar->cur_value);

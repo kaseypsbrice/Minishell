@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_exit.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/09 08:12:40 by kbrice            #+#    #+#             */
+/*   Updated: 2023/08/09 08:31:33 by kbrice           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static bool	ft_isdigit_str(char *str)
@@ -13,7 +25,7 @@ static bool	ft_isdigit_str(char *str)
 	return (true);
 }
 
-static size_t	count_args(char **arr)
+size_t	count_args(char **arr)
 {
 	size_t	count;
 
@@ -42,8 +54,8 @@ int	ft_exit(char **argv)
 		status = g_exit_status;
 		exit(status);
 	}
+	ft_putstr_fd("exit : argument invalid\n", STDERR_FILENO);
 	return (EXIT_FAILURE);
 }
-// printf("Exiting with status: %d\n", status);
-// Put on line after status = g_exit_status
-// to test that the exit status is returned properly.
+// After exiting the minishell, you can test that it's exited with
+// the correct exit status by using the $? expansion.

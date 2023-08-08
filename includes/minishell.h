@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/08/07 14:15:05 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 08:37:29 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ typedef struct s_env
 
 /* Built-ins */
 int			ft_cd(char **argv);
-int			ft_pwd(void);
+int			ft_pwd(char **argv);
 int			ft_echo(char **command);
-int			ft_env(t_list *envvar_list);
+int			ft_env(char **argv, t_list *envvar_list);
 int			ft_export(char **args, t_list **envvar_list);
 int			ft_unset(char **var_name, t_list **envvar_list);
 int			ft_exit(char **argv);
@@ -123,6 +123,7 @@ t_list		*store_envvars(char **envp);
 void		free_envvar(t_env *envvar);
 void		free_envvar_list(t_list *envvar_list);
 void		set_envvar(t_list **envvar_list, char *key, char *value);
+size_t		count_args(char **arr);
 
 /* TERMIOS */
 void		restore_term_settings(struct termios *original_attr);

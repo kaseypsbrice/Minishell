@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:53:49 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 08:03:50 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 08:31:23 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	valid_envvar(char *var)
 			return (1);
 		i++;
 	}
-	if (var[i] == '=' && var[i + 1] == '\0')
+	if ((var[i] == '=' && var[i + 1] == '\0'))
 		return (1);
 	return (0);
 }
@@ -82,12 +82,12 @@ int	ft_export(char **args, t_list **envvar_list)
 	i = 1;
 	if (!args[i])
 	{
-		ft_env(*envvar_list);
+		ft_env(args, *envvar_list);
 		return (EXIT_SUCCESS);
 	}
 	while (args[i])
 	{
-		if (valid_envvar(args[i]) == 1)
+		if (valid_envvar(args[i]) == 1 || !ft_strchr(args[i], '='))
 		{
 			ft_putstr_fd("export : not a valid env variable\n", STDERR_FILENO);
 			return (EXIT_FAILURE);
@@ -126,6 +126,7 @@ int	ft_unset(char **var_name, t_list **envvar_list)
         prev = current;
         current = current->next;
     }
+	ft_putstr_fd("unset : variable not found\n", STDERR_FILENO);
 	return (EXIT_FAILURE);
 }
 // Loops through the list created by store_envvars

@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:22:37 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 12:15:48 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 08:37:39 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 	if (!ft_strcmp(cmd->name, "cd"))
 		return (ft_cd(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "pwd"))
-		return (ft_pwd());
+		return (ft_pwd(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "exit"))
 		return (ft_exit(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "echo"))
 		return (ft_echo(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "env"))
-		return (ft_env(envvar_list));
+		return (ft_env(cmd->argv, envvar_list));
 	else if (!ft_strcmp(cmd->name, "export"))
 		return (ft_export(cmd->argv, &envvar_list));
 	else if (!ft_strcmp(cmd->name, "unset"))
