@@ -17,7 +17,7 @@ int	command_not_found(char *name)
 	ft_putstr_fd("\'", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("\' command not found\n", 1);
-	return (1);
+	return (127);
 }
 
 int	command_is_directory(char *name)
@@ -52,6 +52,7 @@ int	display_errno(char *str)
 	else
 		ft_putstr_fd(strerror(errnum), 2);
 	ft_putstr_fd("\n", 2);
+	g_exit_status = errnum;
 	return (1);
 }
 
@@ -67,5 +68,6 @@ unexpected token '", 2);
 		ft_putchar_fd(c, 2);
 		ft_putstr_fd("'\n", 2);
 	}
+	g_exit_status = 2;
 	return (NULL);
 }

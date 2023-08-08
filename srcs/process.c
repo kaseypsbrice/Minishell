@@ -83,7 +83,7 @@ t_list	*advance_cmds(t_list *cmds)
 }
 
 /*	Formally called handle pipes, runs the command line.	*/
-void	process(t_mini *cmdline, t_list *envvar_list) // Also added envp here, changed the header file too.
+void	process(t_mini *cmdline, t_list *envvar_list)
 {
 	t_list	*cur;
 	t_cmd	*cmd;

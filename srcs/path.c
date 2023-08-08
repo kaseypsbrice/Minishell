@@ -29,7 +29,7 @@ char	*find_abs_path(char *cmd)
 		return (NULL);
 	if (cmd[0] == '/')
 	{
-		if (access(cmd, F_OK) == 0 && can_exec(cmd))
+		if (access(cmd, F_OK) == 0 && can_exec(cmd) && !is_directory(cmd))
 			return (strdup(cmd));
 		else
 			return (NULL);
@@ -88,7 +88,7 @@ char	*find_command_path(char *cmd)
 	{
 		dir = ft_strjoin(path, "/");
 		dir = ft_strjoinf(dir, cmd, 0);
-		if ((access(dir, F_OK) == 0) && can_exec(dir))
+		if ((access(dir, F_OK) == 0) && can_exec(dir) && !is_directory(dir))
 		{
 			free(tmp);
 			return (dir);

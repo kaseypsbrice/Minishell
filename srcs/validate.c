@@ -120,10 +120,8 @@ char	*cmd_order(char *str)
 int	validate_input(char *str)
 {
 	int	i;
-	int	last;
 
 	i = 0;
-	last = P_NORMAL;
 	rem_unprocessed(str);
 	while (str[i] && parse_type(str[i]) == P_SPACE)
 		i++;

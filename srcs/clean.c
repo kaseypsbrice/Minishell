@@ -15,6 +15,16 @@
 /*	Functions to free memory malloc'd when parsing input
 	cmd->args->str, cmd->redirs->str and argv[...] don't need to be freed
 	as they point to the same strings as toks	*/
+void	del_envvar_arr(char **envvar_arr)
+{
+	int	i;
+
+	i = -1;
+	while (envvar_arr[++i])
+		free(envvar_arr[i]);
+	free (envvar_arr);
+}
+
 void	del_tok(void *ptr)
 {
 	free(((t_tok *)ptr)->str);

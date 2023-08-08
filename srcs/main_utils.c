@@ -57,16 +57,14 @@ int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 	// else if (!ft_strcmp(cmd->name, "exit"))
 	// 	ft_exit();
 	else if (!ft_strcmp(cmd->name, "echo"))
-		return (ft_echo(cmd->argv)); // ??
+		return (ft_echo(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "env"))
 		return (ft_env(envvar_list));
 	else if (!ft_strcmp(cmd->name, "export"))
-		return (ft_export(cmd->argv, &envvar_list)); // Tried switching this around multiple times
+		return (ft_export(cmd->argv, &envvar_list));
 	free(envvar_list);
 	return (1);
 }
-// ft_echo(((t_tok *)(cmd->args->data))->str); // double outputs only newlines, seg faults with no args.
-// ft_echo(cmd->argv); // The issue is mainly double output with this one, no seg faults.
 //
 // No longer passes command[1] to cd.
 // Double ouput is the least of our concerns.

@@ -109,6 +109,7 @@ typedef struct s_env
 }	t_env;
 
 /* ---------------- Environment Functions -------------------*/
+char		**get_env_arr(t_list *envvar_list);
 t_list		*store_envvars(char **envp);
 void		free_envvar(t_env *envvar);
 void		free_envvar_list(t_list *envvar_list);
@@ -184,6 +185,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 
 /* Clean */
 void		del_cmdline(t_mini *cmdline);
+void		del_envvar_arr(char **envvar_arr);
 
 /* Debug */
 void		print_2d(char **arr);

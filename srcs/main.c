@@ -51,18 +51,10 @@ void	print_prompt(void)
  * strings before printing to the ouput using printf.
  */
 
-int	execute_command(t_cmd *cmd, t_list *envvar_list)
+int	_execute_command(t_cmd *cmd, t_list *envvar_list, char **envvar_arr)
 {
 	pid_t	child_pid;
-	char	*env[1];
 
-	env[0] = NULL;
-	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd"))
-		return (exec_builtins(cmd, envvar_list));
-	if (!cmd->builtin && cmd->path == NULL)
-		return (command_not_found(cmd->name));
-	if (!cmd->builtin && is_directory(cmd->path))
-		return (command_is_directory(cmd->path));
 	child_pid = fork();
 	if (child_pid < 0)
 		perror_exit("fork failed", 1);
@@ -74,7 +66,7 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 			dup2(cmd->fd_out, STDOUT_FILENO);
 		if (cmd->builtin)
 			exit(exec_builtins(cmd, envvar_list));
-		execve(cmd->path, cmd->argv, env);
+		execve(cmd->path, cmd->argv, envvar_arr);
 		display_errno(cmd->path);
 		exit (1);
 	}
@@ -85,17 +77,29 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 	return (g_exit_status);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	execute_command(t_cmd *cmd, t_list *envvar_list)
 {
-	t_list	*envvar_list;
-	char	*input;
-	char	*temp;
-	t_mini	*cmdline;
+	char	**envvar_arr;
+	int		new_status;
 
-	envvar_list = store_envvars(envp);
-	temp = NULL;
-	(void)argc;
-	(void)argv;
+	new_status = 0;
+	if (!ft_strcmp(cmd->name, "export") || !ft_strcmp(cmd->name, "cd"))
+		new_status = exec_builtins(cmd, envvar_list);
+	if (!cmd->builtin && (cmd->path == NULL || is_directory(cmd->path)))
+		new_status = command_not_found(cmd->name);
+	if (new_status != 0)
+	{
+		g_exit_status = new_status;
+		return (g_exit_status);
+	}
+	envvar_arr = get_env_arr(envvar_list);
+	g_exit_status = _execute_command(cmd, envvar_list, envvar_arr);
+	del_envvar_arr(envvar_arr);
+	return (g_exit_status);
+}
+
+void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input, char *temp)
+{
 	while (1)
 	{
 		print_prompt();
@@ -111,10 +115,29 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		cmdline = new_cmdline(input);
-		process(cmdline, envvar_list);
-		del_cmdline(cmdline);
+		if (cmdline)
+		{
+			process(cmdline, envvar_list);
+			del_cmdline(cmdline);
+		}
 		free(input);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_list	*envvar_list;
+	char	*input;
+	char	*temp;
+	t_mini	*cmdline;
+
+	envvar_list = store_envvars(envp);
+	input = NULL;
+	cmdline = NULL;
+	temp = NULL;
+	(void)argc;
+	(void)argv;
+	main_loop(envvar_list, cmdline, input, temp);
 	return (0);
 }
 // Over 25 lines

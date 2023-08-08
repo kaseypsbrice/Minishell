@@ -12,6 +12,30 @@
 
 #include "minishell.h"
 
+char	**get_env_arr(t_list *envvar_list)
+{
+	char	**arr;
+	char	*new;
+	t_list	*cur;
+	t_env	*cur_env;
+	int		i;
+
+	arr = (char **)malloc(1000 * sizeof(char *));
+	cur = envvar_list;
+	i = 0;
+	while (cur)
+	{
+		cur_env = (t_env *)cur->data;
+		new = ft_strjoin(cur_env->cur_key, "=");
+		new = ft_strjoinf(new, cur_env->cur_value, 0);
+		arr[i] = new;
+		i++;
+		cur = cur->next;
+	}
+	arr[i] = NULL;
+	return (arr);
+}
+
 t_list	*store_envvars(char **envp)
 {
 	t_list	*envvar_list;
