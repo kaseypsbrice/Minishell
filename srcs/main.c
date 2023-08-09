@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 15:57:20 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 16:37:43 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input)
 		add_history(input);
 		if (is_empty(input))
 		{
-			if (!input[0])
-				printf("\n");
 			free(input);
 			continue ;
 		}

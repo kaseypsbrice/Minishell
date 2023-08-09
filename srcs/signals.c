@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:41:55 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/07 11:19:28 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 16:36:02 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,10 @@ void	restore_prompt(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	print_prompt();
 	(void)sig;
 }
 /* Clears the input line and moves the cursor to a new line before
  * redisplaying the prompt. 
- * 
- * Exit status 130 is returned when the script is terminated by Ctrl+C.
- * May have to use a global variable to return exit statuses later
- * on when coding the expected output of "$?". Either that or by using
- * a struct variable, not sure.
  */
 
 void	run_signals(int sig)
