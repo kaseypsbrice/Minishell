@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/08/09 12:19:37 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 15:34:24 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,13 @@ extern int	g_exit_status;
 
 /* Signals */
 void		restore_prompt(int sig);
-void		back_slash(int sig);
 void		run_signals(int sig);
 
 /* Main + Utils */
 int			execute_command(t_cmd *cmd, t_list *envvar_list);
 int			is_builtin(char *command);
 int			exec_builtins(t_cmd *cmd, t_list *envvar_list);
-void		print_prompt(void);
+const char	*print_prompt(void);
 int			is_directory(const char *path);
 char		*ft_strjoinf(char *s1, char *s2, int which);
 int			is_empty(char *str);

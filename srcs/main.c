@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:15:30 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 09:02:49 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 15:57:20 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,27 @@
 
 int	g_exit_status = 0;
 
-void	print_prompt(void)
+const char	*print_prompt(void)
 {
 	char		cwd[BUFF];
 	char		path_delim;
-	char		*current_dir;
+	const char	*prompt;
 	char		*username;
 
 	username = ft_strjoin(getenv("USER"), " ");
 	path_delim = '/';
 	getcwd(cwd, sizeof(cwd));
-	current_dir = ft_strrchr(cwd, path_delim);
-	current_dir++;
+	prompt = ft_strrchr(cwd, path_delim);
+	prompt++;
 	if (ft_strcmp(cwd, getenv("HOME")) == 0)
 	{
-		current_dir = "~";
+		prompt = "~";
 	}
-	current_dir = ft_strjoin(username, current_dir);
-	ft_putstr_fd("\001\033[1;32m\002", STDOUT_FILENO);
-	ft_putstr_fd(current_dir, STDOUT_FILENO);
-	ft_putstr_fd(" $ \001\033[0m\002", STDOUT_FILENO);
-	free(current_dir);
+	prompt = ft_strjoin(username, prompt);
+	prompt = ft_strjoin("\001\033[1;32m\002", prompt);
+	prompt = ft_strjoin(prompt, " $ \001\033[0m\002");
 	free(username);
+	return (prompt);
 }
 /* Result example:	kbrice gh_minishell $ 
  * 					USERNAME DIRECTORY $ 
@@ -46,8 +45,7 @@ void	print_prompt(void)
  * e.g. /gh_minishell
  * Increments the string to remove the '/' symbol from the current_dir string.
  * If the current directory is the same as the HOME env variable, your root
- * directory, then it displays '~'. Lastly, joins the username and current_dir
- * strings before printing to the ouput using printf.
+ * directory, then it displays '~'.
  */
 
 int	_execute_command(t_cmd *cmd, t_list *envvar_list, char **envvar_arr)
@@ -97,13 +95,13 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 	return (g_exit_status);
 }
 
-void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input, char *temp)
+void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input)
 {
 	while (1)
 	{
-		print_prompt();
+		//print_prompt();
 		run_signals(1);
-		input = readline(temp);
+		input = readline(print_prompt());
 		if (!input)
 			break ;
 		add_history(input);
@@ -128,16 +126,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_list	*envvar_list;
 	char	*input;
-	char	*temp;
 	t_mini	*cmdline;
 
 	envvar_list = store_envvars(envp);
 	input = NULL;
 	cmdline = NULL;
-	temp = NULL;
 	(void)argc;
 	(void)argv;
-	main_loop(envvar_list, cmdline, input, temp);
+	main_loop(envvar_list, cmdline, input);
 	free_envvar_list(envvar_list);
 	return (0);
 }
