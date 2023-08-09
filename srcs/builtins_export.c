@@ -51,10 +51,10 @@ void	set_envvar(t_list **envvar_list, char *key, char *value)
 	t_env	*envvar;
 
 	current = *envvar_list;
-	while (current) 
+	while (current)
 	{
 		envvar = (t_env *)current->data;
-		if (strcmp(envvar->cur_key, key) == 0) 
+		if (strcmp(envvar->cur_key, key) == 0)
 		{
 			free(envvar->cur_value);
 			envvar->cur_value = value;
