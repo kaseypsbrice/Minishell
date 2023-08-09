@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/08/09 09:33:32 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 12:19:37 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_env
 }	t_env;
 
 /* Built-ins */
-int			ft_cd(char **argv);
+int			ft_cd(char **argv, t_list *envvar_list);
 int			ft_pwd(char **argv);
 int			ft_echo(char **command);
 int			ft_env(char **argv, t_list *envvar_list);

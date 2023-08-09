@@ -6,17 +6,17 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 11:27:44 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 12:21:46 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(char **argv)
+int	ft_cd(char **argv, t_list *envvar_list)
 {
 	if (!argv[1] || !argv[1][0] || argv[1][0] == ' ')
 	{
-		if (argv[1] == NULL)
+		if (argv[1] == NULL && !ft_getenv("HOME", envvar_list))
 		{
 			perror("Home directory error");
 			return (1);

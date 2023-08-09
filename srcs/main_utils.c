@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 09:22:37 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 08:37:39 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 12:19:55 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	is_builtin(char *command)
 int	exec_builtins(t_cmd *cmd, t_list *envvar_list)
 {
 	if (!ft_strcmp(cmd->name, "cd"))
-		return (ft_cd(cmd->argv));
+		return (ft_cd(cmd->argv, envvar_list));
 	else if (!ft_strcmp(cmd->name, "pwd"))
 		return (ft_pwd(cmd->argv));
 	else if (!ft_strcmp(cmd->name, "exit"))
