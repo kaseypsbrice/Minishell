@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+char	*free_and_return(char *tmp, char *dir)
+{
+	free(tmp);
+	return (dir);
+}
+
 char	*find_command_path(char *cmd, t_list *envvar_list)
 {
 	char	*absolute_path;
@@ -33,10 +39,7 @@ char	*find_command_path(char *cmd, t_list *envvar_list)
 		dir = ft_strjoin(path, "/");
 		dir = ft_strjoinf(dir, cmd, 0);
 		if ((access(dir, F_OK) == 0) && can_exec(dir) && !is_directory(dir))
-		{
-			free(tmp);
-			return (dir);
-		}
+			return (free_and_return(tmp, dir));
 		free(dir);
 		path = strtok(NULL, ":");
 	}
