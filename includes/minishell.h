@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:43:04 by bburston          #+#    #+#             */
-/*   Updated: 2023/08/09 08:37:29 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 09:33:32 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_tok
 	char	*str;
 }	t_tok;
 
-
 /* Hold a command, separating its arguments from its redirections */
 typedef struct s_cmd
 {
@@ -92,18 +91,17 @@ typedef struct s_mini
 	int		pipes[2][2];
 }	t_mini;
 /* cmd_op stores the table of commands and operators
-   cmd_io stores the input/output file descriptors (-1 for stdin/out) of the command being executed
-   pipes stores two pipes which are leapfrogged down the command chain for piping
+   cmd_io stores the input/output file descriptors (-1 for stdin/out) 
+   of the command being executed pipes stores two pipes which 
+   are leapfrogged down the command chain for piping
 */
 
 /* Struct for Environment Variables */
 typedef struct s_env
 {
-	// --------------
 	char	*cur_envvar;
-    char	*cur_key;
-    char	*cur_value;
-	// ---------------
+	char	*cur_key;
+	char	*cur_value;
 	char	*key;
 	char	*value;
 }	t_env;
@@ -130,7 +128,7 @@ void		restore_term_settings(struct termios *original_attr);
 void		ft_suppress_output(void);
 
 /* Global Variable */
-/* Keeps track of exit statuses and the reason for terminating the program. */
+/* Keeps track of exit statuses */
 extern int	g_exit_status;
 
 /* Signals */
@@ -147,10 +145,14 @@ int			is_directory(const char *path);
 char		*ft_strjoinf(char *s1, char *s2, int which);
 int			is_empty(char *str);
 
-/* Path */
+/* Path + Utils */
 char		*find_abs_path(char *cmd);
 char		*find_command_path(char *cmd, t_list *envvar_list);
 char		*find_command_name(char *cmd);
+int			can_exec(char *path);
+char		*find_abs_path(char *cmd);
+int			str_isspace(char *str);
+char		*add_cwd(char *path);
 
 /* Command + Utils */
 t_mini		*new_cmdline(char *str, t_list *envvar_list);
@@ -162,7 +164,7 @@ int			validate_input(char *str);
 int			check_quote(char *str, int i, int unclosed, char *last_quote);
 
 /* Parse Utils */
-int 		is_quote(char c);
+int			is_quote(char c);
 int			parse_type(char c);
 void		remove_at(char *str, int index);
 void		rem_unprocessed(char *input);
