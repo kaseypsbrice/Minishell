@@ -12,19 +12,43 @@
 
 #include "minishell.h"
 
-char	*free_and_return(char *tmp, char *dir)
+char	*free_and_return(char **tmp, char *dir)
 {
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		free(tmp[i]);
+		i++;
+	}
 	free(tmp);
 	return (dir);
+}
+
+char	**get_path(t_list *envvar_list)
+{
+	char	**path;
+	char	*raw_path;
+	char	buf[1000];
+
+	raw_path = ft_getenv("PATH", envvar_list);
+	if (!raw_path)
+		return (NULL);
+	raw_path = ft_strjoin(raw_path, ":");
+	raw_path = ft_strjoinf(raw_path, getcwd(buf, sizeof(buf)), 0);
+	path = ft_split(raw_path, ':');
+	free(raw_path);
+	return (path);
 }
 
 char	*find_command_path(char *cmd, t_list *envvar_list)
 {
 	char	*absolute_path;
 	char	*env_path;
-	char	*path;
+	char	**path;
 	char	*dir;
-	char	*tmp;
+	char	**tmp;
 
 	if (str_isspace(cmd) || !ft_getenv("PATH", envvar_list))
 		return (NULL);
@@ -32,16 +56,18 @@ char	*find_command_path(char *cmd, t_list *envvar_list)
 	if (absolute_path != NULL)
 		return (absolute_path);
 	env_path = ft_getenv("PATH", envvar_list);
-	path = strtok(ft_strdup(env_path), ":");
+	path = get_path(envvar_list);
+	if (!path)
+		return (NULL);
 	tmp = path;
-	while (path)
+	while (*path)
 	{
-		dir = ft_strjoin(path, "/");
+		dir = ft_strjoin(*path, "/");
 		dir = ft_strjoinf(dir, cmd, 0);
 		if ((access(dir, F_OK) == 0) && can_exec(dir) && !is_directory(dir))
 			return (free_and_return(tmp, dir));
 		free(dir);
-		path = strtok(NULL, ":");
+		path++;
 	}
 	free(tmp);
 	return (NULL);

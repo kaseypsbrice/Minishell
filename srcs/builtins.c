@@ -70,6 +70,8 @@ static void	print_echo_args(char **args, bool n_option)
 	int	i;
 
 	i = 1;
+	if (n_option)
+		i++;
 	while (args[i])
 	{
 		printf("%s", args[i]);
