@@ -14,15 +14,7 @@
 
 char	*free_and_return(char **tmp, char *dir)
 {
-	int	i;
-
-	i = 0;
-	while (tmp[i])
-	{
-		free(tmp[i]);
-		i++;
-	}
-	free(tmp);
+	del_path(tmp);
 	return (dir);
 }
 
@@ -45,7 +37,6 @@ char	**get_path(t_list *envvar_list)
 char	*find_command_path(char *cmd, t_list *envvar_list)
 {
 	char	*absolute_path;
-	char	*env_path;
 	char	**path;
 	char	*dir;
 	char	**tmp;
@@ -55,21 +46,19 @@ char	*find_command_path(char *cmd, t_list *envvar_list)
 	absolute_path = find_abs_path(cmd);
 	if (absolute_path != NULL)
 		return (absolute_path);
-	env_path = ft_getenv("PATH", envvar_list);
 	path = get_path(envvar_list);
 	if (!path)
 		return (NULL);
 	tmp = path;
 	while (*path)
 	{
-		dir = ft_strjoin(*path, "/");
-		dir = ft_strjoinf(dir, cmd, 0);
+		dir = ft_strjoinf(ft_strjoin(*path, "/"), cmd, 0);
 		if ((access(dir, F_OK) == 0) && can_exec(dir) && !is_directory(dir))
 			return (free_and_return(tmp, dir));
 		free(dir);
 		path++;
 	}
-	free(tmp);
+	del_path(tmp);
 	return (NULL);
 }
 /* The PATH environment variable contains a list of directories that can be 

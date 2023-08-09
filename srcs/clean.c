@@ -25,6 +25,19 @@ void	del_envvar_arr(char **envvar_arr)
 	free (envvar_arr);
 }
 
+void	del_path(char **path)
+{
+	int	i;
+
+	i = 0;
+	while (path[i])
+	{
+		free(path[i]);
+		i++;
+	}
+	free(path);
+}
+
 void	del_tok(void *ptr)
 {
 	free(((t_tok *)ptr)->str);

@@ -67,3 +67,4 @@ char	*add_cwd(char *path)
 	}
 	return (path);
 }
+// ^^^ ITS RIGHT HERE????? Did I just delete the line that called it

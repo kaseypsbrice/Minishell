@@ -120,7 +120,7 @@ int	ft_unset(char **var_name, t_list **envvar_list)
 				prev->next = current->next;
 			else
 				*envvar_list = current->next;
-			ft_lstdelone(current, free);
+			ft_lstdelone(current, del_env);
 			return (EXIT_SUCCESS);
 		}
 		prev = current;

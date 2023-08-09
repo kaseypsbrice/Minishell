@@ -121,6 +121,7 @@ void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input)
 		free((char *)prompt);
 		free(input);
 	}
+	free((char *)prompt);
 }
 
 int	main(int argc, char **argv, char **envp)

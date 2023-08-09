@@ -192,6 +192,8 @@ int			char_index(char *s, char c);
 /* Clean */
 void		del_cmdline(t_mini *cmdline);
 void		del_envvar_arr(char **envvar_arr);
+void		del_path(char **path);
+void		del_env(void *ptr);
 
 /* Debug */
 void		print_2d(char **arr);
