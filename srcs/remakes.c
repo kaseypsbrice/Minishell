@@ -22,6 +22,20 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
+int	char_index(char *s, char c)
+{
+	int	i;
+
+	i = ft_strlen(s) - 1;
+	while (i >= 0)
+	{
+		if (s[i] == c)
+			return (i);
+		i--;
+	}
+	return (-1);
+}
+
 char	**ft_splitone(char const *s, char c)
 {
 	char	**res;

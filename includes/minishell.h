@@ -187,6 +187,7 @@ char		*ft_getenv(char *name, t_list *envvar_list);
 /* Remakes */
 int			ft_strcmp(const char *s1, const char *s2);
 char		**ft_splitone(char const *s, char c);
+int			char_index(char *s, char c);
 
 /* Clean */
 void		del_cmdline(t_mini *cmdline);

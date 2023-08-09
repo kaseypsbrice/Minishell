@@ -17,23 +17,23 @@ int	g_exit_status = 0;
 const char	*print_prompt(void)
 {
 	char		cwd[BUFF];
-	char		path_delim;
-	const char	*prompt;
+	char		*prompt;
 	char		*username;
+	char		*tmp;
 
 	username = ft_strjoin(getenv("USER"), " ");
-	path_delim = '/';
 	getcwd(cwd, sizeof(cwd));
-	prompt = ft_strrchr(cwd, path_delim);
-	prompt++;
+	tmp = ft_strdup(cwd);
+	prompt = ft_substr(tmp, char_index(tmp, '/') + 1, \
+	ft_strlen(tmp) - char_index(tmp, '/') - 1);
 	if (ft_strcmp(cwd, getenv("HOME")) == 0)
 	{
-		prompt = "~";
+		prompt = ft_strdup("~");
 	}
-	prompt = ft_strjoin(username, prompt);
-	prompt = ft_strjoin("\001\033[1;32m\002", prompt);
-	prompt = ft_strjoin(prompt, " $ \001\033[0m\002");
-	free(username);
+	prompt = ft_strjoinf(username, prompt, 2);
+	prompt = ft_strjoinf("\001\033[1;32m\002", prompt, 1);
+	prompt = ft_strjoinf(prompt, " $ \001\033[0m\002", 0);
+	free(tmp);
 	return (prompt);
 }
 /* Result example:	kbrice gh_minishell $ 
@@ -97,11 +97,13 @@ int	execute_command(t_cmd *cmd, t_list *envvar_list)
 
 void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input)
 {
+	const char	*prompt;
+
 	while (1)
 	{
-		//print_prompt();
+		prompt = print_prompt();
 		run_signals(1);
-		input = readline(print_prompt());
+		input = readline(prompt);
 		if (!input)
 			break ;
 		add_history(input);
@@ -118,6 +120,7 @@ void	main_loop(t_list *envvar_list, t_mini *cmdline, char *input)
 			process(cmdline, envvar_list);
 			del_cmdline(cmdline);
 		}
+		free((char *)prompt);
 		free(input);
 	}
 }
