@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 10:55:28 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 09:14:50 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 11:31:37 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*find_command_path(char *cmd, t_list *envvar_list)
 	char	*dir;
 	char	*tmp;
 
-	if (str_isspace(cmd))
+	if (str_isspace(cmd) || !ft_getenv("PATH", envvar_list))
 		return (NULL);
 	absolute_path = find_abs_path(cmd);
 	if (absolute_path != NULL)
