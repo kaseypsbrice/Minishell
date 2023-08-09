@@ -6,7 +6,7 @@
 /*   By: kbrice <kbrice@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 08:34:44 by kbrice            #+#    #+#             */
-/*   Updated: 2023/08/09 10:38:49 by kbrice           ###   ########.fr       */
+/*   Updated: 2023/08/09 11:27:44 by kbrice           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	ft_cd(char **argv)
 {
 	if (!argv[1] || !argv[1][0] || argv[1][0] == ' ')
 	{
-		argv[1] = getenv("HOME");
 		if (argv[1] == NULL)
 		{
 			perror("Home directory error");
 			return (1);
 		}
+		argv[1] = getenv("HOME");
 		return (chdir(argv[1]));
 	}
 	else if (chdir(argv[1]) == -1)
